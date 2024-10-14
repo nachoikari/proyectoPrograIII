@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AdminLogInController">
+   <children>
+      <TextField fx:id="textCed" layoutX="207.0" layoutY="138.0" promptText="Enter Ced" />
+      <PasswordField fx:id="textPass" layoutX="207.0" layoutY="186.0" promptText="Enter Pass" />
+      <Button fx:id="btnLogIn" layoutX="207.0" layoutY="231.0" mnemonicParsing="false" onAction="#logIn" prefHeight="31.0" prefWidth="187.0" text="Log In" />
+      <Button fx:id="btnCancel" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#cancel" prefHeight="30.0" prefWidth="77.0" text="Cancel" />
+   </children>
+</AnchorPane>
