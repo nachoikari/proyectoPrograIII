@@ -13,35 +13,68 @@ class Admin(db.Model):
     
     def __repr__(self):
         return f'<Admin {self.ced}>'
+    
     def selectID(id):
         return Admin.query.get(id)
+    
+    def findJWT(token):
+        return Admin.query.filter_by(token=token).first()
+    
     def create_jwt(self):
         try:
-            # Generar el payload del JWT
             payload = {
                 'ced': self.ced,
-                'iat': datetime.datetime.utcnow()  # Fecha de creación
-            }
-            # Crear el token JWT
-            token = jwt.encode(payload, "claveSecretajeje", algorithm='HS256')
+                'password': self.password
+            }           
+            token = jwt.encode(payload, "secret", algorithm='HS256')
             return token
         except Exception as e:
             print(f"Error al generar JWT: {e}")
             return None
 
+    @classmethod
     def create(cls, ced, password, name, email):
         try:
-            # Crear el nuevo administrador
             new_admin = cls(ced=ced, password=password, name=name, email=email)
+            new_admin.token = new_admin.create_jwt()
             db.session.add(new_admin)
             db.session.commit()
-
-            # Generar el JWT y guardarlo
-            new_admin.jwt_token = new_admin.create_jwt()
-            db.session.commit()  # Guardar el token en la base de datos
-
             return True, new_admin
         except Exception as e:
-            db.session.rollback()  # Hacer rollback en caso de error
+            db.session.rollback()
             print(f"Error al crear admin: {e}")
             return False, None
+    @classmethod
+    def update(cls, ced, new_name=None, new_email=None):
+        try:
+            # Obtener el administrador existente
+            admin = cls.query.get(ced)  # ced es la clave primaria
+            
+            if admin is None:
+                return False, "Administrador no encontrado."
+
+            # Modificar los atributos según sea necesario
+            if new_name is not None:
+                admin.name = new_name
+            if new_email is not None:
+                admin.email = new_email
+            if admin.token is None:
+                admin.token = admin.create_jwt()
+
+            db.session.commit()
+            return True, admin
+        except Exception as e:
+            db.session.rollback() 
+            print(f"Error al actualizar admin: {e}")
+            return False, None
+    @classmethod
+    def delete(cls, ced):
+        try:
+            admin=cls.query.get(ced)
+            db.session.delete(admin)
+            db.session.commit()
+            return True,admin
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error al elimnar admin: {e}")
+            return False, admin
