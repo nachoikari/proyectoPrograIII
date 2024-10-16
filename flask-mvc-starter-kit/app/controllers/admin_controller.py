@@ -110,7 +110,29 @@ def delete():
     else:
         return jsonify({"Error": -1, "msg": result})
 def showAll():
-    print()
-
+    token = None
+    if request.method == "GET":
+        token=request.form.get("token")
+    if token == None or token =="":
+        return jsonify({"Error": -1, "msg": "El token es necesario"})
+    admins = Admin.query.all()
+    if len(admins)==0:
+        return jsonify({"Error": -1, "msg": "No se encontraron admins"})
+    admin_list = [admin.to_dict() for admin in admins]
+    return jsonify({"code": 1, "msg": "Admins encontrados", "admins": admin_list})
 def showID():
-    print()
+    ced  = None
+    token = None
+    admin = None
+    if request.method == "GET":
+        ced = request.form.get("ced")
+        token=request.form.get("token")
+    if token == None or token =="":
+        return jsonify({"Error": -1, "msg": "El token es necesario"})
+    if ced == None or ced == "":
+        return jsonify({"Error": -1, "msg": "La cedula es necesario"})
+    admin = Admin.selectID(ced)
+    if admin is None:
+        return jsonify({"Error": -1, "msg": "Admin no encontrado"})
+    else:
+        return jsonify({"code": 1, "msg": admin.to_dict()})

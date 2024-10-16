@@ -13,7 +13,13 @@ class Admin(db.Model):
     
     def __repr__(self):
         return f'<Admin {self.ced}>'
-    
+    def to_dict(self):
+        return{
+            "ced":self.ced,
+            "name":self.name,
+            "email":self.email,
+            "token":self.token
+        }
     def selectID(id):
         return Admin.query.get(id)
     
