@@ -78,7 +78,12 @@ def showAll():
         token=request.form.get("token")
     if token == None or token =="":
         return jsonify({"Error": -1, "msg": "El token es necesario"})
+    universities = University.query.all()
+    if len(universities) == 0:
+        return jsonify({"Error": -1, "msg": "No se encontraron universidades"})
     
+    universities_list = [university.to_dict() for university in universities]
+    return jsonify({"code": 1, "msg": "Universidades encontradas", "universities": universities_list})
 def showID():
     id =None
     token=None
