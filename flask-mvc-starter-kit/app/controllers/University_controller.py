@@ -1,64 +1,98 @@
 from app.models.University import University
-
-
-def index():
-    """ 
-    show all resources 
-    """
-
-    pass
+from flask import request, jsonify
 
 def create():
-    """ 
-    show form to create new resource 
-    """
+    name=None
+    address=None
+    email=None
+    token=None
+    if request.method == "POST":
+        name=request.form.get("name")
+        address=request.form.get("address")
+        email=request.form.get("email")
+        token=request.form.get("token")
+    if not token:
+        return '{"Error":-1, "msg":"Token necesario para la peticion"}'
+    if name == None or name == "" or address == None or address == "" or email == None or email == "":
+         return '{"Error":-1, "msg":"Todos los campos son necesarios"}'
+    success, new_university = University.create(email=email,name=name,address=address)
+    if success:
+        return jsonify({"code": 1, "msg": "Admin creado exitosamente", "admin": new_university.name})
+    else:
+        return jsonify({"Error": -1, "msg": "Error al crear la universidad"})
 
-    pass
+def delete():
+    id=None
+    token=None
+    if request.method == "DELETE":
+        id = request.form.get("id")
+        token = request.form.get("token")
+    if id == None or id == "":
+        return jsonify({"Error": -1, "msg": "Ingrese el id para eliminar"})
+    if token == None or token == "":
+         return jsonify({"Error": -1, "msg": "Token necesario"})  
+    success, result = University.delete(id=id)
+    if success:
+        return jsonify({"code": 1, "msg": "La universidad se ha eliminado exitosamente"})
+    else:
+        return jsonify({"Error": -1, "msg": result})
 
+def update():
+    id = None
+    name = None
+    address = None
+    email = None
+    token = None
 
-def store():
-    """ 
-    store new resource in the database
-    """
+    if request.method == "PUT":
+        id = request.form.get("id")
+        name = request.form.get("name")
+        address = request.form.get("address")
+        email = request.form.get("email")
+        token = request.form.get("token")
 
-    pass
+    if not token:
+        return jsonify({"Error": -1, "msg": "Token necesario para la petición"})
+    if not id:
+        return jsonify({"Error": -1, "msg": "El ID de la universidad es necesario"})
+    
+    university_update = University.selectID(id)
 
-
-def show(University_id):
-    """ 
-    show specific resource
-
-    @University_id: id of the University
-     
-    """
-
-    pass
-
-def edit(University_id):
-    """ 
-    show form to edit specific resource 
-
-    @University_id: id of the University
-    """
-
-    pass
-
-def update(University_id):
-    """ 
-    update specific resource in the database
-
-    @University_id: id of the University
-    """
-
-    pass
-
-
-def delete(University_id):
-    """ 
-    remove specific resource from the database 
-
-    @University_id: id of the University
-
-    """
-
-    pass
+    if university_update is None:
+        return jsonify({"Error": -1, "msg": "Universidad no encontrada"})
+    if name == "":
+        name=None
+    if address =="":
+        address=None
+    if email=="":
+        email=None
+    
+    success, result = University.update(id=id, new_name=name, new_email=email, new_address=address)
+    
+    if success:
+        return jsonify({"code": 1, "msg": "Universidad modificada", "university": result.name})
+    else:
+        return jsonify({"Error": -1, "msg": result})
+def showAll():
+    if request.method == "GET":
+        token=request.form.get("token")
+    if token == None or token =="":
+        return jsonify({"Error": -1, "msg": "El token es necesario"})
+    
+def showID():
+    id =None
+    token=None
+    university = None
+    if request.method == "GET":
+        id = request.form.get("id")
+        token=request.form.get("token")
+        
+    if token == None or token =="":
+        return jsonify({"Error": -1, "msg": "El token es necesario"})
+    if id == None or id == "":
+        return jsonify({"Error": -1, "msg": "El id es necesario"})
+    university = University.selectID(id)
+    if university is None:
+        return jsonify({"Error": -1, "msg": "Universidad no encontrada"})
+    else:
+        return jsonify({"code": 1, "msg": university.to_dict()})

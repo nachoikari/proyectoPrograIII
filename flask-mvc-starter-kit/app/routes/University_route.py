@@ -3,10 +3,8 @@ from app.controllers import University_controller
 prefix = 'Universitys'
 route = Blueprint(prefix, __name__)
 
-route.get('/Universitys')(University_controller.index)
-route.get('/Universitys/create')(University_controller.create)
-route.post('/Universitys')(University_controller.store)
-route.get('/Universitys/<int:University_id>')(University_controller.show)
-route.get('/Universitys/<int:University_id>/edit')(University_controller.edit)
-route.post('/Universitys/<int:University_id>')(University_controller.update)
-route.delete('/Universitys/<int:University_id>')(University_controller.delete)
+route.post('/university/create')(University_controller.create)
+route.delete('/university/delete')(University_controller.delete)
+route.put('/university/update')(University_controller.update)
+route.get('/university/showAll')(University_controller.showAll)
+route.get('/university/showID')(University_controller.showID)

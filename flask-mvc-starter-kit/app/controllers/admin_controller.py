@@ -109,3 +109,8 @@ def delete():
         return jsonify({"code": 1, "msg": "Administrador eliminado exitosamente"})
     else:
         return jsonify({"Error": -1, "msg": result})
+def showAll():
+    print()
+
+def showID():
+    print()
