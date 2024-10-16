@@ -74,28 +74,34 @@ def update():
     else:
         return jsonify({"Error": -1, "msg": result})
 def showAll():
-    if request.method == "GET":
-        token=request.form.get("token")
-    if token == None or token =="":
+    # Obtener el token desde los parámetros de la URL
+    token = request.args.get("token")
+
+    # Verificar si el token es válido
+    if token is None or token == "":
         return jsonify({"Error": -1, "msg": "El token es necesario"})
+
+    # Obtener todas las universidades
     universities = University.query.all()
+
     if len(universities) == 0:
         return jsonify({"Error": -1, "msg": "No se encontraron universidades"})
-    
+
+    # Convertir universidades a diccionario
     universities_list = [university.to_dict() for university in universities]
     return jsonify({"code": 1, "msg": "Universidades encontradas", "universities": universities_list})
 def showID():
-    id =None
-    token=None
-    university = None
-    if request.method == "GET":
-        id = request.form.get("id")
-        token=request.form.get("token")
-        
-    if token == None or token =="":
+    # Obtener los parámetros desde la URL
+    id = request.args.get("id")
+    token = request.args.get("token")
+    
+    # Verificar si el token y el id son válidos
+    if token is None or token == "":
         return jsonify({"Error": -1, "msg": "El token es necesario"})
-    if id == None or id == "":
-        return jsonify({"Error": -1, "msg": "El id es necesario"})
+    if id is None or id == "":
+        return jsonify({"Error": -1, "msg": "El ID es necesario"})
+
+    # Buscar la universidad por ID
     university = University.selectID(id)
     if university is None:
         return jsonify({"Error": -1, "msg": "Universidad no encontrada"})

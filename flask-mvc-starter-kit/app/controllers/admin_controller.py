@@ -110,27 +110,34 @@ def delete():
     else:
         return jsonify({"Error": -1, "msg": result})
 def showAll():
-    token = None
-    if request.method == "GET":
-        token=request.form.get("token")
-    if token == None or token =="":
+    # Obtener el token desde los parámetros de la URL
+    token = request.args.get("token")
+
+    # Verificar si el token es válido
+    if token is None or token == "":
         return jsonify({"Error": -1, "msg": "El token es necesario"})
+
+    # Obtener todos los administradores
     admins = Admin.query.all()
-    if len(admins)==0:
+
+    if len(admins) == 0:
         return jsonify({"Error": -1, "msg": "No se encontraron admins"})
+
+    # Convertir administradores a diccionario
     admin_list = [admin.to_dict() for admin in admins]
     return jsonify({"code": 1, "msg": "Admins encontrados", "admins": admin_list})
 def showID():
-    ced  = None
-    token = None
-    admin = None
-    if request.method == "GET":
-        ced = request.form.get("ced")
-        token=request.form.get("token")
-    if token == None or token =="":
+    # Obtener los parámetros desde la URL
+    ced = request.args.get("ced")
+    token = request.args.get("token")
+
+    # Verificar si el token y la cédula son válidos
+    if token is None or token == "":
         return jsonify({"Error": -1, "msg": "El token es necesario"})
-    if ced == None or ced == "":
-        return jsonify({"Error": -1, "msg": "La cedula es necesario"})
+    if ced is None or ced == "":
+        return jsonify({"Error": -1, "msg": "La cédula es necesaria"})
+
+    # Buscar el administrador por cédula
     admin = Admin.selectID(ced)
     if admin is None:
         return jsonify({"Error": -1, "msg": "Admin no encontrado"})
