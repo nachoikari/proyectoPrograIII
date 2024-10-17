@@ -64,8 +64,6 @@ class Admin(db.Model):
                 admin.name = new_name
             if new_email is not None:
                 admin.email = new_email
-            if admin.token is None:
-                admin.token = admin.create_jwt()
 
             db.session.commit()
             return True, admin
