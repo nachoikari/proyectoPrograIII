@@ -2,6 +2,7 @@ from app.models.Student import Student
 from flask import jsonify, request
 from app.models.admin import Admin
 from app.models.Faculty import Faculty
+
 def create():
     ced = None
     name = None
