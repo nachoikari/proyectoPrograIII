@@ -41,7 +41,7 @@ class Student(db.Model):
     def create(cls, ced,name,email,password,id_faculty):
         try:
             new_student = cls(ced=ced, name=name,email=email,password=password,id_faculty=id_faculty)
-            new_student.token=new_student.createJWT()
+            #new_student.token=new_student.createJWT()
             db.session.add(new_student)
             db.session.commit()
             return True, new_student

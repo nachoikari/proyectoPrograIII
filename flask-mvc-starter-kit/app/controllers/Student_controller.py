@@ -113,15 +113,31 @@ def showID():
         ced = request.args.get("ced")
         token = request.args.get("token")
 
-    # Verificar si el token y la cédula son válidos
     if token is None or token == "":
         return jsonify({"Error": -1, "msg": "El token es necesario"})
     if ced is None or ced == "":
         return jsonify({"Error": -1, "msg": "La cédula es necesaria"})
-
-    # Buscar el administrador por cédula
+    
     student = Student.selectID(ced)
     if student is None:
         return jsonify({"Error": -1, "msg": "Admin no encontrado"})
     else:
         return jsonify({"code": 1, "msg": student.to_dict()})
+def login():
+    ced = None
+    password = None
+    id_faculty = None
+
+    if request.method == "POST":
+        ced = request.form.get("ced")
+        password = request.form.get("password")
+        id_faculty = request.form.get("id_faculty")
+    if ced is None or ced == "" or password is None or password == "":
+        return '{"Error":-1, "msg":"Check password or Ced"}'
+    student = Student.query.filter_by(id_faculty=id_faculty,ced=ced).first()
+
+    if student is None:
+        return jsonify({"Eror": -1, "msg":"Access denied"})
+    if password != student.password:
+        return jsonify({"Error":-1,"msg":"Incorrect password"})
+    return jsonify({"code": 1, "msg": "Authorized access", "jwt": student.token})
