@@ -87,6 +87,7 @@ def update():
     idFaculty = None
     token = None
     new_ced = None
+    
     if request.method == "PUT":
         ced = request.form.get("ced")
         name = request.form.get("name")
@@ -95,11 +96,13 @@ def update():
         token = request.form.get("token")
         idFaculty = request.form.get("idFaculty")
         new_ced = request.form.get("new_ced")
+    
     if not token:
         return jsonify({"Error": -1, "msg": "You need a token"})
     
     if not ced:
         return jsonify({"Error": -1, "msg": "Ced of the student is necesary"})
+    
     professor_update = Professor.selectID(ced)
     
     if professor_update == None:
@@ -122,15 +125,21 @@ def update():
     
 def showAll():
     token = None
+    
     if request.method == "GET":
         token = request.args.get("token")
+    
     if token == None or token=="":
         return jsonify({"Error": -1, "msg": "Token is necesary"})
+    
     professors = Professor.query.all()
+    
     if len(professors) == 0:
         return jsonify({"Error": -1, "msg":"Students dont exist "})
     
+    
     professors_list = [professor.to_dict() for professor in professors]
+
     return jsonify({"code": 1, "msg":"professors find", "professors":professors_list})
 
 def showID():
@@ -140,10 +149,12 @@ def showID():
 
     if token is None or token == "":
         return jsonify({"Error": -1, "msg": "El token es necesario"})
+    
     if ced is None or ced == "":
         return jsonify({"Error": -1, "msg": "La cédula es necesaria"})
     
     professor = Professor.selectID(ced)
+    
     if professor is None:
         return jsonify({"Error": -1, "msg": "Admin no encontrado"})
     else:
@@ -158,12 +169,16 @@ def login():
         ced = request.form.get("ced")
         password = request.form.get("password")
         id_faculty = request.form.get("id_faculty")
+    
     if ced is None or ced == "" or password is None or password == "":
         return '{"Error":-1, "msg":"Check password or Ced"}'
+    
     professor = Professor.query.filter_by(id_faculty=id_faculty,ced=ced).first()
 
     if professor is None:
         return jsonify({"Eror": -1, "msg":"Access denied"})
+    
     if password != professor.password:
         return jsonify({"Error":-1,"msg":"Incorrect password"})
+    
     return jsonify({"code": 1, "msg": "Authorized access", "jwt": professor.token})

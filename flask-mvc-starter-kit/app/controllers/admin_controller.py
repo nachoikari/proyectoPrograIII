@@ -28,6 +28,7 @@ def login():
         return jsonify({"code": 1, "msg": "Acceso autorizado", "jwt": admin.token})
 
     return '{"Error":-1,"msg":"Acceso no autorizado"}'
+
 def register():
     if request.method == "POST":
         ced = request.form.get("ced")
@@ -44,6 +45,7 @@ def register():
         return jsonify({"code": 1, "msg": "Admin creado exitosamente", "admin": new_admin.ced})
     else:
         return jsonify({"Error": -1, "msg": "Error al crear admin"})
+
 def create():
     if request.method == "POST":
         ced = request.form.get("ced")

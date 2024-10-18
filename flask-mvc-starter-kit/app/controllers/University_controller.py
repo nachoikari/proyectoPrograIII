@@ -2,22 +2,28 @@ from app.models.University import University
 from flask import request, jsonify
 
 def create():
-    name=None
-    address=None
-    email=None
-    token=None
+    name = None
+    address = None
+    email = None
+    token = None
+    url = None  # Nueva variable para el URL
+
     if request.method == "POST":
-        name=request.form.get("name")
-        address=request.form.get("address")
-        email=request.form.get("email")
-        token=request.form.get("token")
+        name = request.form.get("name")
+        address = request.form.get("address")
+        email = request.form.get("email")
+        url = request.form.get("url")  # Obtener el campo URL
+        token = request.form.get("token")
+
     if not token:
-        return '{"Error":-1, "msg":"Token necesario para la peticion"}'
-    if name == None or name == "" or address == None or address == "" or email == None or email == "":
-         return '{"Error":-1, "msg":"Todos los campos son necesarios"}'
-    success, new_university = University.create(email=email,name=name,address=address)
+        return '{"Error":-1, "msg":"Token necesario para la petición"}'
+    if not name or not address or not email:
+        return '{"Error":-1, "msg":"Todos los campos son necesarios"}'
+
+    success, new_university = University.create(email=email, name=name, address=address, url=url)
+    
     if success:
-        return jsonify({"code": 1, "msg": "Admin creado exitosamente", "admin": new_university.name})
+        return jsonify({"code": 1, "msg": "Universidad creada exitosamente", "university": new_university.name})
     else:
         return jsonify({"Error": -1, "msg": "Error al crear la universidad"})
 
@@ -43,32 +49,37 @@ def update():
     address = None
     email = None
     token = None
+    url = None 
 
     if request.method == "PUT":
         id = request.form.get("id")
         name = request.form.get("name")
         address = request.form.get("address")
         email = request.form.get("email")
+        url = request.form.get("url") 
         token = request.form.get("token")
 
     if not token:
         return jsonify({"Error": -1, "msg": "Token necesario para la petición"})
     if not id:
         return jsonify({"Error": -1, "msg": "El ID de la universidad es necesario"})
-    
+
     university_update = University.selectID(id)
 
     if university_update is None:
         return jsonify({"Error": -1, "msg": "Universidad no encontrada"})
+
     if name == "":
-        name=None
-    if address =="":
-        address=None
-    if email=="":
-        email=None
-    
-    success, result = University.update(id=id, new_name=name, new_email=email, new_address=address)
-    
+        name = None
+    if address == "":
+        address = None
+    if email == "":
+        email = None
+    if url == "": 
+        url = None
+
+    success, result = University.update(id=id, new_name=name, new_email=email, new_address=address, new_url=url)
+
     if success:
         return jsonify({"code": 1, "msg": "Universidad modificada", "university": result.name})
     else:
