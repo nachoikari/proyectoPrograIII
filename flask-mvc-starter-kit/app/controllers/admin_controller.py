@@ -25,7 +25,7 @@ def login():
         return '{"error":-1,"msg":"Acceso no autorizado"}'
 
     if admin.password == password:
-        return jsonify({"code": 1, "msg": "Acceso autorizado", "jwt": admin.token})
+        return jsonify({"code": 1, "msg": "Acceso autorizado", "token": admin.token})
 
     return '{"Error":-1,"msg":"Acceso no autorizado"}'
 
@@ -97,9 +97,9 @@ def update():
 def delete():
     if request.method == "DELETE":
         ced=request.form.get("ced")
-        jwt=request.form.get("jwt")
+        token=request.form.get("token")
     
-    if not jwt:
+    if not token:
         return jsonify({"Error": -1, "msg": "Necesario el token "})
     
     if not ced:

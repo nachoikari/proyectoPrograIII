@@ -13,13 +13,19 @@ public class Admin {
     private String password;
     private String name;
     private String email;
-    private String token=null;
+    //estos maes son static, ya que cuando se inicia session se mantiene logeado y el token activo, hasta que cierra session,
+    //en caso de cerrar session se ponen null el token y false el isLogged
+    private static String token = null;
+    private static boolean isLogged = false;
 
     public Admin(int id, String password, String name, String email) {
         this.id = id;
         this.password = password;
         this.name = name;
         this.email = email;
+    }
+
+    public Admin() {
     }
 
     public int getId() {
@@ -60,6 +66,14 @@ public class Admin {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public boolean isIsLogged() {
+        return isLogged;
+    }
+
+    public void setIsLogged(boolean isLogged) {
+        Admin.isLogged = isLogged;
     }
     
 }

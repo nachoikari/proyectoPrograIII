@@ -4,5 +4,7 @@ module com.mycompany.prograproyecto {
     requires java.base;
     opens Controller to javafx.fxml;
     opens com.mycompany.prograproyecto to javafx.fxml;
+    exports Model;
     exports com.mycompany.prograproyecto;
+     requires org.json;
 }

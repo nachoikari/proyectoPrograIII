@@ -9,7 +9,7 @@ class Admin(db.Model):
     password = db.Column(db.String(200), nullable=False, unique=True)
     name = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), nullable=False, unique=True)
-    token = db.Column(db.String(500), nullable=True)  # Cambié el nombre de la columna para evitar confusión con la librería `jwt`
+    token = db.Column(db.String(500), nullable=True)  
     
     def __repr__(self):
         return f'<Admin {self.ced}>'

@@ -2,9 +2,10 @@ com\mycompany\prograproyecto\PrimaryController.class
 com\mycompany\prograproyecto\App.class
 com\mycompany\prograproyecto\SecondaryController.class
 Utils\ChildThread.class
+Controller\AdminCRUDController.class
 Controller\SelectRoleController.class
 module-info.class
-Controller\LogInController.class
-Utils\Connection.class
+Utils\RemoteConnection.class
 Model\Admin.class
 Controller\AdminLogInController.class
+Utils\ThreadAdmin.class
