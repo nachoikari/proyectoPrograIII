@@ -163,18 +163,15 @@ def showID():
 def login():
     ced = None
     password = None
-    id_faculty = None
 
     if request.method == "POST":
         ced = request.form.get("ced")
         password = request.form.get("password")
-        id_faculty = request.form.get("id_faculty")
     
     if ced is None or ced == "" or password is None or password == "":
         return '{"Error":-1, "msg":"Check password or Ced"}'
     
-    professor = Professor.query.filter_by(id_faculty=id_faculty,ced=ced).first()
-
+    professor = Professor.query.get(ced)
     if professor is None:
         return jsonify({"Eror": -1, "msg":"Access denied"})
     
