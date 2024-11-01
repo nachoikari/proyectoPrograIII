@@ -15,7 +15,7 @@ public class Admin {
     private String email;
     //estos maes son static, ya que cuando se inicia session se mantiene logeado y el token activo, hasta que cierra session,
     //en caso de cerrar session se ponen null el token y false el isLogged
-    private static String token = null;
+    private static String token = null;      //---------UserToken
     private static boolean isLogged = false;
 
     public Admin(int id, String password, String name, String email) {

@@ -84,6 +84,7 @@ def update():
         return jsonify({"code": 1, "msg": "Universidad modificada", "university": result.name})
     else:
         return jsonify({"Error": -1, "msg": result})
+
 def showAll():
     # Obtener el token desde los parámetros de la URL
     token = request.args.get("token")
@@ -101,6 +102,7 @@ def showAll():
     # Convertir universidades a diccionario
     universities_list = [university.to_dict() for university in universities]
     return jsonify({"code": 1, "msg": "Universidades encontradas", "universities": universities_list})
+
 def showID():
     # Obtener los parámetros desde la URL
     id = request.args.get("id")

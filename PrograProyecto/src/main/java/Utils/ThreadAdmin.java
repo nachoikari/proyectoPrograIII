@@ -16,7 +16,8 @@ public class ThreadAdmin extends Thread {
     public String name="";
     public String email = "";
     private JSONArray adminsArray;
-    private static Admin admin = new Admin();
+    private Admin admin;
+    
     public ThreadAdmin(){
         
     }
@@ -55,8 +56,8 @@ public class ThreadAdmin extends Thread {
             JSONObject jsonResponse = new JSONObject(response);
             int code = jsonResponse.optInt("code");
             if(code == 1){
-                String ced = jsonResponse.optString("ced");
-                System.out.println("ced");
+                String ced = jsonResponse.optString("admin");
+                System.out.println("admin");
             }
         }  
     }
@@ -75,6 +76,7 @@ public class ThreadAdmin extends Thread {
         }
         
     }
+    
     private void login(){
         //data es el cuerpo de la consulta
         String data = "ced="+ced+"&password="+password;

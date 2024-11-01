@@ -12,9 +12,7 @@ import java.net.URL;
 public class RemoteConnection {
     private static RemoteConnection connection;
 
-    private RemoteConnection() {
-    
-    }
+    private RemoteConnection() {}
 
     public static RemoteConnection getInstance() {
         if (connection == null) {

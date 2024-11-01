@@ -97,6 +97,7 @@ def update():
         return jsonify({"code": 1, "msg": "Student updated", "Student": result.ced})
     else:
         return jsonify({"Error": -1, "msg": result})
+
 def showAll():
     token = None
     if request.method == "GET":
@@ -109,6 +110,7 @@ def showAll():
     
     students_list = [student.to_dict() for student in students]
     return jsonify({"code": 1, "msg":"Students find", "Students":students_list})
+
 def showID():
     if request.method == "GET":
         ced = request.args.get("ced")
@@ -124,6 +126,7 @@ def showID():
         return jsonify({"Error": -1, "msg": "Admin no encontrado"})
     else:
         return jsonify({"code": 1, "msg": student.to_dict()})
+
 def login():
     ced = None
     password = None
