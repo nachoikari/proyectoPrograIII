@@ -1,0 +1,4 @@
+/Universidad/target/
+__pycache__/
+*.pyc
+virtualEnv/

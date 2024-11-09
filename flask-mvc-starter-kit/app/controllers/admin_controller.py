@@ -71,6 +71,7 @@ def create():
         return jsonify({"code": 1, "msg": "Admin creado exitosamente", "admin": new_admin.ced})
     else:
         return jsonify({"Error": -1, "msg": "Error al crear admin"})
+
 def update():
     if request.method == "PUT":
         ced = request.form.get("ced") 
@@ -94,6 +95,7 @@ def update():
         return jsonify({"code": 1, "msg": "Administrador actualizado exitosamente", "admin": result.ced})
     else:
         return jsonify({"Error": -1, "msg": result})
+    
 def delete():
     if request.method == "DELETE":
         ced=request.form.get("ced")
@@ -111,6 +113,7 @@ def delete():
         return jsonify({"code": 1, "msg": "Administrador eliminado exitosamente"})
     else:
         return jsonify({"Error": -1, "msg": result})
+    
 def showAll():
     # Obtener el token desde los parámetros de la URL
     token = request.args.get("token")
@@ -128,6 +131,7 @@ def showAll():
     # Convertir administradores a diccionario
     admin_list = [admin.to_dict() for admin in admins]
     return jsonify({"code": 1, "msg": "Admins encontrados", "admins": admin_list})
+
 def showID():
     # Obtener los parámetros desde la URL
     ced = request.args.get("ced")

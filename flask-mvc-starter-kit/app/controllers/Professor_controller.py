@@ -183,7 +183,7 @@ def login():
     
     professor = Professor.query.get(ced)
     if professor is None:
-        return jsonify({"Eror": -1, "msg":"Access denied"})
+        return jsonify({"Error": -1, "msg":"Access denied"})
     
     if password != professor.password:
         return jsonify({"Error":-1,"msg":"Incorrect password"})

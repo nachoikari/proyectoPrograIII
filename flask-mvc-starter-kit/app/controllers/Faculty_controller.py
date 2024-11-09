@@ -23,6 +23,7 @@ def create():
         return jsonify({"Code": 1, "msg": "Faculty created"})
     else:
         return jsonify({"Error": -1, "msg": "Creating faculty"})
+
 def update():
     id = None
     name = None
@@ -55,6 +56,7 @@ def update():
         return jsonify({"code": 1, "msg": "Facultad actualizada", "faculty": result.name})
     else:
         return jsonify({"Error": -1, "msg": result})
+
 def delete():
     token = None
     id = None
@@ -70,6 +72,7 @@ def delete():
         return jsonify({"Code":1,"msg":"Facultad eliminada con exito"})
     else:
         return jsonify({"Error":1, "msg": "Error al elimininar la facultad"})
+
 def showID():
     if request.method == "GET":
         id = request.args.get("id")  # Usar args para GET

@@ -8,8 +8,8 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # Conector para MySQL en entorno local
 connector = "mysql+mysqlconnector"
 endpoint = "localhost"  # Localhost ya configurado
-user = "nachoDesktop"
-passwd = "NAcho_20040108"
+user = "root"
+passwd = "1234"
 database = "db_proyecto"
 
 # SQLAlchemy configuration
