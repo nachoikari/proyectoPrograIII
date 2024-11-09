@@ -10,6 +10,7 @@ def create():
     email = None
     idFaculty = None
     token = None
+    phone_number = None
     if request.method == "POST":
         ced = request.form.get("ced")
         name = request.form.get("name")
@@ -17,6 +18,8 @@ def create():
         email = request.form.get("email")
         token = request.form.get("token")
         idFaculty = request.form.get("idFaculty")
+        phone_number = request.form.get("phone_number")
+    
     if not token:
         return jsonify({"Error": -1, "msg": "Token is required"})
     if name == None or name == "":
@@ -35,7 +38,13 @@ def create():
     fac = Faculty.query.get(idFaculty)
     if fac is None:
         return jsonify({"Error":-1, "msg":"Facultad no encontrado en base de datos"})
-    success, new_student = Student.create(ced=ced,name=name,email=email,password=password,id_faculty=idFaculty)
+    if phone_number is None:
+        return jsonify({"Error":-1, "msg":"Phone number is required"})
+    
+    success, new_student = Student.create(
+        ced=ced, name=name, email=email, password=password,
+        id_faculty=idFaculty, phone_number=phone_number  # Nueva columna
+    )
     if success:
         return jsonify({"Code": 1, "msg":"Student created"})
     else:
@@ -69,6 +78,7 @@ def update():
     idFaculty = None
     token = None
     new_ced = None
+    phone_number = None
     if request.method == "PUT":
         ced = request.form.get("ced")
         name = request.form.get("name")
@@ -77,6 +87,7 @@ def update():
         token = request.form.get("token")
         idFaculty = request.form.get("idFaculty")
         new_ced = request.form.get("new_ced")
+        phone_number = request.form.get("phone_number")
     if not token:
         return jsonify({"Error": -1, "msg": "You need a token"})
     
@@ -92,7 +103,7 @@ def update():
     token = None if token is None or token.strip() == "" else token
     idFaculty = None if idFaculty is None or idFaculty.strip() == "" else idFaculty
     new_ced = None if new_ced is None or new_ced.strip() == "" else new_ced
-    success, result = Student.update(ced=ced,new_name=name,new_email=email,new_password=password,new_faculty=idFaculty,new_ced=new_ced)
+    success, result = Student.update(ced=ced,new_name=name,new_email=email,new_password=password,new_faculty=idFaculty,new_ced=new_ced,new_phone_number=phone_number)
     if success:
         return jsonify({"code": 1, "msg": "Student updated", "Student": result.ced})
     else:

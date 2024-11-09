@@ -9,7 +9,8 @@ class Student(db.Model):
     password = db.Column(db.String(200), nullable=False)
     token = db.Column(db.String(500), nullable=True)
     id_faculty = db.Column(db.Integer, db.ForeignKey('faculty.id', ondelete="CASCADE", onupdate="CASCADE"), nullable=True)
-    
+    phone_number = db.Column(db.String(100), nullable=False)
+
     def __repr__(self):
         return f'<Student {self.id}>'
     
@@ -19,7 +20,8 @@ class Student(db.Model):
             "name":self.name,
             "email":self.email,
             "token":self.token,
-            "facultad a la que pertenece": self.id_faculty
+            "facultad a la que pertenece": self.id_faculty,
+            "phone_number": self.phone_number
         }
     def selectID(ced):
         return Student.query.get(ced)
@@ -38,24 +40,32 @@ class Student(db.Model):
             print (f"Error generando el token: {e}")
             return None
     @classmethod
-    def create(cls, ced,name,email,password,id_faculty):
+    def create(cls, ced, name, email, password, id_faculty, phone_number):
         try:
-            new_student = cls(ced=ced, name=name,email=email,password=password,id_faculty=id_faculty)
-            new_student.token=new_student.createJWT()
+            new_student = cls(
+                ced=ced,
+                name=name,
+                email=email,
+                password=password,
+                id_faculty=id_faculty,
+                phone_number=phone_number
+            )
+            new_student.token = new_student.createJWT()
             db.session.add(new_student)
             db.session.commit()
             return True, new_student
         except Exception as e:
             db.session.rollback()
-            print (f"Error generando el token: {e}")
-            return False,None
+            print(f"Error generando el token: {e}")
+            return False, None
     
     @classmethod
-    def update(cls,ced,new_name=None,new_email=None,new_password=None,new_faculty=None,new_ced=None):
+    def update(cls, ced, new_name=None, new_email=None, new_password=None, new_faculty=None, new_ced=None, new_phone_number=None):
         try:
             student = Student.query.get(ced)
             if student is None:
                 return False, "Estudiante no encontrado."
+
             if new_name is not None:
                 student.name = new_name
             if new_email is not None:
@@ -66,8 +76,11 @@ class Student(db.Model):
                 student.id_faculty = new_faculty
             if new_ced is not None:
                 student.ced = new_ced
+            if new_phone_number is not None:
+                student.phone_number = new_phone_number
+
             db.session.commit()
-            return True,student
+            return True, student
         except Exception as e:
             db.session.rollback()
             print(f"Error al actualizar el estudiante: {e}")
