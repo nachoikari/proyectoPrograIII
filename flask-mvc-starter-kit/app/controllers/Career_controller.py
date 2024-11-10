@@ -31,22 +31,20 @@ def create():
 
 def update():
     id = None
-    id_department = None
     name = None
     token = None
 
     if request.method == "PUT":
         id = request.form.get("id")
-        id_department = request.form.get("id_department")
         name = request.form.get("name")
         token = request.form.get("token")
 
     if not token:
         return jsonify({"Error": -1, "msg": "Token is required"})
-    if not id or not id_department:
-        return jsonify({"Error": -1, "msg": "Career ID and Department ID are required"})
+    if not id:
+        return jsonify({"Error": -1, "msg": "Career ID is required"})
 
-    success, career = Career.update(id=id, id_department=id_department, new_name=name)
+    success, career = Career.update(id=id, new_name=name)
     
     if success:
         return jsonify({"code": 1, "msg": "Career updated", "career": career.to_dict()})
@@ -55,20 +53,18 @@ def update():
 
 def delete():
     id = None
-    id_department = None
     token = None
 
     if request.method == "DELETE":
         id = request.form.get("id")
-        id_department = request.form.get("id_department")
         token = request.form.get("token")
 
     if not token:
         return jsonify({"Error": -1, "msg": "Token is required"})
-    if not id or not id_department:
-        return jsonify({"Error": -1, "msg": "Career ID and Department ID are required"})
+    if not id:
+        return jsonify({"Error": -1, "msg": "Career ID is required"})
 
-    success, career = Career.delete(id=id, id_department=id_department)
+    success, career = Career.delete(id=id)
     
     if success:
         return jsonify({"code": 1, "msg": "Career deleted"})
@@ -82,7 +78,7 @@ def show_all():
         return jsonify({"Error": -1, "msg": "Token is required"})
 
     careers = Career.query.all()
-    if len(careers) == 0:
+    if not careers:
         return jsonify({"Error": -1, "msg": "No careers found"})
 
     return jsonify({"code": 1, "msg": "Careers found", "careers": [career.to_dict() for career in careers]})

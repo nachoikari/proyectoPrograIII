@@ -15,11 +15,15 @@ class Group(db.Model):
     def to_dict(self):
         professor = Professor.query.get(self.ced_professor)
         course = Course.query.get(self.code_course)
-        return{
-            "Course": Course.to_dict(course),
-            "Number group":self.group_number,
-            "Proffesor":Professor.to_dict(professor),
-            "NRC": self.nrc
+        
+        return {
+            "NRC": self.nrc,
+            "Number group": self.group_number,
+            "Course Code": course.code,
+            "Course Name": course.name,
+            "Career": course.id_career,
+            "Professor Ced": professor.ced,
+            "Professor Name": professor.name
         }
     
     @classmethod
@@ -36,6 +40,60 @@ class Group(db.Model):
             db.session.rollback()
             print(f"Error creating career: {e}")
             return False, None
-    
+    @classmethod
+    def update(cls, nrc = None, group_number = None, ced_professor = None,code_course = None, new_nrc=None):
+        if nrc is None:
+            return False, None
+        
+        group_update = Group.query.get(nrc)
+        
+        if group_update is None:
+            return False, None
+        
+        if group_number is not None:
+            group_update.group_number = group_number
+        if ced_professor is not None:
+            group_update.ced_professor = ced_professor
+        if code_course is not None:
+            group_update.code_course = code_course
+        if new_nrc is not None:
+            group_update.nrc = new_nrc
+        
+        try:
+            db.session.commit()
+            return True, group_update
+        except Exception as e:
+            db.session.rollback()
+            print("Hola")
+            print(f"Error updating group: {e}")
+            return False, None
+    @classmethod
+    def delete(cls, nrc = None):
+        if nrc is None:
+            return False, "NRC is required to delete a group"
+        
+        delete_group = Group.query.get(nrc)
+        
+        if delete_group is None:
+            return False, "Group not found"
+        try:
+            db.session.delete(delete_group)
+            db.session.commit()
+            return True, delete_group
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error removing the group: {e}")
+            return False, f"Database error: {e}"
+    @classmethod 
+    def find_by_NRC(cls, nrc):
+        if nrc is None:
+            return None, "NRC is required"
+        
+        group = Group.query.get(nrc)
+
+        if group is None:
+            return None, "Group not found"
+        
+        return True, group
     
        

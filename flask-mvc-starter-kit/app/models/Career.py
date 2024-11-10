@@ -6,7 +6,7 @@ class Career(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     name = db.Column(db.String(100), nullable=True)
-    id_department = db.Column(db.Integer, db.ForeignKey('department.id', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False)
+    id_department = db.Column(db.Integer, db.ForeignKey('department.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
 
     def __repr__(self):
         return f'<Career {self.id}>'
@@ -15,7 +15,7 @@ class Career(db.Model):
         department = Department.query.get(self.id_department)
         return {
             "Career": self.name,
-            "Department": department.name,
+            "Department": department.name if department else "Unknown Department",
             "Id": self.id
         }
 
@@ -36,9 +36,9 @@ class Career(db.Model):
             return False, None
 
     @classmethod
-    def update(cls, id, id_department, new_name=None):
+    def update(cls, id, new_name=None):
         try:
-            career = cls.query.get((id, id_department))
+            career = cls.query.get(id)
             if career is None:
                 return False, "Career not found"
 
@@ -53,9 +53,9 @@ class Career(db.Model):
             return False, None
 
     @classmethod
-    def delete(cls, id, id_department):
+    def delete(cls, id):
         try:
-            career = cls.query.get((id, id_department))
+            career = cls.query.get(id)
             if career is None:
                 return False, "Career not found"
             
@@ -66,6 +66,3 @@ class Career(db.Model):
             db.session.rollback()
             print(f"Error deleting career: {e}")
             return False, None
-
-    
-        
