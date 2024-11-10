@@ -1,18 +1,15 @@
 package Controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+
 
 
 public class AdminMainController implements Initializable {
 
-    @FXML
-    private Button volver;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -20,8 +17,19 @@ public class AdminMainController implements Initializable {
     }    
 
     @FXML
-    private void volverLogin(ActionEvent event) throws IOException {
-        App.App.changeScene("login", "Login");
+    private void universityAdministration(MouseEvent event) {
+        System.out.println("Me electrocutaste pedrito");
     }
+
+    @FXML
+    private void professorAdministration(MouseEvent event) {
+        System.out.println("Me electrocutaste pedrito");
+    }
+
+    @FXML
+    private void StudentAdministration(MouseEvent event) {
+        System.out.println("Me electrocutaste pedrito");
+    }
+
     
 }
