@@ -130,3 +130,33 @@ def showID():
         return jsonify({"Error": -1, "msg": "Department not found"})
     
     return jsonify({"code": 1, "msg": "Department found", "department": department.to_dict()})
+
+def showPage():
+    token = None
+    if request.method == "GET":
+        token = request.args.get("token")
+    if token is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "Token is required"
+        })
+
+    try:
+        page = int(request.args.get('page', 1)) 
+        per_page = int(request.args.get('per_page', 10)) 
+
+        departments_paginated = Department.query.paginate(page=page, per_page=per_page, error_out=False)
+
+        if departments_paginated.items:
+            departments = [department.to_dict() for department in departments_paginated.items]
+            return jsonify({
+                "code": 1,
+                "msg": "Groups found",
+                "groups": departments,
+                "total_pages": departments_paginated.pages,
+                "current_page": departments_paginated.page
+            })
+        else:
+            return jsonify({"Error": -1, "msg": "No groups found"})
+    except Exception as e:
+        return jsonify({"Error": -1, "msg": f"An error occurred: {e}"})

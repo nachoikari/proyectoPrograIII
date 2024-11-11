@@ -14,7 +14,7 @@ class Department(db.Model):
         return{
             "name":self.name,
             "id":self.id,
-            "Faculty to which the belongs" :fac.name
+            "Faculty" :fac.name
         }
 
 

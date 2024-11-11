@@ -135,7 +135,7 @@ def showPage():
         faculties_paginated = Faculty.query.paginate(page=page, per_page=per_page, error_out=False)
 
         if faculties_paginated.items:
-            faculties = [group.to_dict() for group in faculties_paginated.items]
+            faculties = [faculty.to_dict() for faculty in faculties_paginated.items]
             return jsonify({
                 "code": 1,
                 "msg": "Groups found",

@@ -97,3 +97,33 @@ def show_by_id():
         return jsonify({"Error": -1, "msg": "Career not found"})
     else:
         return jsonify({"code": 1, "msg": career.to_dict()})
+
+def showPage():
+    token = None
+    if request.method == "GET":
+        token = request.args.get("token")
+    if token is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "Token is required"
+        })
+
+    try:
+        page = int(request.args.get('page', 1)) 
+        per_page = int(request.args.get('per_page', 10)) 
+
+        career_paginated = Career.query.paginate(page=page, per_page=per_page, error_out=False)
+
+        if career_paginated.items:
+            careers = [career.to_dict() for career in career_paginated.items]
+            return jsonify({
+                "code": 1,
+                "msg": "Groups found",
+                "groups": careers,
+                "total_pages": career_paginated.pages,
+                "current_page": career_paginated.page
+            })
+        else:
+            return jsonify({"Error": -1, "msg": "No groups found"})
+    except Exception as e:
+        return jsonify({"Error": -1, "msg": f"An error occurred: {e}"})
