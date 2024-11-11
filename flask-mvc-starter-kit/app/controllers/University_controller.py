@@ -120,3 +120,34 @@ def showID():
         return jsonify({"Error": -1, "msg": "Universidad no encontrada"})
     else:
         return jsonify({"code": 1, "msg": university.to_dict()})
+
+def showPage():
+    token = None
+    if request.method == "GET":
+        token = request.args.get("token")
+    if token is None:
+        return jsonify({
+            "Error": -1,
+            "msg": "Token is required"
+        })
+    try:
+        # Parámetros de la página y límite de elementos
+        page = int(request.args.get('page', 1))  # Página actual, por defecto la 1
+        per_page = int(request.args.get('per_page', 10))  # Elementos por página, por defecto 10
+        universities_paged = University.query.paginate(page=page, per_page=per_page, error_out=False)
+        
+        # Verificar si hay resultados y definir 'universities'
+        if universities_paged.items:
+            universities = [university.to_dict() for university in universities_paged.items]
+            return jsonify({
+                "code": 1,
+                "msg": "Universities found",
+                "universities": universities,
+                "total_pages": universities_paged.pages,
+                "current_page": universities_paged.page
+            })
+        else:
+            return jsonify({"Error": -1, "msg": "No universities found"})
+
+    except Exception as e:
+        return jsonify({"Error": -1, "msg": f"An error occurred: {e}"})

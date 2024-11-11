@@ -25,3 +25,21 @@ class Studentgroup(db.Model):
             db.session.rollback()
             print(f"Error adding student {ced_student}  in the group {nrc_group}: {e}")
             return False, str(e)
+    @classmethod
+    def delete(cls,ced_student, nrc_group ):
+        try:
+            student_group = cls.query.filter_by(ced_student=ced_student, nrc_group=nrc_group).first()
+            
+            if student_group is None:
+                return False, "Record not found."
+            
+            db.session.delete(student_group)
+            db.session.commit()
+            return True, "Student unenrolled successfully."
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error unenroll student {ced_student}  in the group {nrc_group}: {e}")
+            return False, str(e)
+    @classmethod 
+    def update(cls, ced_student, nrc_group, grade):
+        print()
