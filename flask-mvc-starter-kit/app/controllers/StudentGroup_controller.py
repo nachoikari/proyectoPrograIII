@@ -84,6 +84,4 @@ def update():
         nrc_group = request.form.get("nrc_group")
         grade = request.form.get("grade")
         new_nrc = request.form.get("new_nrc")
-    
-
-    
+        
