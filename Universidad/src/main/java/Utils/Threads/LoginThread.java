@@ -51,8 +51,6 @@ public class LoginThread extends Thread {
         if (!response.isEmpty()) {
             JSONObject jsonResponse = new JSONObject(response);
             int code = jsonResponse.optInt("code");
-            System.out.println("codigo: " + code);
-            System.out.println("----------------------------------------------");
             if (code == 1) {
                 String token = jsonResponse.optString("token");
                 RemoteConnection.getInstance().setToken(token);
@@ -70,8 +68,6 @@ public class LoginThread extends Thread {
         if (!response.isEmpty()) {
             JSONObject jsonResponse = new JSONObject(response);
             int code = jsonResponse.optInt("code");
-            System.out.println("codigo: " + code);
-            System.out.println("----------------------------------------------");
             if (code == 1) {
                 String token = jsonResponse.optString("token");
                 RemoteConnection.getInstance().setToken(token);
@@ -89,8 +85,6 @@ public class LoginThread extends Thread {
         if (!response.isEmpty()) {
             JSONObject jsonResponse = new JSONObject(response);
             int code = jsonResponse.optInt("code");
-            System.out.println("codigo: " + code);
-            System.out.println("----------------------------------------------");
             if (code == 1) {
                 String token = jsonResponse.optString("token");
                 RemoteConnection.getInstance().setToken(token);
@@ -118,11 +112,5 @@ public class LoginThread extends Thread {
         });
     }
     
-    private void freze(){
-        try {
-            Thread.sleep(12000);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-    }
+    
 }
