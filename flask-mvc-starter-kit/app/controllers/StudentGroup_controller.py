@@ -1,64 +1,51 @@
 from app.models.StudentGroup import Studentgroup
+from app.models.Group import Group
+from app.models.Student import Student
+from app.models.admin import Admin
+from app.models.Professor import Professor
+from flask import jsonify, request
 
+def register_student():
+    token = None
+    ced_student = None
+    nrc_group = None
+    grade = None
+    if request.method == "POST":
+        token = request.form.get("token")
+        ced_student = request.form.get("ced_student")
+        nrc_group = request.form.get("nrc_group")
+        grade = request.form.get("grade")
+    
+    if token is None:
+        return jsonify({"Error": -1, "msg": "Token is required"})
+    
+    if ced_student is None:
+        return jsonify({"Error": -1, "msg": "Student ced is required"})
+    
+    if nrc_group is None:
+        return jsonify({"Error": -1, "msg": "NRC group is required"})
+    
+    if grade is None:
+        return jsonify({"Error": -1, "msg": "Grade is required"})
+    admin = Admin.findJWT(token=token)
+    
+    prof = Professor.findJWT(token=token)
+    
+    student = Student.findJWT(token=token)
+    
+    if admin is None and prof is None and student is None:
+        return jsonify({"Error":-1, "msg":"You need to be a admin or professor to create groups"})
+    
+    if student is not None:
+        grade = 0
+    
+    success, student_added = Studentgroup.registerStudent(ced_student=ced_student, nrc_group=nrc_group, grade=grade)
 
-def index():
-    """ 
-    show all resources 
-    """
+    if success:
+        return jsonify({"Code": 1, "msg": "Student register in the group"})
+    else:
+        return jsonify({"Error": -1, "msg": "Error trying to register the student in the group"})
+        
+    
 
-    pass
-
-def create():
-    """ 
-    show form to create new resource 
-    """
-
-    pass
-
-
-def store():
-    """ 
-    store new resource in the database
-    """
-
-    pass
-
-
-def show(StudentGroup_id):
-    """ 
-    show specific resource
-
-    @StudentGroup_id: id of the StudentGroup
-     
-    """
-
-    pass
-
-def edit(StudentGroup_id):
-    """ 
-    show form to edit specific resource 
-
-    @StudentGroup_id: id of the StudentGroup
-    """
-
-    pass
-
-def update(StudentGroup_id):
-    """ 
-    update specific resource in the database
-
-    @StudentGroup_id: id of the StudentGroup
-    """
-
-    pass
-
-
-def delete(StudentGroup_id):
-    """ 
-    remove specific resource from the database 
-
-    @StudentGroup_id: id of the StudentGroup
-
-    """
-
-    pass
+    

@@ -16,7 +16,7 @@ class Course(db.Model):
         return {
             "Course Code": self.code,
             "Course Name": self.name,
-            "Career": career.name if career else "Unknown Career"
+            "Career": career.name if career else -1
         }
 
     @classmethod

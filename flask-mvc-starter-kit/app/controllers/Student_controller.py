@@ -25,7 +25,7 @@ def create():
     if name == None or name == "":
         return jsonify({"Error": -1, "msg": "Name is required"})
     if ced == None or ced == "":
-        return jsonify({"Error": -1, "msg": "Cedula is required"})
+        return jsonify({"Error": -1, "msg": "Ced is required"})
     if password == None or password == "":
         return jsonify({"Error": -1, "msg": "Password is required"})
     if email == None or email == "":
@@ -121,6 +121,28 @@ def showAll():
     
     students_list = [student.to_dict() for student in students]
     return jsonify({"code": 1, "msg":"Students find", "Students":students_list})
+
+def showPage():
+    token = request.args.get("token")
+    # Verificar si el token es válido
+    if token is None or token == "":
+        return jsonify({"Error": -1, "msg": "Token is required"})
+    page = int(request.args.get('page', 1))  # Página actual, por defecto la 1
+    per_page = int(request.args.get('per_page', 10))  # Elementos por página, por defecto 10
+
+    students_paged = Student.query.paginate(page=page, per_page=per_page, error_out=False)
+
+    if students_paged.items:
+        students_list = [student.to_dict() for student in students_paged.items]
+        return jsonify({
+               "Code":1,
+               "msg":"Students found",
+               "Students": students_list,
+               "total pages": students_paged.pages,
+               "Current page": students_paged.page 
+        })
+    else:
+        return jsonify({"Error": -1, "msg": "No students found"})
 
 def showID():
     if request.method == "GET":

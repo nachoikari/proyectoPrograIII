@@ -16,7 +16,7 @@ class Faculty(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "University belongs": university.name if university else None  # Verifica si existe la universidad
+            "University belongs": university.name if university else -1  # Verifica si existe la universidad
         }
     def selectID(id):
         return Faculty.query.get(id)

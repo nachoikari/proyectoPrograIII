@@ -15,7 +15,7 @@ class Career(db.Model):
         department = Department.query.get(self.id_department)
         return {
             "Career": self.name,
-            "Department": department.name if department else "Unknown Department",
+            "Department": department.name if department else -1,
             "Id": self.id
         }
 

@@ -156,10 +156,19 @@ def showNRC():
         return jsonify({"Error": -1, "msg": "Error searching group"})
 
 def show_groups():
+    token = None
+    if request.method == "GET":
+        token = request.args.get("token")
+    if token is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "Token is required"
+        })
+
     try:
         # Parámetros de la página y límite de elementos
         page = int(request.args.get('page', 1))  # Página actual, por defecto la 1
-        per_page = 10  # Número de elementos por página
+        per_page = int(request.args.get('per_page', 10))  # Elementos por página, por defecto 10
 
         # Obtener los grupos con paginación
         groups_paginated = Group.query.paginate(page=page, per_page=per_page, error_out=False)

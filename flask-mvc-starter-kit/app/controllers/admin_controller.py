@@ -132,6 +132,33 @@ def showAll():
     admin_list = [admin.to_dict() for admin in admins]
     return jsonify({"code": 1, "msg": "Admins encontrados", "admins": admin_list})
 
+def showPage():
+    # Obtener el token desde los parámetros de la URL
+    token = request.args.get("token")
+    
+    # Verificar si el token es válido
+    if token is None or token == "":
+        return jsonify({"Error": -1, "msg": "El token es necesario"})
+
+    # Obtener parámetros de paginación
+    page = int(request.args.get('page', 1))  # Página actual, por defecto la 1
+    per_page = int(request.args.get('per_page', 10))  # Elementos por página, por defecto 10
+
+    # Realizar consulta paginada
+    admins_paginated = Admin.query.paginate(page=page, per_page=per_page, error_out=False)
+
+    # Verificar si hay resultados
+    if admins_paginated.items:
+        admin_list = [admin.to_dict() for admin in admins_paginated.items]
+        return jsonify({
+            "code": 1,
+            "msg": "Admins found",
+            "admins": admin_list,
+            "total_pages": admins_paginated.pages,
+            "current_page": admins_paginated.page
+        })
+    else:
+        return jsonify({"Error": -1, "msg": "No admins found"})
 def showID():
     # Obtener los parámetros desde la URL
     ced = request.args.get("ced")

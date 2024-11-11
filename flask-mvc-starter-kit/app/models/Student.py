@@ -20,7 +20,7 @@ class Student(db.Model):
             "name":self.name,
             "email":self.email,
             "token":self.token,
-            "facultad a la que pertenece": self.id_faculty,
+            "facultad": self.id_faculty,
             "phone_number": self.phone_number
         }
     def selectID(ced):
