@@ -15,8 +15,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        this.stage = new Stage();
-        firstScene("login", "Iniciar Sesión");
+        this.stage = stage;
+        firstScene("adminMain", "Administración");
     }
     
     private static void firstScene(String fxml, String tittle) throws IOException{

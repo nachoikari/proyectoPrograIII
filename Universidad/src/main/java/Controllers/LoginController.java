@@ -1,6 +1,5 @@
 package Controllers;
 
-import App.App;
 import Utils.Threads.LoginThread;
 import java.io.IOException;
 import java.net.URL;
