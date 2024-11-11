@@ -1,0 +1,27 @@
+.button {      /*Botones*/
+    -fx-font-family: "Dubai";
+    -fx-font-size: 13px;
+    -fx-text-fill: white;
+    -fx-background-color:  #baafc4;
+    -fx-background-radius: 6;
+}
+
+.fondo{     /* Fondo del Vbox Principal*/
+    -fx-background-color: rgba(128, 138, 240, 0.6); /* 0.5 es 50% de opacidad */
+}
+.Recuadros_Texto {      /* El Hbox de los botones del admin*/
+    -fx-background-color: rgba(44, 44, 178, 0.8); /* 0.5 es 50% de opacidad */
+    -fx-background-radius: 6;
+}
+
+TextArea {     /* Los textos de los botones del Admin*/
+    
+     /* Fondo */
+    -fx-control-inner-background: rgba(44, 44, 178, 0.9); /* 0.5 es 50% de opacidad */
+    -fx-control-inner-background: rgba(44, 44, 178, 0.9); /* 0.5 es 50% de opacidad */
+     /* Texto*/
+    -fx-font-family: "Trebuchet MS";      /* Tipo de fuente */
+    -fx-font-size: 14px;           /* Tamaño de fuente */
+    -fx-text-fill: white;          /* Color del texto */
+    
+}

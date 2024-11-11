@@ -16,13 +16,13 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = new Stage();
-        firstScene("login");
+        firstScene("login", "Iniciar Sesión");
     }
     
-    private static void firstScene(String fxml) throws IOException{
+    private static void firstScene(String fxml, String tittle) throws IOException{
         scene = new Scene(loadFXML(fxml));
         stage.setScene(scene);
-        stage.setTitle("Login");
+        stage.setTitle(tittle);
         stage.show();
     }
 

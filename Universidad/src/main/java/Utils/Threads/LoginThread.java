@@ -27,7 +27,7 @@ public class LoginThread extends Thread {
     @Override
     public void run() {
         if (loginAdmin()) {
-            changeFXML("adminMain", "CambioAdmin");
+            changeFXML("adminMain", "Sistema de Administración");
             return;
         }
 
