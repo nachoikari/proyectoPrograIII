@@ -117,3 +117,34 @@ def showPerUniversity():
     faculties = Faculty.query.filter_by(id_university=id_university).all()
     faculties_list = [faculty.to_dict() for faculty in faculties]
     return jsonify({"Code": 1, "msg": "Faculties found", "Faculties": faculties_list})
+def showPage():
+    token = None
+    if request.method == "GET":
+        token = request.args.get("token")
+    if token is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "Token is required"
+        })
+
+    try:
+        page = int(request.args.get('page', 1)) 
+        per_page = int(request.args.get('per_page', 10))
+
+        
+        faculties_paginated = Faculty.query.paginate(page=page, per_page=per_page, error_out=False)
+
+        if faculties_paginated.items:
+            faculties = [group.to_dict() for group in faculties_paginated.items]
+            return jsonify({
+                "code": 1,
+                "msg": "Groups found",
+                "groups": faculties,
+                "total_pages": faculties_paginated.pages,
+                "current_page": faculties_paginated.page
+            })
+        else:
+            return jsonify({"Error": -1, "msg": "No groups found"})
+    except Exception as e:
+        return jsonify({"Error": -1, "msg": f"An error occurred: {e}"})
+
