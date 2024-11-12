@@ -107,4 +107,39 @@ def update():
         return jsonify({"code": 1, "msg": "Grade updated successfully", "student_group": result.to_dict()})
     else:
         return jsonify({"Error": -1, "msg": f"An error occurred: {result}"})
+def showPerGroup():
+    token = None
+    nrc_group = None
+    if request.method == "GET":
+        token = request.args.get("token")
+        nrc_group = request.args.get("nrc")
     
+    admin = Admin.findJWT(token=token)
+    prof = Professor.findJWT(token=token)
+    student = Student.findJWT(token=token)
+    if admin is None and prof is None and student is None:
+        return jsonify({"Error": -1, "msg": "You need to be an admin, professor, or student to get the students list"})
+    
+    if token is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "Token is required"
+        })
+    
+    if nrc_group is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "NRC group is required"
+        })
+    try:
+        page = int(request.args.get('page', 1)) 
+        per_page = int(request.args.get('per_page', 10))
+        students_list = Studentgroup.query.filter_by(nrc_group=nrc_group).paginate(page=page, per_page=per_page, error_out=False)
+
+        if students_list.items:
+            print()
+    except Exception as e:
+        return jsonify({
+            "Error":-1,
+            "msg": "xd"
+        })

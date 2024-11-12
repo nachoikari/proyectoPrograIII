@@ -1,14 +1,13 @@
 from app.models.Professor import Professor
 from flask import jsonify, request
 from app.models.admin import Admin
-from app.models.Faculty import Faculty
-
+from app.models.Career import Career
 def create():
     ced = None
     name = None
     password = None
     email = None
-    idFaculty = None
+    idCareer = None
     token = None
     phone_number = None
     if request.method == "POST":
@@ -17,7 +16,7 @@ def create():
         password = request.form.get("password")
         email = request.form.get("email")
         token = request.form.get("token")
-        idFaculty = request.form.get("id_faculty")
+        idCareer = request.form.get("id_career")
         phone_number = request.form.get("phone_number")
     
     if not token:
@@ -35,8 +34,8 @@ def create():
     if email == None or email == "":
         return jsonify({"Error": -1, "msg": "Email is required"})
     
-    if idFaculty == None or idFaculty == "":
-        return jsonify({"Error": -1, "msg": "Id faculty is required"})
+    if idCareer == None or idCareer == "":
+        return jsonify({"Error": -1, "msg": "Id Career is required"})
     if phone_number == None or phone_number == "":
         return jsonify({"Error": -1, "msg": "Phone number is required"})
     
@@ -45,9 +44,9 @@ def create():
     if admin is None:
         return jsonify({"Error":-1, "msg":"Admin doesnt exist"})
     
-    fac = Faculty.query.get(idFaculty)
+    career = Career.query.get(idCareer)
     
-    if fac is None:
+    if career is None:
         return jsonify({"Error":-1, "msg":"Facultad no encontrado en base de datos"})
     
     success, new_professor = Professor.create(
@@ -55,7 +54,7 @@ def create():
         name=name,
         email=email,
         password=password,
-        id_faculty=idFaculty,
+        id_career=idCareer,
         phone_number=phone_number
     )
     
@@ -94,42 +93,37 @@ def update():
     name = None
     password = None
     email = None
-    idFaculty = None
     token = None
-    new_ced = None
     phone_number = None
+    
     if request.method == "PUT":
         ced = request.form.get("ced")
         name = request.form.get("name")
         password = request.form.get("password")
         email = request.form.get("email")
         token = request.form.get("token")
-        idFaculty = request.form.get("idFaculty")
-        new_ced = request.form.get("new_ced")
         phone_number = request.form.get("phone_number")
+
     if not token:
         return jsonify({"Error": -1, "msg": "You need a token"})
     
     if not ced:
-        return jsonify({"Error": -1, "msg": "Ced of the student is necesary"})
+        return jsonify({"Error": -1, "msg": "Ced of the professor is necessary"})
     
     professor_update = Professor.selectID(ced)
     
-    if professor_update == None:
-        return jsonify({"Error": -1, "msg": "Student doesnt exist"})
+    if professor_update is None:
+        return jsonify({"Error": -1, "msg": "Professor doesn't exist"})
     
-    ced = None if ced is None or ced.strip() == "" else ced
     name = None if name is None or name.strip() == "" else name
     password = None if password is None or password.strip() == "" else password
     email = None if email is None or email.strip() == "" else email
-    token = None if token is None or token.strip() == "" else token
-    idFaculty = None if idFaculty is None or idFaculty.strip() == "" else idFaculty
-    new_ced = None if new_ced is None or new_ced.strip() == "" else new_ced
     phone_number = None if phone_number is None or phone_number.strip() == "" else phone_number
-    success, result = Professor.update(ced=ced,new_name=name,new_email=email,new_password=password,new_faculty=idFaculty,new_ced=new_ced,new_phone_number=phone_number)
+
+    success, result = Professor.update(ced=ced, new_name=name, new_email=email, new_password=password, new_phone_number=phone_number)
     
     if success:
-        return jsonify({"code": 1, "msg": "Student updated", "Student": result.ced})
+        return jsonify({"code": 1, "msg": "Professor updated", "Professor": result.ced})
     else:
         return jsonify({"Error": -1, "msg": result})
     
@@ -145,10 +139,10 @@ def showAll():
     professors = Professor.query.all()
     
     if len(professors) == 0:
-        return jsonify({"Error": -1, "msg":"Students dont exist "})
+        return jsonify({"Error": -1, "msg":"Professors dont exist "})
     
     
-    professors_list = [professor.to_dict() for professor in professors]
+    professors_list = [professor.to_dict1() for professor in professors]
 
     return jsonify({"code": 1, "msg":"professors find", "professors":professors_list})
 
@@ -171,26 +165,26 @@ def showID():
         return jsonify({"code": 1, "msg": professor.to_dict()})
 def showPage():
     token = None
-    id_fac = None
+    id_career = None
     if request.method == "GET":
         token = request.args.get("token")
-        id_fac = request.args.get("faculty_id")
+        id_career = request.args.get("career_id")
     if token is None:
         return jsonify({
             "Error":-1,
             "msg": "Token is required"
         })
-    if id_fac is None:
+    if id_career is None:
         return jsonify({
             "Error":-1,
-            "msg": "Faculty id is required"
+            "msg": "Career id is required"
         })
     try:
         page = int(request.args.get('page', 1))  # Página actual, por defecto la 1
         per_page = int(request.args.get('per_page', 10))  # Elementos por página, por defecto 10
-        professors_paged = Professor.query.filter_by(id_faculty = id_fac).paginate(page=page, per_page=per_page, error_out=False)
+        professors_paged = Professor.query.filter_by(id_career = id_career).paginate(page=page, per_page=per_page, error_out=False)
         if professors_paged.items:
-            professors = [professor.to_dict() for professor in professors_paged.items]
+            professors = [professor.to_dict1() for professor in professors_paged.items]
             return jsonify({
                 "code": 1,
                 "msg": "Professors found",

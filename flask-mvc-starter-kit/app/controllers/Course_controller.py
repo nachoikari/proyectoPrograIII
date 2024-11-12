@@ -1,6 +1,8 @@
 from app.models.Course import Course
 from app.models.admin import Admin
 from app.models.Career import Career
+from app.models.Department import Department
+from app.models.Faculty import Faculty
 from flask import jsonify, request
 
 def create():
@@ -149,3 +151,46 @@ def showPage():
             return jsonify({"Error": -1, "msg": "No groups found"})
     except Exception as e:
         return jsonify({"Error": -1, "msg": f"An error occurred: {e}"})
+def showCoursesUniversity():
+    token = None
+    university_id = None
+    if request.method == "GET":
+        token = request.args.get("token")
+        university_id = request.args.get("university_id")
+    
+    if token is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "Token is required"
+        })
+    
+    if university_id is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "University id is required"
+        })
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 10))
+    courses_paginated = (Course.query
+                         .join(Career)
+                         .join(Department)
+                         .join(Faculty)
+                         .filter(Faculty.id_university == university_id)
+                         .paginate(page=page, per_page=per_page, error_out=False))
+
+    # Si no hay cursos
+    if not courses_paginated.items:
+        return jsonify({"Error": -1, "msg": "No courses found for this university"}), 404
+
+    # Convertir los cursos de la página actual a lista de diccionarios
+    course_list = [{"id": course.code, "name": course.name} for course in courses_paginated.items]
+
+    # Devolver los cursos junto con los metadatos de la paginación
+    return jsonify({
+        "code": 1,
+        "msg": "Courses found",
+        "courses": course_list,
+        "total_pages": courses_paginated.pages,
+        "current_page": courses_paginated.page,
+        "total_courses": courses_paginated.total
+    })

@@ -59,7 +59,6 @@ def update():
     ced_professor = None
     code_course = None
     token = None
-    new_nrc = None
 
     if request.method == "PUT":
         nrc = request.form.get("nrc")
@@ -67,7 +66,6 @@ def update():
         ced_professor = request.form.get("ced_professor")
         code_course = request.form.get("code_course")
         token = request.form.get("token")
-        new_nrc = request.form.get("new_nrc")
     
     # Verificar si el token del administrador es válido
     admin = Admin.findJWT(token=token)
@@ -90,10 +88,7 @@ def update():
     # Llamar al método `update` de `Group` para actualizar el grupo
     success, updated_group = Group.update(
         nrc=nrc,
-        group_number=group_number,
-        ced_professor=ced_professor,
-        code_course=code_course,
-        new_nrc=new_nrc
+        group_number=group_number
     )
     if success:
         return jsonify({
@@ -157,21 +152,27 @@ def showNRC():
 
 def show_groups():
     token = None
+    code_course = None
     if request.method == "GET":
         token = request.args.get("token")
+        code_course = request.args.get("code_course")
     if token is None:
         return jsonify({
             "Error":-1,
             "msg": "Token is required"
         })
-
+    if code_course is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "Course code is required"
+        })
     try:
         # Parámetros de la página y límite de elementos
         page = int(request.args.get('page', 1))  # Página actual, por defecto la 1
         per_page = int(request.args.get('per_page', 10))  # Elementos por página, por defecto 10
 
         # Obtener los grupos con paginación
-        groups_paginated = Group.query.paginate(page=page, per_page=per_page, error_out=False)
+        groups_paginated = Group.query.filter_by(code_course=code_course).paginate(page=page, per_page=per_page, error_out=False)
 
         # Verificar si hay resultados
         if groups_paginated.items:
@@ -187,3 +188,5 @@ def show_groups():
             return jsonify({"Error": -1, "msg": "No groups found"})
     except Exception as e:
         return jsonify({"Error": -1, "msg": f"An error occurred: {e}"})
+
+
