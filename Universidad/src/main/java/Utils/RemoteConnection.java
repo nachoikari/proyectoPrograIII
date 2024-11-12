@@ -35,8 +35,8 @@ public class RemoteConnection {
 
         try {
             URL url = new URL( URL + endpoint);
-            System.out.println(method);
             System.out.println(URL + endpoint); //-----------------------------------------------------------------------------------------------
+            System.out.println(method);
             System.out.println(param);         
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod(method);
@@ -93,4 +93,9 @@ public class RemoteConnection {
     public void setToken(String _token){
         token = _token;
     }
+    
+    public String getToken(){
+        return "token20";
+    }
+    
 }

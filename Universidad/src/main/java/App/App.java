@@ -16,7 +16,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;
-        firstScene("adminMain", "Administración");
+        firstScene("UniversityAdmin", "Administración");
     }
     
     private static void firstScene(String fxml, String tittle) throws IOException{

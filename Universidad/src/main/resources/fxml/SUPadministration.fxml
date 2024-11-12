@@ -4,24 +4,31 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="684.0" prefWidth="820.0" spacing="60.0" styleClass="fondo" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SUPadministrationController">
    <children>
-      <VBox alignment="CENTER" prefHeight="73.0" prefWidth="820.0" style="-fx-background-color: #3544dc;">
+      <HBox prefHeight="59.0" prefWidth="820.0" spacing="200.0" style="-fx-background-color: #3544dc;">
          <children>
-            <Label fx:id="lbl_tittle" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="306.0" text="Hola Mundo" textAlignment="CENTER" textFill="WHITE">
+            <ImageView fitHeight="50.0" fitWidth="69.0" opacity="0.69" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Iconos/Logo.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lbl_tittle" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="306.0" styleClass="label-title" text="Hola Mundo" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial Black" size="19.0" />
                </font>
             </Label>
          </children>
-      </VBox>
-      <HBox alignment="CENTER" prefHeight="335.0" prefWidth="1137.0" spacing="60.0">
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="598.0" prefWidth="820.0" spacing="60.0" style="-fx-background-color: #E2E2E2; -fx-background-radius: 20;">
          <children>
-            <TableView fx:id="tbl_objectList" prefHeight="264.0" prefWidth="498.0">
+            <TableView fx:id="tbl_object" prefHeight="362.0" prefWidth="498.0">
                <HBox.margin>
                   <Insets left="40.0" />
                </HBox.margin>
@@ -31,10 +38,19 @@
                   <Button fx:id="btn_add" mnemonicParsing="false" onAction="#addObject" prefHeight="35.0" prefWidth="80.0" text="Agregar" />
                   <Button fx:id="btn_modify" mnemonicParsing="false" onAction="#modifyObject" prefHeight="35.0" prefWidth="80.0" text="Modificar" />
                   <Button fx:id="btn_delete" mnemonicParsing="false" onAction="#deleteObject" prefHeight="35.0" prefWidth="80.0" text="Eliminar" />
-                  <Button fx:id="btn_adminUniversity" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" text="Gestionar" />
+                  <Button fx:id="btn_adminUniversity" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" text="Gestionar" visible="false" />
                </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </VBox>
          </children>
+         <padding>
+            <Insets bottom="30.0" left="10.0" right="10.0" top="30.0" />
+         </padding>
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin>
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
          <children>

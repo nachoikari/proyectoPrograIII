@@ -3,6 +3,7 @@ package Controllers;
 import Models.Administrator;
 import Models.Professor;
 import Models.Student;
+import Utils.Threads.CRUD_Thread;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,66 +38,51 @@ public class SUPadministrationController implements Initializable {
     @FXML
     private Button btn_backMenu;
     @FXML
-    private TableView<Object> tbl_objectList;
+    private TableView<Object> tbl_object;
 
     private int option;
     private int currentPage;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        option = AdminMainController.option;
-        setTittle();
-        setColumnTable();
-        //llamamos el metodo para cargar la lista
-        
+        option = Utils.SelectionModel.getInstance().getOption();
+        setForOption();
+
         //listener
-        tbl_objectList.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-            double columnWidth = newWidth.doubleValue() / tbl_objectList.getColumns().size();
-            tbl_objectList.getColumns().forEach(column -> column.setPrefWidth(columnWidth));
+        tbl_object.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            double columnWidth = newWidth.doubleValue() / tbl_object.getColumns().size();
+            tbl_object.getColumns().forEach(column -> column.setPrefWidth(columnWidth));
         });
     }
 
-    private void setTittle() {
+    private void setForOption() {
+
         if (option == 1) {
             lbl_tittle.setText("Administrar Universidades");
-            return;
-        }
-        if (option == 2) {
-            lbl_tittle.setText("Administrar Profesores");
-            return;
-        }
-        if (option == 3) {
-            lbl_tittle.setText("Administrar Estudiantes");
-            return;
-        }
-        if (option == 4) {
-            lbl_tittle.setText("Gestionar Administradores");
-            return;
-        }
-    }
-
-    private void setColumnTable() {
-        tbl_objectList.getColumns().clear();
-        if (option == 1) {
             //setColumnsForUniversities();
             return;
         }
         if (option == 2) {
+            lbl_tittle.setText("Administrar Profesores");
             setColumnsForProfessors();
             return;
         }
         if (option == 3) {
+            lbl_tittle.setText("Administrar Estudiantes");
             setColumnsForStudents();
             return;
         }
         if (option == 4) {
+            lbl_tittle.setText("Gestionar Administradores");
             setColumnsForAdmins();
+            CRUD_Thread thrd = new CRUD_Thread(option, "showPage", 1, tbl_object);
+            thrd.start();
             return;
         }
     }
 
     private void setColumnsForStudents() { //Hay que buscar una manera de parsear el campo de facultad
-        double columnWidth = tbl_objectList.getWidth() / 5;
+        double columnWidth = tbl_object.getWidth() / 5;
 
         TableColumn<Object, String> idColumn = new TableColumn<>("Cedula");
         idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Student) cellData.getValue()).getId()));
@@ -114,11 +100,11 @@ public class SUPadministrationController implements Initializable {
         phoneColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((Student) cellData.getValue()).getPhoneNumber()).asObject());
         phoneColumn.setPrefWidth(columnWidth);
 
-        TableColumn<Object, Integer> facultyColumn = new TableColumn<>("Facultad");
-        facultyColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((Student) cellData.getValue()).getFaculty()).asObject());
+        TableColumn<Object, String> facultyColumn = new TableColumn<>("Facultad");
+        facultyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Student) cellData.getValue()).getFaculty()));
         facultyColumn.setPrefWidth(columnWidth);
 
-        tbl_objectList.getColumns().addAll(idColumn, nameColumn, emailColumn, phoneColumn, facultyColumn);
+        tbl_object.getColumns().addAll(idColumn, nameColumn, emailColumn, phoneColumn, facultyColumn);
     }
 
     private void setColumnsForProfessors() { //Hay que buscar una manera de parsear el campo de facultad
@@ -137,7 +123,7 @@ public class SUPadministrationController implements Initializable {
         TableColumn<Object, Integer> facultyColumn = new TableColumn<>("Facultad");
         facultyColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((Professor) cellData.getValue()).getFaculty()).asObject());
 
-        tbl_objectList.getColumns().addAll(idColumn, nameColumn, emailColumn, phoneColumn, facultyColumn);
+        tbl_object.getColumns().addAll(idColumn, nameColumn, emailColumn, phoneColumn, facultyColumn);
     }
 
 //private void setColumnsForUniversities() {
@@ -147,7 +133,7 @@ public class SUPadministrationController implements Initializable {
 //    TableColumn<Object, Double> salarioColumn = new TableColumn<>("Salario");
 //    salarioColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(((University) cellData.getValue()).getSalario()).asObject());
 //
-//    tbl_objectList.getColumns().addAll(nombreColumn, salarioColumn);
+//    tbl_object.getColumns().addAll(nombreColumn, salarioColumn);
 //}
     private void setColumnsForAdmins() {
         TableColumn<Object, String> idColumn = new TableColumn<>("Cedula");
@@ -159,7 +145,7 @@ public class SUPadministrationController implements Initializable {
         TableColumn<Object, String> emailColumn = new TableColumn<>("Correo");
         emailColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Administrator) cellData.getValue()).getName()));
 
-        tbl_objectList.getColumns().addAll(idColumn, nameColumn, emailColumn);
+        tbl_object.getColumns().addAll(idColumn, nameColumn, emailColumn);
     }
 
     @FXML
@@ -176,6 +162,6 @@ public class SUPadministrationController implements Initializable {
 
     @FXML
     private void backToMenu(ActionEvent event) throws IOException {
-        App.App.changeScene("adminMain", "Sistema de Administración");
+        App.App.changeScene("UniversityAdmin", "Sistema de Administración");
     }
 }

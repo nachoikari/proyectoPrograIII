@@ -30,11 +30,19 @@
     -fx-background-color: rgba(44, 44, 178, 1);  /* Cambia el color al pasar el mouse */
 }  
 
-.Text_Label {     /* Los textos de los botones del Admin*/
+.TextTitle_Label {     /* Los titulos de los botones del Admin*/
      -fx-editable: false;
      -fx-font-family: "Georgia";
-     /*-fx-font-family: "Trebuchet MS";      Tipo de fuente */
-    -fx-font-size: 15px;           /* Tamaño de fuente */
+    -fx-font-size: 18px;           /* Tamaño de fuente */
+    -fx-fill: white;          /* Color del texto */
+    
+}
+
+.TextBody_Label {     /* Las descripciones de los botones del Admin*/
+     -fx-editable: false;
+     -fx-font-family: "Georgia";
+     -fx-font-style: italic;
+    -fx-font-size: 14px;           /* Tamaño de fuente */
     -fx-fill: white;          /* Color del texto */
     
 }
@@ -44,4 +52,12 @@
     -fx-border-width: 20px;
     -fx-background-color:  #005f99;
     -fx-background-radius: 100px;
+}
+
+.label-title { 
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 20px; /* Tamaño de letra más grande */
+    -fx-font-weight: bold; 
+    -fx-text-fill: white; /* Color azul para el título */
+    -fx-padding: 10px 0 10px 0; 
 }

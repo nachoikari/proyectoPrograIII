@@ -2,16 +2,16 @@ package Models;
 
 
 public class Student  extends User{
-    private int faculty;
+    private String faculty;
     private int phoneNumber;
     
-    public Student(String id, String name, String email, int faculty, int phoneNumber) {
+    public Student(String id, String name, String email, String faculty, int phoneNumber) {
         super(id, name, email);
         this.faculty = faculty;
         this.phoneNumber = phoneNumber;
     }
 
-    public void setFaculty(int faculty) {
+    public void setFaculty(String faculty) {
         this.faculty = faculty;
     }
 
@@ -31,7 +31,7 @@ public class Student  extends User{
         this.email = email;
     }
 
-    public int getFaculty() {
+    public String getFaculty() {
         return faculty;
     }
     
