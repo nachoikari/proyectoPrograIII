@@ -171,17 +171,24 @@ def showID():
         return jsonify({"code": 1, "msg": professor.to_dict()})
 def showPage():
     token = None
+    id_fac = None
     if request.method == "GET":
         token = request.args.get("token")
+        id_fac = request.args.get("faculty_id")
     if token is None:
         return jsonify({
             "Error":-1,
             "msg": "Token is required"
         })
+    if id_fac is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "Faculty id is required"
+        })
     try:
         page = int(request.args.get('page', 1))  # Página actual, por defecto la 1
         per_page = int(request.args.get('per_page', 10))  # Elementos por página, por defecto 10
-        professors_paged = Professor.query.paginate(page=page, per_page=per_page, error_out=False)
+        professors_paged = Professor.query.filter_by(id_faculty = id_fac).paginate(page=page, per_page=per_page, error_out=False)
         if professors_paged.items:
             professors = [professor.to_dict() for professor in professors_paged.items]
             return jsonify({

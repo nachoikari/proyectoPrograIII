@@ -119,20 +119,26 @@ def showPerUniversity():
     return jsonify({"Code": 1, "msg": "Faculties found", "Faculties": faculties_list})
 def showPage():
     token = None
+    id_university = None
     if request.method == "GET":
         token = request.args.get("token")
+        id_university = request.args.get("id_university")
     if token is None:
         return jsonify({
             "Error":-1,
             "msg": "Token is required"
         })
-
+    if id_university is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "University id"
+        })
     try:
         page = int(request.args.get('page', 1)) 
         per_page = int(request.args.get('per_page', 10))
 
         
-        faculties_paginated = Faculty.query.paginate(page=page, per_page=per_page, error_out=False)
+        faculties_paginated = Faculty.query.filter_by(id_university=id_university).paginate(page=page, per_page=per_page, error_out=False)
 
         if faculties_paginated.items:
             faculties = [faculty.to_dict() for faculty in faculties_paginated.items]

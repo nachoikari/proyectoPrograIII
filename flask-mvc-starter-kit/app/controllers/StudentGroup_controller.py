@@ -63,8 +63,14 @@ def delete():
 
     if admin is None and prof is None and student is None:
         return jsonify({"Error": -1, "msg": "You need to be an admin, professor, or student to drop a student"})
-
-    # Llama al método delete del modelo StudentGroup
+    #puede que un estudiante intente eliminar otro, entonces con el token obtenemos el estudiante
+    #que desea hacer la peticion y compara las cedulas, y si la cedula del que quiere eliminar
+    #es diferente a la cedula del que realiza la peticion(quiere eliminar un estudiante distinto a el)
+    #no lo deja hacer la peticion
+    stu_ced = student.ced
+    if student is not None and ced_student != stu_ced:
+        return jsonify({"Error": -1, "msg": "Student can not delete a other student"})
+        
     success, message = Studentgroup.delete(ced_student=ced_student, nrc_group=nrc_group)
 
     if success:
@@ -77,11 +83,28 @@ def update():
     ced_student = None
     nrc_group = None
     grade = None
-    new_nrc = None
+
     if request.method == "POST":
         token = request.form.get("token")
         ced_student = request.form.get("ced_student")
         nrc_group = request.form.get("nrc_group")
         grade = request.form.get("grade")
-        new_nrc = request.form.get("new_nrc")
-        
+    
+    # Verificar autenticación
+    admin = Admin.findJWT(token=token)
+    prof = Professor.findJWT(token=token)
+    student = Student.findJWT(token=token)
+
+    if admin is None and prof is None and student is None:
+        return jsonify({"Error": -1, "msg": "You need to be an admin, professor, or student to update a grade"})
+
+    if student is not None:
+        return jsonify({"Error": -1, "msg": "Students can not update their grades"})
+
+    success, result = Studentgroup.update(ced_student=ced_student, nrc_group=nrc_group, grade=grade)
+    
+    if success:
+        return jsonify({"code": 1, "msg": "Grade updated successfully", "student_group": result.to_dict()})
+    else:
+        return jsonify({"Error": -1, "msg": f"An error occurred: {result}"})
+    

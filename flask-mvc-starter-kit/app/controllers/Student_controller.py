@@ -123,14 +123,21 @@ def showAll():
     return jsonify({"code": 1, "msg":"Students find", "Students":students_list})
 
 def showPage():
-    token = request.args.get("token")
-    # Verificar si el token es válido
+    token = None
+    id_fac = None
+    
+    if request.method == "GET":
+        token = request.args.get("token")
+        id_fac = request.args.get("faculty_id")
     if token is None or token == "":
         return jsonify({"Error": -1, "msg": "Token is required"})
+    if id_fac is None or id_fac == "":
+        return jsonify({"Error": -1, "msg": "Faculty id is required"})
+    
     page = int(request.args.get('page', 1))  # Página actual, por defecto la 1
     per_page = int(request.args.get('per_page', 10))  # Elementos por página, por defecto 10
 
-    students_paged = Student.query.paginate(page=page, per_page=per_page, error_out=False)
+    students_paged = Student.query.filter_by(id_faculty = id_fac).paginate(page=page, per_page=per_page, error_out=False)
 
     if students_paged.items:
         students_list = [student.to_dict() for student in students_paged.items]

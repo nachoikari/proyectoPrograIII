@@ -42,4 +42,17 @@ class Studentgroup(db.Model):
             return False, str(e)
     @classmethod 
     def update(cls, ced_student, nrc_group, grade):
-        print()
+        try:
+            student_group = cls.query.filter_by(ced_student=ced_student, nrc_group=nrc_group).first()
+            
+            if not student_group:
+                return False, "Student is not enrolled in the specified group"
+
+            student_group.grade = grade
+
+            db.session.commit()
+            return True, student_group
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error updating grade for student {ced_student} in group {nrc_group}: {e}")
+            return False, str(e)
