@@ -100,19 +100,26 @@ def show_by_id():
 
 def showPage():
     token = None
+    id_department = None
     if request.method == "GET":
         token = request.args.get("token")
+        id_department = request.args.get("department_id")
     if token is None:
         return jsonify({
             "Error":-1,
             "msg": "Token is required"
+        })
+    if id_department is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "Department id  is required"
         })
 
     try:
         page = int(request.args.get('page', 1)) 
         per_page = int(request.args.get('per_page', 10)) 
 
-        career_paginated = Career.query.paginate(page=page, per_page=per_page, error_out=False)
+        career_paginated = Career.query.filter_by(id_department=id_department).paginate(page=page, per_page=per_page, error_out=False)
 
         if career_paginated.items:
             careers = [career.to_dict() for career in career_paginated.items]

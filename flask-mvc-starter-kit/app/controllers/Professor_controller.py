@@ -194,7 +194,7 @@ def showPage():
             return jsonify({
                 "code": 1,
                 "msg": "Professors found",
-                "groups": professors,
+                "professors": professors,
                 "total_pages": professors_paged.pages,
                 "current_page": professors_paged.page
             })

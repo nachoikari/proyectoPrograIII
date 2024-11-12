@@ -114,3 +114,38 @@ def showAll():
 
     courses_list = [course.to_dict() for course in courses]
     return jsonify({"Code": 1, "courses": courses_list})
+
+def showPage():
+    token = None
+    id_career = None
+    if request.method == "GET":
+        token = request.args.get("token")
+        id_career = request.args.get("career_id")
+    if token is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "Token is required"
+        })
+    if id_career is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "Career id is required"
+        })
+    try:
+        page = int(request.args.get('page', 1)) 
+        per_page = int(request.args.get('per_page', 10)) 
+        course_paginated = Course.query.filter_by(id_career = id_career).paginate(page=page, per_page=per_page, error_out=False)
+
+        if course_paginated.items:
+            courses = [course.to_dict() for course in course_paginated.items]
+            return jsonify({
+                "code": 1,
+                "msg": "Groups found",
+                "groups": courses,
+                "total_pages": course_paginated.pages,
+                "current_page": course_paginated.page
+            })
+        else:
+            return jsonify({"Error": -1, "msg": "No groups found"})
+    except Exception as e:
+        return jsonify({"Error": -1, "msg": f"An error occurred: {e}"})
