@@ -123,25 +123,18 @@ def showID():
 
 def showPage():
     token = None
-    id_fac = None
     if request.method == "GET":
         token = request.args.get("token")
-        id_fac = request.args.get("id_fac")
     if token is None:
         return jsonify({
             "Error": -1,
             "msg": "Token is required"
         })
-    if id_fac is None:
-        return jsonify({
-            "Error": -1,
-            "msg": "Faculty id is required"
-        })
     try:
         # Parámetros de la página y límite de elementos
         page = int(request.args.get('page', 1))  # Página actual, por defecto la 1
         per_page = int(request.args.get('per_page', 10))  # Elementos por página, por defecto 10
-        universities_paged = University.query.filter_by().paginate(page=page, per_page=per_page, error_out=False)
+        universities_paged = University.query.paginate(page=page, per_page=per_page, error_out=False)
         
         # Verificar si hay resultados y definir 'universities'
         if universities_paged.items:

@@ -18,7 +18,6 @@ public class RemoteConnection {
 
     private static RemoteConnection connection;
     private final String URL = "http://127.0.0.1:5000";
-    private String token;
     
     private RemoteConnection() {}
 
@@ -29,13 +28,13 @@ public class RemoteConnection {
         return connection;
     }
 
-    public String connectToServer(String endpoint, String method, String param) {
+    public String connectToServer(String urlConcat, String method, String param) {
         String response = null;
         HttpURLConnection urlConnection = null;
 
         try {
-            URL url = new URL( URL + endpoint);
-            System.out.println(URL + endpoint); //-----------------------------------------------------------------------------------------------
+            URL url = new URL( URL + urlConcat);
+            System.out.println(URL + urlConcat); //-----------------------------------------------------------------------------------------------
             System.out.println(method);
             System.out.println(param);         
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -88,14 +87,6 @@ public class RemoteConnection {
             }
         }
         return sb.toString();
-    }
-
-    public void setToken(String _token){
-        token = _token;
-    }
-    
-    public String getToken(){
-        return "token20";
     }
     
 }

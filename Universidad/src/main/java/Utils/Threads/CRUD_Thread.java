@@ -44,7 +44,7 @@ public class CRUD_Thread extends Thread {
     private void adminCRUD() {
         if (method.equals("showPage")) {
             String per_page = "10";
-            String token = RemoteConnection.getInstance().getToken();
+            String token = Utils.SelectionModel.getInstance().getToken();
             String endpoint = "/admin/showPage?" + "per_page=" + per_page + "&page=" + Integer.toString(page) + "&token=" + token;
             String response = RemoteConnection.getInstance().connectToServer(endpoint, "GET", "");
             JSONObject jsonObject = new JSONObject(response);

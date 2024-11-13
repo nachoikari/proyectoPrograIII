@@ -1,23 +1,45 @@
 package Utils;
 
+import Models.University;
+
 public class SelectionModel {
+
     private static SelectionModel selection;
     private int option;
+    private String token;
+    private University u = null;
     
-    private SelectionModel() {}
-    
+    private SelectionModel() {
+    }
+
     public static SelectionModel getInstance() {
         if (selection == null) {
             selection = new SelectionModel();
         }
         return selection;
     }
-    
-    public void setOption(int _option){
-        option = _option;
+
+    public String getToken() {
+        return "token20";
+    }
+
+    public int getOption() {
+        return option;
     }
     
-    public int getOption(){
-        return option;
+    public University getUniversity(){
+        return u;
+    }
+
+    public void setToken(String _token) {
+        token = _token;
+    }
+
+    public void setOption(int _option) {
+        option = _option;
+    }
+
+    public void setUniversity(University university){
+        u = university;
     }
 }

@@ -21,8 +21,8 @@ public class UniversityAdminController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //
-    }    
+        lbl_universityName.setText(Utils.SelectionModel.getInstance().getUniversity().getName());
+    }
 
     @FXML
     private void universityAdministration(MouseEvent event) throws IOException {
@@ -49,7 +49,11 @@ public class UniversityAdminController implements Initializable {
 
     @FXML
     private void closeSesion(ActionEvent event) throws IOException {
-        App.App.changeScene("login", "Iniciar Sesión");
+        App.App.changeScene("ShowUniversitiesMenu", "Iniciar Sesión");
+    }
+
+    @FXML
+    private void careerAdministration(MouseEvent event) {
     }
 
 
