@@ -46,7 +46,7 @@
          <Button fx:id="btn_nextPag" mnemonicParsing="false" text="🢂" visible="false" />
       </children>
    </HBox>
-   <Button mnemonicParsing="false" text="Volver al Menu" />
+   <Button fx:id="btn_backMenu" mnemonicParsing="false" onAction="#backToMenu" text="Volver al Menu" />
    <padding>
       <Insets bottom="20.0" />
    </padding>

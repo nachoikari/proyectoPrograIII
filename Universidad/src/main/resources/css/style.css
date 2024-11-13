@@ -34,7 +34,8 @@
      -fx-editable: false;
      -fx-font-family: "Georgia";
     -fx-font-size: 18px;           /* Tamaño de fuente */
-    -fx-fill: white;          /* Color del texto */
+    -fx-text-fill: white; /* Color azul para el título */
+    -fx-fill: white; /* Color azul para el título */
     
 }
 
@@ -43,7 +44,8 @@
      -fx-font-family: "Georgia";
      -fx-font-style: italic;
     -fx-font-size: 14px;           /* Tamaño de fuente */
-    -fx-fill: white;          /* Color del texto */
+    -fx-text-fill: white; /* Color azul para el título */
+    -fx-fill: white; /* Color azul para el título */
     
 }
 

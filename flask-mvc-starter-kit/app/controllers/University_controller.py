@@ -123,19 +123,12 @@ def showID():
 
 def showPage():
     token = None
-    id_fac = None
     if request.method == "GET":
         token = request.args.get("token")
-        id_fac = request.args.get("id_fac")
     if token is None:
         return jsonify({
             "Error": -1,
             "msg": "Token is required"
-        })
-    if id_fac is None:
-        return jsonify({
-            "Error": -1,
-            "msg": "Faculty id is required"
         })
     try:
         # Parámetros de la página y límite de elementos

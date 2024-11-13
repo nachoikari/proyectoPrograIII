@@ -53,7 +53,7 @@ public class LoginThread extends Thread {
             int code = jsonResponse.optInt("code");
             if (code == 1) {
                 String token = jsonResponse.optString("token");
-                RemoteConnection.getInstance().setToken(token);
+                Utils.SelectionModel.getInstance().setToken(token);
                 return true;
             }
         }
@@ -70,7 +70,7 @@ public class LoginThread extends Thread {
             int code = jsonResponse.optInt("code");
             if (code == 1) {
                 String token = jsonResponse.optString("token");
-                RemoteConnection.getInstance().setToken(token);
+                Utils.SelectionModel.getInstance().setToken(token);
                 return true;
             }
         }
@@ -87,7 +87,7 @@ public class LoginThread extends Thread {
             int code = jsonResponse.optInt("code");
             if (code == 1) {
                 String token = jsonResponse.optString("token");
-                RemoteConnection.getInstance().setToken(token);
+                Utils.SelectionModel.getInstance().setToken(token);
                 return true;
             }
         }

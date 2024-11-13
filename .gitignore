@@ -1,4 +1,5 @@
 /Universidad/target/
+virtualEnv/
 __pycache__/
 *.pyc
-virtualEnv/
+flask-mvc-starter-kit/app/controllers/__pycache__/

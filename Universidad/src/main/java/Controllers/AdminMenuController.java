@@ -1,5 +1,6 @@
 package Controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -32,7 +33,8 @@ public class AdminMenuController implements Initializable {
     }
 
     @FXML
-    private void enterToUniversity(MouseEvent event) {
+    private void enterToUniversity(MouseEvent event) throws IOException {
+        App.App.changeScene("ShowUniversitiesMenu", "Mostrar Universidades");
     }
     
 }
