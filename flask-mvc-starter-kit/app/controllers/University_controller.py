@@ -141,7 +141,7 @@ def showPage():
         # Parámetros de la página y límite de elementos
         page = int(request.args.get('page', 1))  # Página actual, por defecto la 1
         per_page = int(request.args.get('per_page', 10))  # Elementos por página, por defecto 10
-        universities_paged = University.query.filter_by().paginate(page=page, per_page=per_page, error_out=False)
+        universities_paged = University.query.paginate(page=page, per_page=per_page, error_out=False)
         
         # Verificar si hay resultados y definir 'universities'
         if universities_paged.items:
