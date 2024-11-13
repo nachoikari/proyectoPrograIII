@@ -3,3 +3,5 @@ virtualEnv/
 __pycache__/
 *.pyc
 flask-mvc-starter-kit/app/controllers/__pycache__/
+flask-mvc-starter-kit/app/models/__pycache__/
+flask-mvc-starter-kit/app/routes/__pycache__/
