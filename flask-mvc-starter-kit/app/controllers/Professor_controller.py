@@ -2,6 +2,9 @@ from app.models.Professor import Professor
 from flask import jsonify, request
 from app.models.admin import Admin
 from app.models.Career import Career
+from app.models.Department import Department
+from app.models.Faculty import Faculty
+from app.models.University import University
 def create():
     ced = None
     name = None
@@ -194,6 +197,55 @@ def showPage():
             })
         else:
             return jsonify({"Error": -1, "msg": "No professors found"})
+    except Exception as e:
+        return jsonify({"Error": -1, "msg": f"An error occurred: {e}"})
+
+def showPerUniversity():
+    token = None
+    university_id = None
+    if request.method == "GET":
+        token = request.args.get("token")
+        university_id = request.args.get("university_id")
+    
+    if token is None:
+        return jsonify({
+            "Error": -1,
+            "msg": "Token is required"
+        })
+    if university_id is None:
+        return jsonify({
+            "Error": -1,
+            "msg": "University ID is required"
+        })
+    
+    try:
+        page = int(request.args.get('page', 1))  # Página actual, por defecto la 1
+        per_page = int(request.args.get('per_page', 10))  # Elementos por página, por defecto 10
+
+        # Consulta con JOIN para obtener los profesores de una universidad específica
+        professors_paged = (
+            Professor.query
+            .join(Career, Professor.id_career == Career.id)
+            .join(Department, Career.id_department == Department.id)
+            .join(Faculty, Department.id_Faculty == Faculty.id)
+            .join(University, Faculty.id_university == University.id)
+            .filter(University.id == university_id)
+            .paginate(page=page, per_page=per_page, error_out=False)
+        )
+
+        if professors_paged.items:
+            # Convertir cada profesor a un diccionario (se supone que el modelo Professor tiene un método `to_dict1`)
+            professors = [professor.to_dict1() for professor in professors_paged.items]
+            return jsonify({
+                "code": 1,
+                "msg": "Professors found",
+                "professors": professors,
+                "total_pages": professors_paged.pages,
+                "current_page": professors_paged.page
+            })
+        else:
+            return jsonify({"Error": -1, "msg": "No professors found"})
+
     except Exception as e:
         return jsonify({"Error": -1, "msg": f"An error occurred: {e}"})
 def login():
