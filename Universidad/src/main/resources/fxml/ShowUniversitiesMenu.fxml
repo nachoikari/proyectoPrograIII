@@ -38,7 +38,7 @@
    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
       <children>
          <Button fx:id="btn_prevPag" mnemonicParsing="false" text="🢀" visible="false" />
-         <Label fx:id="lbl_numPag" text="1">
+         <Label fx:id="lbl_currentPage" text="1">
             <font>
                <Font name="Dubai Bold" size="12.0" />
             </font>

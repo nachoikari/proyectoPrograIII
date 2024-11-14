@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
 
-
 public class UniversityAdminController implements Initializable {
     @FXML
     private Button btn_backLogin;
@@ -25,37 +24,30 @@ public class UniversityAdminController implements Initializable {
     }
 
     @FXML
-    private void universityAdministration(MouseEvent event) throws IOException {
-        Utils.SelectionModel.getInstance().setOption(1);
-        App.App.changeScene("SUPadministration", "Administrar Universidades");
-    }
-
-    @FXML
     private void professorAdministration(MouseEvent event) throws IOException {
-        Utils.SelectionModel.getInstance().setOption(2);
-        App.App.changeScene("SUPadministration", "Administrar Profesores");
-    }
-
-    private void studentAdministration(MouseEvent event) throws IOException {
         Utils.SelectionModel.getInstance().setOption(3);
-        App.App.changeScene("SUPadministration", "Administrar Estudiantes");
+        App.App.changeScene("TablesCRUD", "Administrar Profesores");
     }
 
     @FXML
-    private void adminAdministration(MouseEvent event) throws IOException {
+    private void studentAdministration(MouseEvent event) throws IOException {
         Utils.SelectionModel.getInstance().setOption(4);
-        App.App.changeScene("SUPadministration", "Gestionar Administradores");
-    }
-
-    @FXML
-    private void closeSesion(ActionEvent event) throws IOException {
-        App.App.changeScene("ShowUniversitiesMenu", "Iniciar Sesión");
+        App.App.changeScene("TablesCRUD", "Administrar Estudiantes");
     }
 
     @FXML
     private void careerAdministration(MouseEvent event) {
+        Utils.SelectionModel.getInstance().setOption(7);
     }
 
+    @FXML
+    private void departFacultyAdministration(MouseEvent event) {
+        Utils.SelectionModel.getInstance().setOption(5);
+    }
 
+    @FXML
+    private void closeSesion(ActionEvent event) throws IOException {
+        App.App.changeScene("ShowUniversitiesMenu", "Mostrar Universidades");
+    }
     
 }

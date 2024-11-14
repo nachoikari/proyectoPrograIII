@@ -2,9 +2,9 @@ package Models;
 
 public class Professor extends User {
     private int faculty;
-    private int phoneNumber;
+    private String phoneNumber;
     
-    public Professor(String id, String name, String email, int faculty, int phoneNumber) {
+    public Professor(String id, String name, String email, String phoneNumber, int faculty) {
         super(id, name, email);
         this.faculty = faculty;
         this.phoneNumber = phoneNumber;
@@ -14,7 +14,7 @@ public class Professor extends User {
         return faculty;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -34,7 +34,7 @@ public class Professor extends User {
         this.faculty = faculty;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

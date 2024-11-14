@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="684.0" prefWidth="820.0" spacing="60.0" styleClass="fondo" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SUPadministrationController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="684.0" prefWidth="1090.0" spacing="60.0" styleClass="fondo" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.TablesCRUDController">
    <children>
-      <HBox prefHeight="59.0" prefWidth="820.0" spacing="200.0" style="-fx-background-color: #3544dc;">
+      <HBox prefHeight="59.0" prefWidth="820.0" spacing="340.0" style="-fx-background-color: #3544dc;">
          <children>
             <ImageView fitHeight="50.0" fitWidth="69.0" opacity="0.69" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -28,7 +28,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="598.0" prefWidth="820.0" spacing="60.0" style="-fx-background-color: #E2E2E2; -fx-background-radius: 20;">
          <children>
-            <TableView fx:id="tbl_object" prefHeight="362.0" prefWidth="498.0">
+            <TableView fx:id="tbl_object" prefHeight="298.0" prefWidth="720.0">
                <HBox.margin>
                   <Insets left="40.0" />
                </HBox.margin>
@@ -38,7 +38,6 @@
                   <Button fx:id="btn_add" mnemonicParsing="false" onAction="#addObject" prefHeight="35.0" prefWidth="80.0" text="Agregar" />
                   <Button fx:id="btn_modify" mnemonicParsing="false" onAction="#modifyObject" prefHeight="35.0" prefWidth="80.0" text="Modificar" />
                   <Button fx:id="btn_delete" mnemonicParsing="false" onAction="#deleteObject" prefHeight="35.0" prefWidth="80.0" text="Eliminar" />
-                  <Button fx:id="btn_adminUniversity" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" text="Gestionar" visible="false" />
                </children>
                <HBox.margin>
                   <Insets />

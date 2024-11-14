@@ -1,7 +1,10 @@
 package Utils.Threads;
 
 import Models.Administrator;
+import Models.Professor;
+import Models.Student;
 import Models.University;
+import Utils.RemoteConnection;
 import java.io.IOException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -11,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -22,38 +26,93 @@ import org.json.JSONObject;
 public class TablesThread extends Thread {
 
     //Variables para paginacion
-    private int page;
+    private Label lbl_page;
     private Button btn_prevPage;
     private Button btn_nextPage;
 
     //Variable metodo para conocer cual quiere realizar
     private int opt;
+    private int pageToGet;
 
     //Variables Contenedores
     @FXML
-    private VBox universitiesContainer;
+    private VBox VBoxContainer;
+    private TableView<Object> objectTable;
 
     //constructores
-    public TablesThread(int opt, int page, VBox container) {
-        this.opt = opt;
-        this.page = page;
-        universitiesContainer = container;
+    public TablesThread(Button prev_Page, Button next_Page, Label page, VBox container) {
+        btn_prevPage = prev_Page;
+        this.lbl_page = page;
+        VBoxContainer = container;
+    }
+
+    public TablesThread(Button prev_Page, Button next_Page, Label page, TableView<Object> container) {
+        btn_prevPage = prev_Page;
+        this.lbl_page = page;
+        objectTable = container;
     }
 
     //metodos
     @Override
     public void run() {
+        if (opt == 1) {//Administradores
+            getAdministratorsContains();
+            return;
+        }
         if (opt == 2) { //Universidades
             getUniversitiesContains();
             return;
         }
+        if (opt == 3) {
+            getProfessorsContains();
+            return;
+        }
+        if (opt == 4) {
+            getStudentsContains();
+            return;
+        }
     }
 
+    //Administradores
+    private void getAdministratorsContains() {
+        String per_page = "10";
+        String token = Utils.SelectionModel.getInstance().getToken();
+        String endpoint = "/admin/showPage?" + "per_page=" + per_page + "&page=" + pageToGet + "&token=" + token;
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "GET", "");
+        if (response == null) {
+            return;
+        }
+        JSONObject jsonObject = new JSONObject(response);
+        JSONArray adminsArray = jsonObject.getJSONArray("admins");
+
+        ObservableList<Object> objectList = FXCollections.observableArrayList();
+        String id;
+        String email;
+        String name;
+
+        for (int i = 0; i < adminsArray.length(); i++) {
+            JSONObject adminObject = adminsArray.getJSONObject(i);
+            id = adminObject.getString("ced");
+            email = adminObject.getString("email");
+            name = adminObject.getString("name");
+            Administrator admin = new Administrator(id, name, email);
+            objectList.add(admin);
+        }
+
+        Platform.runLater(() -> {
+            objectTable.setItems(objectList);
+        });
+    }
+
+    //Universidades
     private void getUniversitiesContains() {
         String per_page = "10";
         String token = Utils.SelectionModel.getInstance().getToken();
-        String urlConcat = "/university/showPage?" + "token=" + token + "&page=" + Integer.toString(page) + "&per_page=" + per_page;
+        String urlConcat = "/university/showPage?" + "token=" + token + "&page=" + pageToGet + "&per_page=" + per_page;
         String response = Utils.RemoteConnection.getInstance().connectToServer(urlConcat, "GET", "");
+        if (response == null) {
+            return;
+        }
         JSONObject jsonObject = new JSONObject(response);
         JSONArray universityArray = jsonObject.getJSONArray("universities");
         ObservableList<Node> container = FXCollections.observableArrayList();
@@ -78,8 +137,8 @@ public class TablesThread extends Thread {
         }
 
         Platform.runLater(() -> {
-            universitiesContainer.getChildren().clear();
-            universitiesContainer.getChildren().addAll(container);
+            VBoxContainer.getChildren().clear();
+            VBoxContainer.getChildren().addAll(container);
         });
     }
 
@@ -96,7 +155,7 @@ public class TablesThread extends Thread {
 
         Label lblAddress = new Label(address);
         lblAddress.getStyleClass().add("TextBody_Label");
-        
+
         Label lblEmail = new Label(email);
         lblEmail.getStyleClass().add("TextBody_Label");
 
@@ -128,7 +187,7 @@ public class TablesThread extends Thread {
             imageView.setFitHeight(100); // Ancho de la imagen
             imageView.setPreserveRatio(true);
         }
-        
+
         //Settear el panel de la Universidad antes de ser almacenado
         universityPanel.getChildren().addAll(imageView, textContainer);
         universityPanel.setUserData(university);
@@ -136,8 +195,7 @@ public class TablesThread extends Thread {
             Object source = event.getSource();
             if (source instanceof HBox) {
                 HBox clickedHBox = (HBox) source;
-                University u = (University)clickedHBox.getUserData();
-                System.out.println(u.getId());
+                University u = (University) clickedHBox.getUserData();
                 try {
                     Utils.SelectionModel.getInstance().setUniversity(university);
                     App.App.changeScene("UniversityAdmin", "Universidad " + name);
@@ -150,4 +208,84 @@ public class TablesThread extends Thread {
         universityPanel.setOnMouseClicked(onClickHandler);
         return universityPanel;
     }
+
+    //Profesores
+    private void getProfessorsContains() {
+        String per_page = "10";
+        String token = Utils.SelectionModel.getInstance().getToken();
+        String university_id = Integer.toString(Utils.SelectionModel.getInstance().getUniversity().getId());
+        String endpoint = "/professor/showPerUniversity?" + "university_id=" + university_id + "&per_page=" + per_page + "&page=" + pageToGet + "&token=" + token;
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "GET", "");
+        if (response == null) {
+            return;
+        }
+        JSONObject jsonObject = new JSONObject(response);
+        JSONArray professorArray = jsonObject.getJSONArray("professors");
+
+        ObservableList<Object> objectList = FXCollections.observableArrayList();
+        String id;
+        String email;
+        String name;
+        int career;
+        String phone;
+        for (int i = 0; i < professorArray.length(); i++) {
+            JSONObject object = professorArray.getJSONObject(i);
+            id = object.getString("ced");
+            email = object.getString("email");
+            name = object.getString("name");
+            career = object.getInt("career");
+            phone = object.getString("phone_number");
+            Professor professor = new Professor(id, name, email, phone, career);
+            objectList.add(professor);
+        }
+
+        Platform.runLater(() -> {
+            objectTable.setItems(objectList);
+        });
+    }
+
+    //Estudiantes
+    private void getStudentsContains() {
+        String per_page = "10";
+        String token = Utils.SelectionModel.getInstance().getToken();
+        String university_id = Integer.toString(Utils.SelectionModel.getInstance().getUniversity().getId());
+        String endpoint = "/student/showPerUniversity?" + "university_id=" + university_id + "&per_page=" + per_page + "&page=" + pageToGet + "&token=" + token;
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "GET", "");
+        if (response == null) {
+            return;
+        }
+        JSONObject jsonObject = new JSONObject(response);
+        JSONArray studentArray = jsonObject.getJSONArray("students");
+
+        ObservableList<Object> objectList = FXCollections.observableArrayList();
+        String id;
+        String email;
+        String name;
+        int career;
+        String phone;
+        for (int i = 0; i < studentArray.length(); i++) {
+            JSONObject object = studentArray.getJSONObject(i);
+            id = object.getString("ced");
+            email = object.getString("email");
+            name = object.getString("name");
+            career = object.getInt("career");
+            phone = object.getString("phone_number");
+            Student student = new Student(id, name, email, career, phone);
+            objectList.add(student);
+        }
+
+        Platform.runLater(() -> {
+            objectTable.setItems(objectList);
+        });
+    }
+
+    //Variables setteables para funcionamiento del hilo (Obligatorio)
+    public void setOption(int _option) {
+        opt = _option;
+    }
+
+    public void setPageToFind(int _page) {
+        pageToGet = _page;
+    }
+
 }

@@ -37,11 +37,11 @@
          <children>
             <VBox prefHeight="91.0" prefWidth="379.0" spacing="5.0">
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="TextTitle_Label" text="Crear Universidades" wrappingWidth="353.5809020996094">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="TextTitle_Label" text="Gestionar Universidades" wrappingWidth="353.5809020996094">
                      <font>
                         <Font name="Georgia" size="12.0" />
                      </font></Text>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="TextBody_Label" text="Permite Agregar una nueva universidad al sistema de Gestión de universidades " wrappingWidth="356.2836608886719">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="TextBody_Label" text="Permite Agregar, modificar y eliminar una nueva universidad al sistema de Gestión de universidades " wrappingWidth="356.2836608886719">
                      <font>
                         <Font name="Georgia" size="12.0" />
                      </font></Text>
@@ -68,7 +68,7 @@
          <children>
             <VBox prefHeight="91.0" prefWidth="379.0" spacing="5.0">
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="TextTitle_Label" text="Administrar Universidades" wrappingWidth="353.5809020996094">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="TextTitle_Label" text="Entrar a la Universidad" wrappingWidth="353.5809020996094">
                      <font>
                         <Font name="Georgia" size="12.0" />
                      </font></Text>

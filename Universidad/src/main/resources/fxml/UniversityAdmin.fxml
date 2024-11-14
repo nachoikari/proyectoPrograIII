@@ -33,7 +33,7 @@
                 </Label>
             </children>
         </HBox>
-        <HBox alignment="CENTER" onMouseClicked="#universityAdministration" prefHeight="80.0" prefWidth="426.0" styleClass="Recuadros_Texto">
+        <HBox alignment="CENTER" onMouseClicked="#professorAdministration" prefHeight="80.0" prefWidth="426.0" styleClass="Recuadros_Texto">
             <VBox.margin>
                 <Insets left="200.0" right="200.0" />
             </VBox.margin>
@@ -83,7 +83,7 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </HBox>
-        <HBox alignment="CENTER" onMouseClicked="#professorAdministration" prefHeight="96.0" prefWidth="259.0" styleClass="Recuadros_Texto">
+        <HBox alignment="CENTER" onMouseClicked="#studentAdministration" prefHeight="96.0" prefWidth="259.0" styleClass="Recuadros_Texto">
             <VBox.margin>
                 <Insets left="200.0" right="200.0" />
             </VBox.margin>
@@ -128,7 +128,7 @@
                 </ImageView>
             </children>
         </HBox>
-        <HBox alignment="CENTER" onMouseClicked="#adminAdministration" prefHeight="96.0" prefWidth="259.0" styleClass="Recuadros_Texto">
+        <HBox alignment="CENTER" onMouseClicked="#departFacultyAdministration" prefHeight="96.0" prefWidth="259.0" styleClass="Recuadros_Texto">
             <children>
                 <VBox prefHeight="81.0" prefWidth="318.0" spacing="10.0">
                     <children>
@@ -202,7 +202,7 @@
             <cursor>
             </cursor>
         </HBox>
-        <Button fx:id="btn_backLogin" mnemonicParsing="false" onAction="#closeSesion" text="Volver al Menu" />
+        <Button fx:id="btn_backLogin" mnemonicParsing="false" onAction="#closeSesion" text="Salir de la Universidad" />
     </children>
     <padding>
         <Insets bottom="20.0" />

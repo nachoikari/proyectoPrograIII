@@ -18,15 +18,20 @@ public class ShowUniversitiesMenuController implements Initializable {
     @FXML
     private Button btn_prevPag;
     @FXML
-    private Label lbl_numPag;
-    @FXML
     private Button btn_nextPag;
     @FXML
     private Button btn_backMenu;
-
+    @FXML
+    private Label lbl_currentPage;
+    
+    private int currentPage;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        TablesThread thrd = new TablesThread(2, 1, UniversitiesContainer);
+        currentPage = 1;
+        TablesThread thrd = new TablesThread(btn_prevPag, btn_nextPag, lbl_currentPage, UniversitiesContainer);
+        thrd.setOption(2);
+        thrd.setPageToFind(currentPage);
         thrd.start();
     }    
 

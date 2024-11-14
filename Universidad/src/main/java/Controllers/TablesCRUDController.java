@@ -3,7 +3,7 @@ package Controllers;
 import Models.Administrator;
 import Models.Professor;
 import Models.Student;
-import Utils.Threads.CRUD_Thread;
+import Utils.Threads.TablesThread;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,7 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class SUPadministrationController implements Initializable {
+public class TablesCRUDController implements Initializable {
 
     @FXML
     private Label lbl_tittle;
@@ -27,8 +27,6 @@ public class SUPadministrationController implements Initializable {
     private Button btn_modify;
     @FXML
     private Button btn_delete;
-    @FXML
-    private Button btn_adminUniversity;
     @FXML
     private Button btn_prevPag;
     @FXML
@@ -46,63 +44,58 @@ public class SUPadministrationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         option = Utils.SelectionModel.getInstance().getOption();
-        setForOption();
-
-        //listener
-        tbl_object.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-            double columnWidth = newWidth.doubleValue() / tbl_object.getColumns().size();
-            tbl_object.getColumns().forEach(column -> column.setPrefWidth(columnWidth));
-        });
+        currentPage = 1;        setForOption();
     }
 
     private void setForOption() {
 
         if (option == 1) {
+            lbl_tittle.setText("Gestionar Administradores");
+            setColumnsForAdmins();
+            ejectThread();
+            return;
+        }
+        if (option == 2) {
             lbl_tittle.setText("Administrar Universidades");
             //setColumnsForUniversities();
             return;
         }
-        if (option == 2) {
+        if (option == 3) {
             lbl_tittle.setText("Administrar Profesores");
             setColumnsForProfessors();
-            return;
-        }
-        if (option == 3) {
-            lbl_tittle.setText("Administrar Estudiantes");
-            setColumnsForStudents();
+            ejectThread();
             return;
         }
         if (option == 4) {
-            lbl_tittle.setText("Gestionar Administradores");
-            setColumnsForAdmins();
-            CRUD_Thread thrd = new CRUD_Thread(option, "showPage", 1, tbl_object);
-            thrd.start();
+            lbl_tittle.setText("Administrar Estudiantes");
+            setColumnsForStudents();
+            ejectThread();
             return;
         }
     }
 
     private void setColumnsForStudents() { //Hay que buscar una manera de parsear el campo de facultad
-        double columnWidth = tbl_object.getWidth() / 5;
+        double tableWidth = 720;
 
         TableColumn<Object, String> idColumn = new TableColumn<>("Cedula");
         idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Student) cellData.getValue()).getId()));
-        idColumn.setPrefWidth(columnWidth);
+        idColumn.setPrefWidth(72);
 
         TableColumn<Object, String> nameColumn = new TableColumn<>("Nombre");
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Student) cellData.getValue()).getName()));
-        nameColumn.setPrefWidth(columnWidth);
+        nameColumn.setPrefWidth(216);
 
         TableColumn<Object, String> emailColumn = new TableColumn<>("Correo");
-        emailColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Student) cellData.getValue()).getName()));
-        emailColumn.setPrefWidth(columnWidth);
+        emailColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Student) cellData.getValue()).getEmail()));
+        emailColumn.setPrefWidth(248);
 
-        TableColumn<Object, Integer> phoneColumn = new TableColumn<>("Telefono");
-        phoneColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((Student) cellData.getValue()).getPhoneNumber()).asObject());
-        phoneColumn.setPrefWidth(columnWidth);
+        TableColumn<Object, String> phoneColumn = new TableColumn<>("Telefono");
+        phoneColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Student) cellData.getValue()).getPhoneNumber()));
+        phoneColumn.setPrefWidth(92);
 
-        TableColumn<Object, String> facultyColumn = new TableColumn<>("Facultad");
-        facultyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Student) cellData.getValue()).getFaculty()));
-        facultyColumn.setPrefWidth(columnWidth);
+        TableColumn<Object, Integer> facultyColumn = new TableColumn<>("Facultad");
+        facultyColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((Student) cellData.getValue()).getFaculty()).asObject());
+        facultyColumn.setPrefWidth(92);
 
         tbl_object.getColumns().addAll(idColumn, nameColumn, emailColumn, phoneColumn, facultyColumn);
     }
@@ -110,42 +103,48 @@ public class SUPadministrationController implements Initializable {
     private void setColumnsForProfessors() { //Hay que buscar una manera de parsear el campo de facultad
         TableColumn<Object, String> idColumn = new TableColumn<>("Cedula");
         idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Professor) cellData.getValue()).getId()));
-
+        idColumn.setPrefWidth(72);
+        
         TableColumn<Object, String> nameColumn = new TableColumn<>("Nombre");
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Professor) cellData.getValue()).getName()));
+        nameColumn.setPrefWidth(216);
 
         TableColumn<Object, String> emailColumn = new TableColumn<>("Correo");
-        emailColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Professor) cellData.getValue()).getName()));
+        emailColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Professor) cellData.getValue()).getEmail()));
+        emailColumn.setPrefWidth(248);
 
-        TableColumn<Object, Integer> phoneColumn = new TableColumn<>("Telefono");
-        phoneColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((Professor) cellData.getValue()).getPhoneNumber()).asObject());
-
+        TableColumn<Object, String> phoneColumn = new TableColumn<>("Telefono");
+        phoneColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Professor) cellData.getValue()).getPhoneNumber()));
+        phoneColumn.setPrefWidth(92);
+        
         TableColumn<Object, Integer> facultyColumn = new TableColumn<>("Facultad");
         facultyColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((Professor) cellData.getValue()).getFaculty()).asObject());
+        facultyColumn.setPrefWidth(92);
 
         tbl_object.getColumns().addAll(idColumn, nameColumn, emailColumn, phoneColumn, facultyColumn);
     }
 
-//private void setColumnsForUniversities() {
-//    TableColumn<Object, String> nombreColumn = new TableColumn<>("Nombre");
-//    nombreColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((University) cellData.getValue()).getNombre()));
-//
-//    TableColumn<Object, Double> salarioColumn = new TableColumn<>("Salario");
-//    salarioColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(((University) cellData.getValue()).getSalario()).asObject());
-//
-//    tbl_object.getColumns().addAll(nombreColumn, salarioColumn);
-//}
     private void setColumnsForAdmins() {
         TableColumn<Object, String> idColumn = new TableColumn<>("Cedula");
         idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Administrator) cellData.getValue()).getId()));
+        idColumn.setPrefWidth(240);
 
         TableColumn<Object, String> nameColumn = new TableColumn<>("Nombre");
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Administrator) cellData.getValue()).getName()));
+        nameColumn.setPrefWidth(240);
 
         TableColumn<Object, String> emailColumn = new TableColumn<>("Correo");
         emailColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Administrator) cellData.getValue()).getName()));
+        emailColumn.setPrefWidth(240);
 
         tbl_object.getColumns().addAll(idColumn, nameColumn, emailColumn);
+    }
+    
+    private void ejectThread(){
+        TablesThread thrd = new TablesThread(btn_prevPag, btn_nextPag, lbl_numPag, tbl_object);
+            thrd.setOption(option);
+            thrd.setPageToFind(currentPage);
+            thrd.start();
     }
 
     @FXML
@@ -162,6 +161,12 @@ public class SUPadministrationController implements Initializable {
 
     @FXML
     private void backToMenu(ActionEvent event) throws IOException {
-        App.App.changeScene("UniversityAdmin", "Sistema de Administración");
+        if (option == 1) {
+            App.App.changeScene("AdminMenu", "Sistema de Administración");
+            return;
+        } else {
+            String name = Utils.SelectionModel.getInstance().getUniversity().getName();
+            App.App.changeScene("UniversityAdmin", "Universidad " + name);
+        }
     }
 }

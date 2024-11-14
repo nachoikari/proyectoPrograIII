@@ -2,20 +2,20 @@ package Models;
 
 
 public class Student  extends User{
-    private String faculty;
-    private int phoneNumber;
+    private int faculty;
+    private String phoneNumber;
     
-    public Student(String id, String name, String email, String faculty, int phoneNumber) {
+    public Student(String id, String name, String email, int faculty, String phoneNumber) {
         super(id, name, email);
         this.faculty = faculty;
         this.phoneNumber = phoneNumber;
     }
 
-    public void setFaculty(String faculty) {
+    public void setFaculty(int faculty) {
         this.faculty = faculty;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -31,12 +31,12 @@ public class Student  extends User{
         this.email = email;
     }
 
-    public String getFaculty() {
+    public int getFaculty() {
         return faculty;
     }
     
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 

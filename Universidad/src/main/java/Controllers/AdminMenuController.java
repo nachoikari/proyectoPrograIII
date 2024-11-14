@@ -17,15 +17,12 @@ public class AdminMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-
-
-    @FXML
-    private void adminAdministration(MouseEvent event) {
     }
 
     @FXML
-    private void closeSesion(ActionEvent event) {
+    private void adminAdministration(MouseEvent event) throws IOException {
+        Utils.SelectionModel.getInstance().setOption(1);
+        App.App.changeScene("TablesCRUD", "Gestionar Administradores");
     }
 
     @FXML
@@ -36,5 +33,9 @@ public class AdminMenuController implements Initializable {
     private void enterToUniversity(MouseEvent event) throws IOException {
         App.App.changeScene("ShowUniversitiesMenu", "Mostrar Universidades");
     }
-    
+
+    @FXML
+    private void closeSesion(ActionEvent event) throws IOException {
+        App.App.changeScene("login", "Iniciar Sesión");
+    }
 }

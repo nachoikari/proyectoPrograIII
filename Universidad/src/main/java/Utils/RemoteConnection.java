@@ -53,7 +53,6 @@ public class RemoteConnection {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 response = readStream(urlConnection.getInputStream());
             } else {
-
                 System.out.println("Error: " + responseCode);
             }
         } catch (MalformedURLException e) {
