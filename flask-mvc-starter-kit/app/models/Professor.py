@@ -30,7 +30,8 @@ class Professor(db.Model):
             "name": self.name,
             "email": self.email,
             "career": self.id_career,
-            "phone_number": self.phone_number
+            "phone_number": self.phone_number,
+            "password":self.password
         }    
     @classmethod
     def selectID(cls, ced):
