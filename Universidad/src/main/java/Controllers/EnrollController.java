@@ -108,7 +108,7 @@ public class EnrollController implements Initializable {
         
         tableGroups.getColumns().addAll(nrcColumn, courseColumn, cedColumn,groupNumberColumn);
         //TableView<Groups> groups, int pageToGet, String code, String acction, String route
-        Thread_groups thread = new Thread_groups(tableGroups,1,Utils.SelectionModel.getInstance().getProf().getId(),"GET",routeGroup);
+        Thread_groups thread = new Thread_groups(tableGroups,1,Utils.SelectionModel.getInstance().getProfessor().getId(),"GET",routeGroup);
         
         thread.start();
         try {
@@ -128,7 +128,7 @@ public class EnrollController implements Initializable {
         emailCol.setCellValueFactory(cellData -> new SimpleStringProperty(((Student) cellData.getValue()).getEmail()));
         
         tableStudents.getColumns().addAll(nameCol,cedCol);
-        int id_career =Utils.SelectionModel.getInstance().getProf().getFaculty();
+        int id_career =Utils.SelectionModel.getInstance().getProfessor().getFaculty();
         //TableView<Student> studentsTable, String route, int pageToGet, int career_id
         Thread_Students thread = new Thread_Students(tableStudents,routeStudent,1,id_career, "GET",nrc);
         thread.start();

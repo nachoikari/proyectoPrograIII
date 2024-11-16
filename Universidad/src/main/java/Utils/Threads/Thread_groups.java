@@ -127,7 +127,7 @@ public class Thread_groups extends Thread {
     private void getGroups(){
         String per_page = "10";
         String token = Utils.SelectionModel.getInstance().getToken();
-        String ced = Utils.SelectionModel.getInstance().getProf().getId();
+        String ced = Utils.SelectionModel.getInstance().getProfessor().getId();
         String endpoint = "/group/showProfGroups?token="+token+"&ced_professor="+ced+"&page="+pageToGet+"&per_page="+per_page;
         String response = RemoteConnection.getInstance().connectToServer(endpoint, "GET", "");
         if (response == null) {

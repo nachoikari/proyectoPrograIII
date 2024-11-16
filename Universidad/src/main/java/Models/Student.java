@@ -5,12 +5,18 @@ public class Student  extends User{
     private int faculty;
     private String phoneNumber;
     
+    public Student(String id, String name, String email, String password , int faculty, String phoneNumber) {
+        super(id, name, email, password);
+        this.faculty = faculty;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Student(String id, String name, String email, int faculty, String phoneNumber) {
         super(id, name, email);
         this.faculty = faculty;
         this.phoneNumber = phoneNumber;
     }
-
+    
     public void setFaculty(int faculty) {
         this.faculty = faculty;
     }
@@ -52,5 +58,8 @@ public class Student  extends User{
         return email;
     }
     
+    public String getPassword(){
+        return password;
+    }
     
 }

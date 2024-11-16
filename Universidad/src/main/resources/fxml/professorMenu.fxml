@@ -3,9 +3,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="447.0" prefWidth="501.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ProfessorMenuController">
+<AnchorPane id="AnchorPane" prefHeight="447.0" prefWidth="501.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ProfessorMenuController">
    <children>
-      <Button layoutX="159.0" layoutY="310.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="184.0" text="Cerrar sesión" />
+      <Button fx:id="btn_backMenu" layoutX="159.0" layoutY="310.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="31.0" prefWidth="184.0" text="Cerrar sesión" />
       <Button fx:id="btnCreateGroups" layoutX="159.0" layoutY="107.0" mnemonicParsing="false" onAction="#changeCRUDGroups" prefHeight="27.0" prefWidth="184.0" text="Crear Grupos" />
       <Button fx:id="btnEnrollStudents" layoutX="159.0" layoutY="162.0" mnemonicParsing="false" onAction="#changeEnrollStudents" prefHeight="27.0" prefWidth="184.0" text="Matricular Estudiantes" />
       <Button fx:id="btnCreateAssignments" layoutX="159.0" layoutY="221.0" mnemonicParsing="false" onAction="#changeCrudAssignments" prefHeight="27.0" prefWidth="184.0" text="Asignar Trabajos" />

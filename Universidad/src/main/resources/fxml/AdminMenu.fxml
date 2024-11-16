@@ -30,7 +30,7 @@
             </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER" onMouseClicked="#createUniversity" prefHeight="96.0" prefWidth="259.0" styleClass="Recuadros_Texto">
+      <HBox alignment="CENTER" onMouseClicked="#adminUniversities" prefHeight="96.0" prefWidth="259.0" styleClass="Recuadros_Texto">
          <VBox.margin>
             <Insets left="200.0" right="200.0" />
          </VBox.margin>

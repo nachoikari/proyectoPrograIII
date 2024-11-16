@@ -25,17 +25,21 @@ public class AdminMenuController implements Initializable {
         App.App.changeScene("TablesCRUD", "Gestionar Administradores");
     }
 
-    @FXML
-    private void createUniversity(MouseEvent event) {
-    }
 
     @FXML
     private void enterToUniversity(MouseEvent event) throws IOException {
+        Utils.SelectionModel.getInstance().setOption(2);
         App.App.changeScene("ShowUniversitiesMenu", "Mostrar Universidades");
     }
 
     @FXML
     private void closeSesion(ActionEvent event) throws IOException {
         App.App.changeScene("login", "Iniciar Sesión");
+    }
+
+    @FXML
+    private void adminUniversities(MouseEvent event) throws IOException {
+        Utils.SelectionModel.getInstance().setOption(8);
+        App.App.changeScene("TablesCRUD", "Gestionar Universidades");
     }
 }

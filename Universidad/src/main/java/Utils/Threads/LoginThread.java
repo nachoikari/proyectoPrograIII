@@ -33,14 +33,12 @@ public class LoginThread extends Thread {
         }
 
         if (loginProffesor()) {
-            //cambiar a ventana del profesor
-            changeFXML("professorMenu", "CambioProfe");
+            changeFXML("professorMenu", "Administrasión Profesores");
             return;
         }
 
         if (loginStudent()) {
-            //cambiar a ventana del student
-            changeFXML("adminMain", "CambioEstudiante");
+            changeFXML("adminMenu", "CambioEstudiante");
             return;
         }
 
@@ -78,8 +76,8 @@ public class LoginThread extends Thread {
                 String ced = jwt.optString("ced");
                 int career = jwt.optInt("career");
                 Professor prof = new Professor(ced,"","","",career);
-                Utils.SelectionModel.getInstance().setProf(prof);
-                System.out.println(Utils.SelectionModel.getInstance().getProf().getFaculty());
+                Utils.SelectionModel.getInstance().setProfessor(prof);
+                System.out.println(Utils.SelectionModel.getInstance().getProfessor().getFaculty());
                 return true;
             }
         }
@@ -97,8 +95,6 @@ public class LoginThread extends Thread {
             if (code == 1) {
                 String token = jsonResponse.optString("token");
                 Utils.SelectionModel.getInstance().setToken(token);
-                
-                //System.out.println(Utils.SelectionModel.getInstance().(user));
                 return true;
             }
         }

@@ -4,6 +4,12 @@ public class Professor extends User {
     private int faculty;
     private String phoneNumber;
     
+    public Professor(String id, String name, String email, String password, String phoneNumber, int faculty) {
+        super(id, name, email, password);
+        this.faculty = faculty;
+        this.phoneNumber = phoneNumber;
+    }
+    
     public Professor(String id, String name, String email, String phoneNumber, int faculty) {
         super(id, name, email);
         this.faculty = faculty;
@@ -28,6 +34,10 @@ public class Professor extends User {
 
     public String getEmail() {
         return email;
+    }
+    
+    public String getPassword(){
+        return password;
     }
 
     public void setFaculty(int faculty) {

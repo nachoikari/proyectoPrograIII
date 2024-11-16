@@ -77,7 +77,7 @@ public class CrudGroupsController implements Initializable {
     private void create(ActionEvent event) throws InterruptedException {
         if(selectedCourse != null){
             int group_number = Integer.parseInt(textFNumber.getText());
-            String ced = Utils.SelectionModel.getInstance().getProf().getId();
+            String ced = Utils.SelectionModel.getInstance().getProfessor().getId();
             String nrc = textFNRC.getText();
             String code_course = selectedCourse.getCode();
             Groups group = new Groups(nrc,group_number,ced,code_course);
@@ -113,7 +113,7 @@ public class CrudGroupsController implements Initializable {
 
         tableCourses.getColumns().addAll(nrcColumn, groupNumberColumn, cedProfessorColumn);
         
-        Thread_groups thread = new Thread_groups(tableCourses, 1, Utils.SelectionModel.getInstance().getProf().getFaculty(),"GET", "Courses");
+        Thread_groups thread = new Thread_groups(tableCourses, 1, Utils.SelectionModel.getInstance().getProfessor().getFaculty(),"GET", "Courses");
         thread.start();
         try {
             thread.join();
@@ -137,7 +137,7 @@ public class CrudGroupsController implements Initializable {
         
         tableViewGroups.getColumns().addAll(nrcColumn, courseColumn, cedColumn,groupNumberColumn);
         //TableView<Groups> groups, int pageToGet, String code, String acction, String route
-        Thread_groups thread = new Thread_groups(tableViewGroups,1,Utils.SelectionModel.getInstance().getProf().getId(),"GET","Groups");
+        Thread_groups thread = new Thread_groups(tableViewGroups,1,Utils.SelectionModel.getInstance().getProfessor().getId(),"GET","Groups");
         
         thread.start();
         try {

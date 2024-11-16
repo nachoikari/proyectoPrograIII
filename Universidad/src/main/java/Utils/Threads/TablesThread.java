@@ -59,17 +59,20 @@ public class TablesThread extends Thread {
             getAdministratorsContains();
             return;
         }
-        if (opt == 2) { //Universidades
-            getUniversitiesContains();
+        if (opt == 2) { //UniversidadesHBox
+            getUniversitiesPanel();
             return;
         }
-        if (opt == 3) {
+        if (opt == 3) { //Profesores
             getProfessorsContains();
             return;
         }
-        if (opt == 4) {
+        if (opt == 4) {//Estudiantes
             getStudentsContains();
             return;
+        }
+        if(opt == 8){//Universidades TableView
+            getUniversitiesContains();
         }
     }
 
@@ -87,6 +90,7 @@ public class TablesThread extends Thread {
 
         ObservableList<Object> objectList = FXCollections.observableArrayList();
         String id;
+        String password;
         String email;
         String name;
 
@@ -95,7 +99,8 @@ public class TablesThread extends Thread {
             id = adminObject.getString("ced");
             email = adminObject.getString("email");
             name = adminObject.getString("name");
-            Administrator admin = new Administrator(id, name, email);
+            password = adminObject.getString("password");
+            Administrator admin = new Administrator(id, name, email, password);
             objectList.add(admin);
         }
 
@@ -105,7 +110,44 @@ public class TablesThread extends Thread {
     }
 
     //Universidades
-    private void getUniversitiesContains() {
+    private void getUniversitiesContains(){
+        String per_page = "10";
+        String token = Utils.SelectionModel.getInstance().getToken();
+        String endpoint = "/university/showPage?" + "per_page=" + per_page + "&page=" + pageToGet + "&token=" + token;
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "GET", "");
+        if (response == null) {
+            return;
+        }
+        JSONObject jsonObject = new JSONObject(response);
+        JSONArray professorArray = jsonObject.getJSONArray("universities");
+
+        ObservableList<Object> objectList = FXCollections.observableArrayList();
+        int id;
+        String email;
+        String name;
+        String address;
+        String url;
+        for (int i = 0; i < professorArray.length(); i++) {
+            JSONObject object = professorArray.getJSONObject(i);
+            id = object.getInt("id");
+            email = object.getString("email");
+            name = object.getString("name");
+            address = object.getString("address");
+            if (object.isNull("url")) {
+                url = "";
+            } else {
+                url = object.getString("url");
+            }
+            University university = new University(id, email, name, address, url);
+            objectList.add(university);
+        }
+
+        Platform.runLater(() -> {
+            objectTable.setItems(objectList);
+        });
+    }
+    
+    private void getUniversitiesPanel() {
         String per_page = "10";
         String token = Utils.SelectionModel.getInstance().getToken();
         String urlConcat = "/university/showPage?" + "token=" + token + "&page=" + pageToGet + "&per_page=" + per_page;
@@ -192,10 +234,6 @@ public class TablesThread extends Thread {
         universityPanel.getChildren().addAll(imageView, textContainer);
         universityPanel.setUserData(university);
         EventHandler<MouseEvent> onClickHandler = event -> {
-            Object source = event.getSource();
-            if (source instanceof HBox) {
-                HBox clickedHBox = (HBox) source;
-                University u = (University) clickedHBox.getUserData();
                 try {
                     Utils.SelectionModel.getInstance().setUniversity(university);
                     App.App.changeScene("UniversityAdmin", "Universidad " + name);
@@ -203,7 +241,6 @@ public class TablesThread extends Thread {
                     ex.printStackTrace();
                     System.out.println("Error intentando cargar el fxml en la acción de un botón en la clase TablesThread, método CreateUniPanel");
                 }
-            }
         };
         universityPanel.setOnMouseClicked(onClickHandler);
         return universityPanel;
@@ -228,6 +265,7 @@ public class TablesThread extends Thread {
         String name;
         int career;
         String phone;
+        String password;
         for (int i = 0; i < professorArray.length(); i++) {
             JSONObject object = professorArray.getJSONObject(i);
             id = object.getString("ced");
@@ -235,7 +273,8 @@ public class TablesThread extends Thread {
             name = object.getString("name");
             career = object.getInt("career");
             phone = object.getString("phone_number");
-            Professor professor = new Professor(id, name, email, phone, career);
+            password = object.getString("password");
+            Professor professor = new Professor(id, name, email, password, phone, career);
             objectList.add(professor);
         }
 
@@ -263,6 +302,7 @@ public class TablesThread extends Thread {
         String name;
         int career;
         String phone;
+        String password;
         for (int i = 0; i < studentArray.length(); i++) {
             JSONObject object = studentArray.getJSONObject(i);
             id = object.getString("ced");
@@ -270,7 +310,8 @@ public class TablesThread extends Thread {
             name = object.getString("name");
             career = object.getInt("career");
             phone = object.getString("phone_number");
-            Student student = new Student(id, name, email, career, phone);
+            password = object.getString("password");
+            Student student = new Student(id, name, email, password, career, phone);
             objectList.add(student);
         }
 
@@ -278,7 +319,6 @@ public class TablesThread extends Thread {
             objectTable.setItems(objectList);
         });
     }
-
     //Variables setteables para funcionamiento del hilo (Obligatorio)
     public void setOption(int _option) {
         opt = _option;

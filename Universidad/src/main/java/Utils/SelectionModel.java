@@ -1,6 +1,8 @@
 package Utils;
 
+import Models.Administrator;
 import Models.Professor;
+import Models.Student;
 import Models.University;
 
 public class SelectionModel {
@@ -9,17 +11,21 @@ public class SelectionModel {
     private int option;
     private String token;
     private University u = null;
-    private Professor prof;
+    private Student s = null;
+    private Professor p= null;
+    private Administrator a = null;
+    private boolean modifying;
+    
     private SelectionModel() {
     }
-    
+
     public static SelectionModel getInstance() {
         if (selection == null) {
             selection = new SelectionModel();
         }
         return selection;
     }
-    
+
     public String getToken() {
         return token;
     }
@@ -43,15 +49,38 @@ public class SelectionModel {
     public void setUniversity(University university){
         u = university;
     }
-
-    public Professor getProf() {
-        return prof;
+    
+    public boolean isModifying(){
+        return modifying;
     }
 
-    public void setProf(Professor prof) {
-        this.prof = prof;
+    public Student getStudent() {
+        return s;
+    }
+
+    public Professor getProfessor() {
+        return p;
+    }
+
+    public Administrator getAdministrator() {
+        return a;
+    }
+
+    public void setStudent(Student _student) {
+        s = _student;
+    }
+
+    public void setProfessor(Professor _professor) {
+        p = _professor;
+    }
+
+    public void setAdministrator(Administrator _administrator) {
+        a = _administrator;
+    }
+    
+    public void setModifying(boolean bool) {
+        modifying = bool;
     }
     
     
-
 }

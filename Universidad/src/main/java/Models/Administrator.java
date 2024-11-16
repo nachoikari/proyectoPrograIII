@@ -2,8 +2,8 @@ package Models;
 
 public class Administrator extends User{
     
-    public Administrator(String id, String name, String email) {
-        super(id, name, email);
+    public Administrator(String id, String name, String email, String password) {
+        super(id, name, email, password);
     }
 
     public String getId() {
@@ -16,6 +16,10 @@ public class Administrator extends User{
 
     public String getEmail() {
         return email;
+    }
+    
+    public String getPassword(){
+        return password;
     }
 
     public void setId(String id) {

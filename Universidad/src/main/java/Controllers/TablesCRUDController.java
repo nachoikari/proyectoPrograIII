@@ -3,6 +3,7 @@ package Controllers;
 import Models.Administrator;
 import Models.Professor;
 import Models.Student;
+import Models.University;
 import Utils.Threads.TablesThread;
 import java.io.IOException;
 import java.net.URL;
@@ -44,7 +45,13 @@ public class TablesCRUDController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         option = Utils.SelectionModel.getInstance().getOption();
-        currentPage = 1;        setForOption();
+        currentPage = 1;
+        setForOption();
+
+        //listener
+        tbl_object.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            saveSelection(newSelection);
+        });
     }
 
     private void setForOption() {
@@ -53,11 +60,6 @@ public class TablesCRUDController implements Initializable {
             lbl_tittle.setText("Gestionar Administradores");
             setColumnsForAdmins();
             ejectThread();
-            return;
-        }
-        if (option == 2) {
-            lbl_tittle.setText("Administrar Universidades");
-            //setColumnsForUniversities();
             return;
         }
         if (option == 3) {
@@ -72,10 +74,15 @@ public class TablesCRUDController implements Initializable {
             ejectThread();
             return;
         }
+        if (option == 8) {
+            lbl_tittle.setText("Administrar Universidades");
+            setColumnsForUniversities();
+            ejectThread();
+        }
     }
 
     private void setColumnsForStudents() { //Hay que buscar una manera de parsear el campo de facultad
-        double tableWidth = 720;
+        // tableWidth = 720;
 
         TableColumn<Object, String> idColumn = new TableColumn<>("Cedula");
         idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Student) cellData.getValue()).getId()));
@@ -104,7 +111,7 @@ public class TablesCRUDController implements Initializable {
         TableColumn<Object, String> idColumn = new TableColumn<>("Cedula");
         idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Professor) cellData.getValue()).getId()));
         idColumn.setPrefWidth(72);
-        
+
         TableColumn<Object, String> nameColumn = new TableColumn<>("Nombre");
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Professor) cellData.getValue()).getName()));
         nameColumn.setPrefWidth(216);
@@ -116,7 +123,7 @@ public class TablesCRUDController implements Initializable {
         TableColumn<Object, String> phoneColumn = new TableColumn<>("Telefono");
         phoneColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((Professor) cellData.getValue()).getPhoneNumber()));
         phoneColumn.setPrefWidth(92);
-        
+
         TableColumn<Object, Integer> facultyColumn = new TableColumn<>("Facultad");
         facultyColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((Professor) cellData.getValue()).getFaculty()).asObject());
         facultyColumn.setPrefWidth(92);
@@ -139,20 +146,50 @@ public class TablesCRUDController implements Initializable {
 
         tbl_object.getColumns().addAll(idColumn, nameColumn, emailColumn);
     }
-    
-    private void ejectThread(){
+
+    private void setColumnsForUniversities() {
+        //tableWidth = 720;
+
+        TableColumn<Object, Integer> idColumn = new TableColumn<>("id");
+        idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((University) cellData.getValue()).getId()).asObject());
+        idColumn.setPrefWidth(72);
+
+        TableColumn<Object, String> nameColumn = new TableColumn<>("Nombre");
+        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((University) cellData.getValue()).getName()));
+        nameColumn.setPrefWidth(216);
+
+        TableColumn<Object, String> emailColumn = new TableColumn<>("Correo");
+        emailColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((University) cellData.getValue()).getEmail()));
+        emailColumn.setPrefWidth(248);
+
+        TableColumn<Object, String> addressColumn = new TableColumn<>("Direccion");
+        addressColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((University) cellData.getValue()).getAddress()));
+        addressColumn.setPrefWidth(92);
+
+        TableColumn<Object, String> urlColumn = new TableColumn<>("Imagen");
+        urlColumn.setCellValueFactory(cellData -> new SimpleStringProperty(((University) cellData.getValue()).getUrl()));
+        urlColumn.setPrefWidth(92);
+
+        tbl_object.getColumns().addAll(idColumn, nameColumn, emailColumn, addressColumn, urlColumn);
+    }
+
+    private void ejectThread() {
         TablesThread thrd = new TablesThread(btn_prevPag, btn_nextPag, lbl_numPag, tbl_object);
-            thrd.setOption(option);
-            thrd.setPageToFind(currentPage);
-            thrd.start();
+        thrd.setOption(option);
+        thrd.setPageToFind(currentPage);
+        thrd.start();
     }
 
     @FXML
-    private void addObject(ActionEvent event) {
+    private void addObject(ActionEvent event) throws IOException {
+        Utils.SelectionModel.getInstance().setModifying(false);
+        App.App.changeScene("CRUDWindow", "Agregar");
     }
 
     @FXML
-    private void modifyObject(ActionEvent event) {
+    private void modifyObject(ActionEvent event) throws IOException {
+        Utils.SelectionModel.getInstance().setModifying(true);
+        App.App.changeScene("CRUDWindow", "Modificar");
     }
 
     @FXML
@@ -161,12 +198,30 @@ public class TablesCRUDController implements Initializable {
 
     @FXML
     private void backToMenu(ActionEvent event) throws IOException {
-        if (option == 1) {
+        if (option == 1 || option == 8) {
             App.App.changeScene("AdminMenu", "Sistema de Administración");
             return;
         } else {
             String name = Utils.SelectionModel.getInstance().getUniversity().getName();
             App.App.changeScene("UniversityAdmin", "Universidad " + name);
+        }
+    }
+
+    private void saveSelection(Object object) {
+         if (option == 1) {
+            Utils.SelectionModel.getInstance().setAdministrator((Administrator) object);
+            return;
+        }
+        if (option == 3) {
+            Utils.SelectionModel.getInstance().setProfessor((Professor) object);
+            return;
+        }
+        if (option == 4) {
+            Utils.SelectionModel.getInstance().setStudent((Student) object);
+            return;
+        }
+        if (option == 8) {
+            Utils.SelectionModel.getInstance().setUniversity((University) object);
         }
     }
 }
