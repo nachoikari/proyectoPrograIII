@@ -18,7 +18,8 @@ class Admin(db.Model):
             "ced":self.ced,
             "name":self.name,
             "email":self.email,
-            "token":self.token
+            "token":self.token, 
+            "password":self.password
         }
     def selectID(id):
         return Admin.query.get(id)

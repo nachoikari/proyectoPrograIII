@@ -266,4 +266,4 @@ def login():
     if password != professor.password:
         return jsonify({"Error":-1,"msg":"Incorrect password"})
     
-    return jsonify({"code": 1, "msg": "Authorized access", "jwt": professor.token})
+    return jsonify({"code": 1, "msg": "Authorized access", "jwt": professor.to_dict()})

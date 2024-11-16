@@ -14,9 +14,9 @@ class Course(db.Model):
     def to_dict(self):
         career = Career.query.get(self.id_career)
         return {
-            "Course Code": self.code,
-            "Course Name": self.name,
-            "Career": career.name if career else -1
+            "Course_Code": self.code,
+            "Course_Name": self.name,
+            "Career": career.id if career else -1
         }
 
     @classmethod

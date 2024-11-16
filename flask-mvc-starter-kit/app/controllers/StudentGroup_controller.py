@@ -68,9 +68,10 @@ def delete():
     #que desea hacer la peticion y compara las cedulas, y si la cedula del que quiere eliminar
     #es diferente a la cedula del que realiza la peticion(quiere eliminar un estudiante distinto a el)
     #no lo deja hacer la peticion
-    stu_ced = student.ced
-    if student is not None and ced_student != stu_ced:
-        return jsonify({"Error": -1, "msg": "Student can not delete a other student"})
+    if student is not None:
+        stu_ced = student.ced
+        if student is not None and ced_student != stu_ced:
+            return jsonify({"Error": -1, "msg": "Student can not delete a other student"})
         
     success, message = Studentgroup.delete(ced_student=ced_student, nrc_group=nrc_group)
 
@@ -151,11 +152,13 @@ def showPerGroup():
                         "ced": student_info.ced,
                         "name": student_info.name,
                         "email": student_info.email,
-                        "grade": student_group.grade  
+                        "grade": student_group.grade,
+                        "career": student_info.id_career,
+                        "phone_number":student_info.phone_number
                     })
             
             return jsonify({
-                "Error": 0,
+                "Code": 1,
                 "msg": "Success",
                 "data": students_data,
                 "total": students_list.total,

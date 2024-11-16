@@ -189,4 +189,41 @@ def show_groups():
     except Exception as e:
         return jsonify({"Error": -1, "msg": f"An error occurred: {e}"})
 
+def professorGroups():
+    token = None
+    ced_professor = None
+    if request.method == "GET":
+        token = request.args.get("token")
+        ced_professor = request.args.get("ced_professor")
+    if token is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "Token is required"
+        })
+    if ced_professor is None:
+        return jsonify({
+            "Error":-1,
+            "msg": "Professor ced is required"
+        })
+    try:
+        # Parámetros de la página y límite de elementos
+        page = int(request.args.get('page', 1))  # Página actual, por defecto la 1
+        per_page = int(request.args.get('per_page', 10))  # Elementos por página, por defecto 10
 
+        # Obtener los grupos con paginación
+        groups_paginated = Group.query.filter_by(ced_professor=ced_professor).paginate(page=page, per_page=per_page, error_out=False)
+
+        # Verificar si hay resultados
+        if groups_paginated.items:
+            groups = [group.to_dict() for group in groups_paginated.items]
+            return jsonify({
+                "code": 1,
+                "msg": "Groups found",
+                "groups": groups,
+                "total_pages": groups_paginated.pages,
+                "current_page": groups_paginated.page
+            })
+        else:
+            return jsonify({"Error": -1, "msg": "No groups found"})
+    except Exception as e:
+        return jsonify({"Error": -1, "msg": f"An error occurred: {e}"})

@@ -1,5 +1,6 @@
 package Utils.Threads;
 
+import Models.Professor;
 import Utils.RemoteConnection;
 import java.io.IOException;
 import javafx.application.Platform;
@@ -27,16 +28,18 @@ public class LoginThread extends Thread {
     @Override
     public void run() {
         if (loginAdmin()) {
-            changeFXML("adminMain", "Sistema de Administración");
+            changeFXML("adminMenu", "Sistema de Administración");
             return;
         }
 
         if (loginProffesor()) {
-            changeFXML("adminMain", "CambioProfe");
+            //cambiar a ventana del profesor
+            changeFXML("professorMenu", "CambioProfe");
             return;
         }
 
         if (loginStudent()) {
+            //cambiar a ventana del student
             changeFXML("adminMain", "CambioEstudiante");
             return;
         }
@@ -69,8 +72,14 @@ public class LoginThread extends Thread {
             JSONObject jsonResponse = new JSONObject(response);
             int code = jsonResponse.optInt("code");
             if (code == 1) {
-                String token = jsonResponse.optString("token");
+                JSONObject jwt = jsonResponse.optJSONObject("jwt");
+                String token = jwt.optString("token");
                 Utils.SelectionModel.getInstance().setToken(token);
+                String ced = jwt.optString("ced");
+                int career = jwt.optInt("career");
+                Professor prof = new Professor(ced,"","","",career);
+                Utils.SelectionModel.getInstance().setProf(prof);
+                System.out.println(Utils.SelectionModel.getInstance().getProf().getFaculty());
                 return true;
             }
         }
@@ -88,6 +97,8 @@ public class LoginThread extends Thread {
             if (code == 1) {
                 String token = jsonResponse.optString("token");
                 Utils.SelectionModel.getInstance().setToken(token);
+                
+                //System.out.println(Utils.SelectionModel.getInstance().(user));
                 return true;
             }
         }

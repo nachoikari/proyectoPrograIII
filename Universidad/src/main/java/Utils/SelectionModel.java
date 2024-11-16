@@ -1,5 +1,6 @@
 package Utils;
 
+import Models.Professor;
 import Models.University;
 
 public class SelectionModel {
@@ -8,19 +9,19 @@ public class SelectionModel {
     private int option;
     private String token;
     private University u = null;
-    
+    private Professor prof;
     private SelectionModel() {
     }
-
+    
     public static SelectionModel getInstance() {
         if (selection == null) {
             selection = new SelectionModel();
         }
         return selection;
     }
-
+    
     public String getToken() {
-        return "token20";
+        return token;
     }
 
     public int getOption() {
@@ -42,4 +43,15 @@ public class SelectionModel {
     public void setUniversity(University university){
         u = university;
     }
+
+    public Professor getProf() {
+        return prof;
+    }
+
+    public void setProf(Professor prof) {
+        this.prof = prof;
+    }
+    
+    
+
 }

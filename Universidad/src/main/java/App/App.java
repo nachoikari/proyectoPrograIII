@@ -16,7 +16,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;
-        firstScene("AdminMenu", "Sistema de Administración");
+        firstScene("login", "Sistema de Administración");
     }
     
     private static void firstScene(String fxml, String tittle) throws IOException{

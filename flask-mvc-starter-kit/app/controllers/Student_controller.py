@@ -248,8 +248,6 @@ def showStudentsPerUniversity():
 
     except Exception as e:
         return jsonify({"Error": -1, "msg": f"An error occurred: {e}"})
-
-
 def login():
     ced = None
     password = None

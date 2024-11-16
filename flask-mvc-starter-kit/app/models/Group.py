@@ -18,11 +18,11 @@ class Group(db.Model):
         
         return {
             "NRC": self.nrc,
-            "Number group": self.group_number,
-            "Course Code": course.code,
-            "Course Name": course.name,
-            "Professor Ced": professor.ced,
-            "Professor Name": professor.name
+            "Number_group": self.group_number,
+            "Course_Code": course.code,
+            "Course_Name": course.name,
+            "Professor_Ced": professor.ced,
+            "Professor_Name": professor.name
         }
     def to_dict1(self):
         professor = Professor.query.get(self.ced_professor)
@@ -30,11 +30,11 @@ class Group(db.Model):
         
         return {
             "NRC": self.nrc,
-            "Number group": self.group_number,
-            "Course Code": course.code,
-            "Course Name": course.name,
-            "Professor Ced": professor.ced,
-            "Professor Name": professor.name
+            "Number_group": self.group_number,
+            "Course_Code": course.code,
+            "Course_Name": course.name,
+            "Professor_Ced": professor.ced,
+            "Professor_Name": professor.name
         }
     @classmethod
     def create(cls, nrc, group_number, ced_professor, code_course):
