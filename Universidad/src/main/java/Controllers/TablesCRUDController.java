@@ -4,6 +4,7 @@ import Models.Administrator;
 import Models.Professor;
 import Models.Student;
 import Models.University;
+import Utils.Threads.CRUD_Thread;
 import Utils.Threads.TablesThread;
 import java.io.IOException;
 import java.net.URL;
@@ -19,7 +20,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 public class TablesCRUDController implements Initializable {
-
     @FXML
     private Label lbl_tittle;
     @FXML
@@ -38,19 +38,20 @@ public class TablesCRUDController implements Initializable {
     private Button btn_backMenu;
     @FXML
     private TableView<Object> tbl_object;
-
+    
     private int option;
     private int currentPage;
+    private Object selection = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         option = Utils.SelectionModel.getInstance().getOption();
         currentPage = 1;
         setForOption();
-
         //listener
         tbl_object.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             saveSelection(newSelection);
+            selection = newSelection;
         });
     }
 
@@ -101,7 +102,7 @@ public class TablesCRUDController implements Initializable {
         phoneColumn.setPrefWidth(92);
 
         TableColumn<Object, Integer> facultyColumn = new TableColumn<>("Facultad");
-        facultyColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((Student) cellData.getValue()).getFaculty()).asObject());
+        facultyColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((Student) cellData.getValue()).getIdCareer()).asObject());
         facultyColumn.setPrefWidth(92);
 
         tbl_object.getColumns().addAll(idColumn, nameColumn, emailColumn, phoneColumn, facultyColumn);
@@ -125,7 +126,7 @@ public class TablesCRUDController implements Initializable {
         phoneColumn.setPrefWidth(92);
 
         TableColumn<Object, Integer> facultyColumn = new TableColumn<>("Facultad");
-        facultyColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((Professor) cellData.getValue()).getFaculty()).asObject());
+        facultyColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((Professor) cellData.getValue()).getIdCareer()).asObject());
         facultyColumn.setPrefWidth(92);
 
         tbl_object.getColumns().addAll(idColumn, nameColumn, emailColumn, phoneColumn, facultyColumn);
@@ -149,7 +150,6 @@ public class TablesCRUDController implements Initializable {
 
     private void setColumnsForUniversities() {
         //tableWidth = 720;
-
         TableColumn<Object, Integer> idColumn = new TableColumn<>("id");
         idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(((University) cellData.getValue()).getId()).asObject());
         idColumn.setPrefWidth(72);
@@ -188,14 +188,40 @@ public class TablesCRUDController implements Initializable {
 
     @FXML
     private void modifyObject(ActionEvent event) throws IOException {
-        Utils.SelectionModel.getInstance().setModifying(true);
-        App.App.changeScene("CRUDWindow", "Modificar");
+        if (selection != null) {
+            Utils.SelectionModel.getInstance().setModifying(true);
+            App.App.changeScene("CRUDWindow", "Modificar");
+        }
     }
 
     @FXML
     private void deleteObject(ActionEvent event) {
+        if(selection == null){
+            return;
+        }
+        String id;
+        if (option == 1) {//admin
+            id = ((Administrator)selection).getId();
+            deleteObjectThread(id);
+            return;
+        }
+        if (option == 3) {//profes
+            id = ((Professor)selection).getId();
+            deleteObjectThread(id);
+            return;
+        }
+        if (option == 4) {//Estudiantes
+            id = ((Student)selection).getId();
+            deleteObjectThread(id);
+            return;
+        }
+        if (option == 8) {//Universidades
+            int numID = ((University)selection).getId();
+            id = Integer.toString(numID);
+            deleteObjectThread(id);
+        }
     }
-
+    
     @FXML
     private void backToMenu(ActionEvent event) throws IOException {
         if (option == 1 || option == 8) {
@@ -208,7 +234,7 @@ public class TablesCRUDController implements Initializable {
     }
 
     private void saveSelection(Object object) {
-         if (option == 1) {
+        if (option == 1) {
             Utils.SelectionModel.getInstance().setAdministrator((Administrator) object);
             return;
         }
@@ -223,5 +249,22 @@ public class TablesCRUDController implements Initializable {
         if (option == 8) {
             Utils.SelectionModel.getInstance().setUniversity((University) object);
         }
+    }
+    
+    private void deleteObjectThread(String id) {
+        Utils.SelectionModel.getInstance().setDeleting(true);
+        CRUD_Thread thrd = new CRUD_Thread();
+            thrd.setId(id);
+            thrd.start();
+        try {
+            thrd.join();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        Utils.SelectionModel.getInstance().setDeleting(false);
+            if(thrd.isDeleted()){
+                ejectThread();
+                selection = null;
+            }
     }
 }

@@ -78,7 +78,7 @@ public class LoginThread extends Thread {
                 int career = jwt.optInt("career");
                 Professor prof = new Professor(ced,"","","",career);
                 Utils.SelectionModel.getInstance().setProfessor(prof);
-                System.out.println(Utils.SelectionModel.getInstance().getProfessor().getFaculty());
+                System.out.println(Utils.SelectionModel.getInstance().getProfessor().getIdCareer());
                 return true;
             }
         }

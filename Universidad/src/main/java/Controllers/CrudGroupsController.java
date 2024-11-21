@@ -113,7 +113,7 @@ public class CrudGroupsController implements Initializable {
 
         tableCourses.getColumns().addAll(nrcColumn, groupNumberColumn, cedProfessorColumn);
         
-        Thread_groups thread = new Thread_groups(tableCourses, 1, Utils.SelectionModel.getInstance().getProfessor().getFaculty(),"GET", "Courses");
+        Thread_groups thread = new Thread_groups(tableCourses, 1, Utils.SelectionModel.getInstance().getProfessor().getIdCareer(),"GET", "Courses");
         thread.start();
         try {
             thread.join();

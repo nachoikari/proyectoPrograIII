@@ -128,7 +128,7 @@ public class EnrollController implements Initializable {
         emailCol.setCellValueFactory(cellData -> new SimpleStringProperty(((Student) cellData.getValue()).getEmail()));
         
         tableStudents.getColumns().addAll(nameCol,cedCol);
-        int id_career =Utils.SelectionModel.getInstance().getProfessor().getFaculty();
+        int id_career =Utils.SelectionModel.getInstance().getProfessor().getIdCareer();
         //TableView<Student> studentsTable, String route, int pageToGet, int career_id
         Thread_Students thread = new Thread_Students(tableStudents,routeStudent,1,id_career, "GET",nrc);
         thread.start();

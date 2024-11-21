@@ -14,7 +14,8 @@ public class SelectionModel {
     private Student s = null;
     private Professor p= null;
     private Administrator a = null;
-    private boolean modifying;
+    private boolean modifying = false;
+    private boolean deleting = false;
     
     private SelectionModel() {
     }
@@ -27,7 +28,7 @@ public class SelectionModel {
     }
 
     public String getToken() {
-        return token;
+        return "token20";
     }
 
     public int getOption() {
@@ -52,6 +53,10 @@ public class SelectionModel {
     
     public boolean isModifying(){
         return modifying;
+    }
+    
+    public boolean isDeleting(){
+        return deleting;
     }
 
     public Student getStudent() {
@@ -80,6 +85,10 @@ public class SelectionModel {
     
     public void setModifying(boolean bool) {
         modifying = bool;
+    }
+    
+    public void setDeleting(boolean bool) {
+        deleting = bool;
     }
     
     

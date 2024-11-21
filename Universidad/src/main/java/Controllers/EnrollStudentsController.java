@@ -146,7 +146,7 @@ public class EnrollStudentsController implements Initializable {
 
         tableCourses.getColumns().addAll(nrcColumn, groupNumberColumn, cedProfessorColumn);
         
-        Thread_groups thread = new Thread_groups(tableCourses, 1, Utils.SelectionModel.getInstance().getStudent().getFaculty(),"GET", "Courses");
+        Thread_groups thread = new Thread_groups(tableCourses, 1, Utils.SelectionModel.getInstance().getStudent().getIdCareer(),"GET", "Courses");
         thread.start();
         try {
             thread.join();

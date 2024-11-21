@@ -4,16 +4,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="566.0" prefWidth="839.0" stylesheets="@../css/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="Controllers.CRUDWindowController">
+<AnchorPane id="AnchorPane" prefHeight="566.0" prefWidth="839.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CRUDWindowController">
    <children>
-      <Button layoutX="394.0" layoutY="512.0" mnemonicParsing="false" text="Button" />
-      <Button layoutX="394.0" layoutY="451.0" mnemonicParsing="false" text="Button" />
-      <TextField fx:id="txt_field1" layoutX="141.0" layoutY="106.0" />
-      <TextField fx:id="txt_field5" layoutX="141.0" layoutY="264.0" />
-      <TextField fx:id="txt_field4" layoutX="521.0" layoutY="186.0" />
-      <TextField fx:id="txt_field3" layoutX="141.0" layoutY="186.0" />
-      <TextField fx:id="txt_field2" layoutX="521.0" layoutY="106.0" />
-      <TextField fx:id="txt_field6" layoutX="521.0" layoutY="264.0" />
+      <Button fx:id="btn_backToMenu" layoutX="347.0" layoutY="497.0" mnemonicParsing="false" onAction="#backToTableCRUD" text="Cancelar" />
+      <Button fx:id="btn_confirm" layoutX="432.0" layoutY="497.0" mnemonicParsing="false" onAction="#callThread" text="Continuar" />
+      <TextField fx:id="txt_field1" layoutX="70.0" layoutY="65.0" prefHeight="26.0" prefWidth="377.0" />
+      <TextField fx:id="txt_field3" layoutX="70.0" layoutY="196.0" prefHeight="26.0" prefWidth="378.0" />
+      <TextField fx:id="txt_field5" layoutX="70.0" layoutY="328.0" prefHeight="26.0" prefWidth="378.0" />
+      <TextField fx:id="txt_field2" layoutX="69.0" layoutY="129.0" prefHeight="26.0" prefWidth="378.0" />
+      <TextField fx:id="txt_field4" layoutX="70.0" layoutY="264.0" prefHeight="26.0" prefWidth="378.0" />
+      <TextField fx:id="txt_field6" layoutX="70.0" layoutY="396.0" prefHeight="26.0" prefWidth="378.0" />
    </children>
 </AnchorPane>

@@ -1,23 +1,23 @@
 package Models;
 
 public class Professor extends User {
-    private int faculty;
+    private int idCareer;
     private String phoneNumber;
     
-    public Professor(String id, String name, String email, String password, String phoneNumber, int faculty) {
+    public Professor(String id, String name, String email, String password, String phoneNumber, int idCareer) {
         super(id, name, email, password);
-        this.faculty = faculty;
+        this.idCareer = idCareer;
         this.phoneNumber = phoneNumber;
     }
     
-    public Professor(String id, String name, String email, String phoneNumber, int faculty) {
+    public Professor(String id, String name, String email, String phoneNumber, int idCareer) {
         super(id, name, email);
-        this.faculty = faculty;
+        this.idCareer = idCareer;
         this.phoneNumber = phoneNumber;
     }
 
-    public int getFaculty() {
-        return faculty;
+    public int getIdCareer() {
+        return idCareer;
     }
 
     public String getPhoneNumber() {
@@ -40,8 +40,8 @@ public class Professor extends User {
         return password;
     }
 
-    public void setFaculty(int faculty) {
-        this.faculty = faculty;
+    public void setIdCareer(int idCareer) {
+        this.idCareer = idCareer;
     }
 
     public void setPhoneNumber(String phoneNumber) {
