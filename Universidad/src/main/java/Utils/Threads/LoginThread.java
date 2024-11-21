@@ -39,7 +39,7 @@ public class LoginThread extends Thread {
         }
 
         if (loginStudent()) {
-            changeFXML("studentMenu", "CambioEstudiante");
+            changeFXML("studentMenu", "Sistema de Estudiantes");
             return;
         }
 

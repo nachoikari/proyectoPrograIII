@@ -46,7 +46,7 @@ public class StudentMenuController implements Initializable {
 
     @FXML
     private void logOut(ActionEvent event) throws IOException {
-        App.App.changeScene("upAssigmentsProf", "Agregar asignaciones");
+        App.App.changeScene("login", "Iniciar Sesion");
     }
     
 }

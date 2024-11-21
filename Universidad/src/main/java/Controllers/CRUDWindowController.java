@@ -1,6 +1,9 @@
 package Controllers;
 
 import Models.Administrator;
+import Models.Career;
+import Models.Department;
+import Models.Faculty;
 import Models.Professor;
 import Models.Student;
 import Models.University;
@@ -15,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class CRUDWindowController implements Initializable {
+
     @FXML
     private TextField txt_field1;
     @FXML
@@ -28,7 +32,6 @@ public class CRUDWindowController implements Initializable {
     @FXML
     private TextField txt_field6;
 
-    
     private int opt;
     @FXML
     private Button btn_backToMenu;
@@ -38,7 +41,6 @@ public class CRUDWindowController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         opt = Utils.SelectionModel.getInstance().getOption();
-        System.out.println("Opcion anda en: " + opt);
         prepareFields();
     }
 
@@ -57,6 +59,18 @@ public class CRUDWindowController implements Initializable {
         }
         if (opt == 4) {
             prepareToStudents();
+            return;
+        }
+        if (opt == 5) {
+            prepareToFaculty();
+            return;
+        }
+        if (opt == 6) {
+            prepareToDepartment();
+            return;
+        }
+        if (opt == 7) {
+            prepareToCareer();
             return;
         }
     }
@@ -143,6 +157,10 @@ public class CRUDWindowController implements Initializable {
 
     @FXML
     private void backToTableCRUD(ActionEvent event) throws IOException {
+        if (opt == 5 || opt == 6 || opt == 7) {
+            App.App.changeScene("DepartFacultyAdmin", "Administrar Carreras");
+            return;
+        }
         App.App.changeScene("TablesCRUD", "Tabla");
     }
 
@@ -187,6 +205,87 @@ public class CRUDWindowController implements Initializable {
             thrd.start();
             return;
         }
+        if (opt == 5) {//Facultades
+            CRUD_Thread thrd = new CRUD_Thread();
+            thrd.setId(txt_field1.getText());
+            thrd.setPassword(txt_field3.getText());
+            thrd.setObjectName(txt_field2.getText());
+            thrd.setEmail(txt_field4.getText());
+            thrd.setIdCareer(Integer.toString(Utils.SelectionModel.getInstance().getUniversity().getId()));
+            thrd.setPhoneNumber(txt_field6.getText());
+            thrd.start();
+            return;
+        }
+        if (opt == 6) {//Departamentos
+            CRUD_Thread thrd = new CRUD_Thread();
+            thrd.setId(txt_field1.getText());
+            thrd.setPassword(txt_field3.getText());
+            thrd.setObjectName(txt_field2.getText());
+            thrd.setEmail(txt_field4.getText());
+            thrd.setIdCareer(Integer.toString(Utils.SelectionModel.getInstance().getFaculty().getId()));
+            thrd.setPhoneNumber(txt_field6.getText());
+            thrd.start();
+            return;
+        }
+        if (opt == 7) {//Carreras
+            CRUD_Thread thrd = new CRUD_Thread();
+            thrd.setId(txt_field1.getText());
+            thrd.setPassword(txt_field3.getText());
+            thrd.setObjectName(txt_field2.getText());
+            thrd.setEmail(txt_field4.getText());
+            thrd.setIdCareer(Integer.toString(Utils.SelectionModel.getInstance().getDepartment().getId()));
+            thrd.setPhoneNumber(txt_field6.getText());
+            thrd.start();
+            return;
+        }
     }
 
+    private void prepareToFaculty() {
+        txt_field1.setVisible(false);
+        txt_field2.setPromptText("Nombre de la Facultad");
+        txt_field3.setVisible(false);
+        txt_field4.setVisible(false);
+        txt_field5.setVisible(false);
+        txt_field6.setVisible(false);
+        if (Utils.SelectionModel.getInstance().isModifying()) { //codigo para cargar los datos y modificar
+            Faculty f = Utils.SelectionModel.getInstance().getFaculty();
+            txt_field1.setText(Integer.toString(f.getId()));
+            txt_field1.setEditable(false);
+            txt_field1.setVisible(true);
+            txt_field2.setText(f.getName());
+        }
+    }
+
+    private void prepareToDepartment() {
+        txt_field1.setVisible(false);
+        txt_field2.setPromptText("Nombre del departamento");
+        txt_field3.setVisible(false);
+        txt_field4.setVisible(false);
+        txt_field5.setVisible(false);
+        txt_field6.setVisible(false);
+        if (Utils.SelectionModel.getInstance().isModifying()) { //codigo para cargar los datos y modificar
+            Department d = Utils.SelectionModel.getInstance().getDepartment();
+            txt_field1.setText(Integer.toString(d.getId()));
+            txt_field1.setEditable(false);
+            txt_field1.setVisible(true);
+            txt_field2.setText(d.getName());
+        }
+    }
+    
+
+        private void prepareToCareer() {
+        txt_field1.setVisible(false);
+        txt_field2.setPromptText("Nombre de la carrera");
+        txt_field3.setVisible(false);
+        txt_field4.setVisible(false);
+        txt_field5.setVisible(false);
+        txt_field6.setVisible(false);
+        if (Utils.SelectionModel.getInstance().isModifying()) { //codigo para cargar los datos y modificar
+            Career c = Utils.SelectionModel.getInstance().getCareer();
+            txt_field1.setText(Integer.toString(c.getId()));
+            txt_field1.setEditable(false);
+            txt_field1.setVisible(true);
+            txt_field2.setText(c.getName());
+        }
+    }
 }

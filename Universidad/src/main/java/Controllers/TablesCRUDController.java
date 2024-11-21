@@ -38,7 +38,6 @@ public class TablesCRUDController implements Initializable {
     private Button btn_backMenu;
     @FXML
     private TableView<Object> tbl_object;
-    
     private int option;
     private int currentPage;
     private Object selection = null;

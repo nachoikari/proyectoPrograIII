@@ -1,6 +1,9 @@
 package Utils;
 
 import Models.Administrator;
+import Models.Career;
+import Models.Department;
+import Models.Faculty;
 import Models.Professor;
 import Models.Student;
 import Models.University;
@@ -14,6 +17,9 @@ public class SelectionModel {
     private Student s = null;
     private Professor p= null;
     private Administrator a = null;
+    private Faculty f = null;
+    private Department d = null;
+    private Career career = null;
     private boolean modifying = false;
     private boolean deleting = false;
     
@@ -28,7 +34,15 @@ public class SelectionModel {
     }
 
     public String getToken() {
-        return "token20";
+        return token;
+    }
+
+    public Career getCareer() {
+        return career;
+    }
+
+    public void setCareer(Career career) {
+        this.career = career;
     }
 
     public int getOption() {
@@ -89,6 +103,22 @@ public class SelectionModel {
     
     public void setDeleting(boolean bool) {
         deleting = bool;
+    }
+
+    public Faculty getFaculty() {
+        return f;
+    }
+
+    public Department getDepartment() {
+        return d;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.f = faculty;
+    }
+
+    public void setDepartment(Department department) {
+        this.d = department;
     }
     
     

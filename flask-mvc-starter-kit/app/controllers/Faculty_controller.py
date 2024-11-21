@@ -20,7 +20,7 @@ def create():
     
     success, new_faculty = Faculty.create(name=name,id_universidad=id_university)
     if success:
-        return jsonify({"Code": 1, "msg": "Faculty created"})
+        return jsonify({"code": 1, "msg": "Faculty created"})
     else:
         return jsonify({"Error": -1, "msg": "Creating faculty"})
 
@@ -69,7 +69,7 @@ def delete():
         return jsonify({"Error":-1, "msg":"El token es necesario"})
     success, result = Faculty.delete(id=id)
     if success:
-        return jsonify({"Code":1,"msg":"Facultad eliminada con exito"})
+        return jsonify({"code":1,"msg":"Facultad eliminada con exito"})
     else:
         return jsonify({"Error":1, "msg": "Error al elimininar la facultad"})
 
@@ -116,7 +116,8 @@ def showPerUniversity():
     # Obtener facultades por universidad
     faculties = Faculty.query.filter_by(id_university=id_university).all()
     faculties_list = [faculty.to_dict() for faculty in faculties]
-    return jsonify({"Code": 1, "msg": "Faculties found", "Faculties": faculties_list})
+    return jsonify({"code": 1, "msg": "Faculties found", "Faculties": faculties_list})
+
 def showPage():
     token = None
     id_university = None

@@ -76,6 +76,18 @@ public class CRUD_Thread extends Thread {
             studentCRUD();
             return;
         }
+        if (opt == 5) {//Facultades
+            facultyCRUD();
+            return;
+        }
+        if (opt == 6) {//Departamentos
+            departmentCRUD();
+            return;
+        }
+        if (opt == 7) {//Carreras
+            careerCRUD();
+            return;
+        }
         if(opt == 8){//Universidades TableView
             universityCRUD();
         }
@@ -276,6 +288,203 @@ public class CRUD_Thread extends Thread {
     }
     
     
+    //Facultades
+    private void facultyCRUD(){
+        if(Utils.SelectionModel.getInstance().isDeleting()){
+            facultyDelete();
+            return;
+        }
+        
+        if(Utils.SelectionModel.getInstance().isModifying()){
+            facultyModify();
+            return;
+        }
+        //Esta creando
+        facultyAdd();
+    }
+    
+    private void facultyAdd(){
+        String token = Utils.SelectionModel.getInstance().getToken();
+        String data = "id_University=" + idCareer + "&name=" + objectName+"&token=" + token;
+        String endpoint = "/faculty/create";
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "POST", data);
+        System.out.println(response);
+        if(response != null){
+            JSONObject jsonResponse = new JSONObject(response);
+            int code = jsonResponse.optInt("code");
+            if (code == 1) {
+                System.out.println("Se agrego a un filipino");
+                code1HandlerFDC();
+            }
+        }
+    }
+    
+    private void facultyModify(){
+        String token = Utils.SelectionModel.getInstance().getToken();
+        //                                              Settear idCareer
+        String data = "id=" + id + "&name=" + objectName+"&id_University="+ idCareer +"&token=" + token;
+        String endpoint = "/faculty/update";
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "PUT", data);
+        System.out.println(response);
+        if(response != null){
+            JSONObject jsonResponse = new JSONObject(response);
+            int code = jsonResponse.optInt("code");
+            if (code == 1) {
+                System.out.println("Se edito a un filipino");
+                Utils.SelectionModel.getInstance().setModifying(false);
+                code1HandlerFDC();
+            }
+        }
+    }
+    
+    private void facultyDelete(){
+        String token = Utils.SelectionModel.getInstance().getToken();
+        //          settear id
+        String data = "id=" + id +"&token=" + token;
+        String endpoint = "/faculty/delete";
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "DELETE", data);
+        System.out.println(response);
+        if(response != null){
+            JSONObject jsonResponse = new JSONObject(response);
+            int code = jsonResponse.optInt("code");
+            if (code == 1) {
+                System.out.println("Se elimino la facultad");
+                deleted = true;
+            }
+        }
+    }
+    
+    
+    //Departamentos
+    private void departmentCRUD(){
+        if(Utils.SelectionModel.getInstance().isDeleting()){
+            departmentDelete();
+            return;
+        }
+        
+        if(Utils.SelectionModel.getInstance().isModifying()){
+            departmentModify();
+            return;
+        }
+        //Esta creando
+        departmentAdd();
+    }
+    
+    private void departmentAdd(){
+        String token = Utils.SelectionModel.getInstance().getToken();
+        
+        String data = "id_fac=" + idCareer +"&name=" + objectName+"&token=" + token;                
+        String endpoint = "/department/create";
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "POST", data);
+        System.out.println(response);
+        if(response != null){
+            JSONObject jsonResponse = new JSONObject(response);
+            int code = jsonResponse.optInt("code");
+            if (code == 1) {
+                System.out.println("Departamento creado");
+                code1HandlerFDC();
+            }
+        }
+    }
+    
+    private void departmentModify(){
+        String token = Utils.SelectionModel.getInstance().getToken();
+        //                                      set idCareer
+        String data = "id=" + id + "&id_faculty="+ idCareer  + "&name=" + objectName +"&token=" + token;
+        String endpoint = "/department/update";
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "PUT", data);
+        System.out.println(response);
+        if(response != null){
+            JSONObject jsonResponse = new JSONObject(response);
+            int code = jsonResponse.optInt("code");
+            if (code == 1) {
+                System.out.println("Se edito a un filipino");
+                Utils.SelectionModel.getInstance().setModifying(false);
+                code1HandlerFDC();
+            }
+        }
+    }
+    
+    private void departmentDelete(){
+        String token = Utils.SelectionModel.getInstance().getToken();
+        String data = "id=" + id +"&token=" + token;
+        String endpoint = "/department/delete";
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "DELETE", data);
+        System.out.println(response);
+        if(response != null){
+            JSONObject jsonResponse = new JSONObject(response);
+            int code = jsonResponse.optInt("code");
+            if (code == 1) {
+                System.out.println("Se elimino a un filipino");
+                deleted = true;
+            }
+        }
+    }
+    
+    
+    //Carreras
+    private void careerCRUD(){
+        if(Utils.SelectionModel.getInstance().isDeleting()){
+            careerDelete();
+            return;
+        }
+        
+        if(Utils.SelectionModel.getInstance().isModifying()){
+            careerModify();
+            return;
+        }
+        //Esta creando
+        careerAdd();
+    }
+    
+    private void careerAdd(){
+        String token = Utils.SelectionModel.getInstance().getToken();
+        String data = "id_department=" + idCareer + "&name=" + objectName+"&token=" + token;
+        String endpoint = "/career/create";
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "POST", data);
+        System.out.println(response);
+        if(response != null){
+            JSONObject jsonResponse = new JSONObject(response);
+            int code = jsonResponse.optInt("code");
+            if (code == 1) {
+                System.out.println("Se creo una carrera");
+                code1HandlerFDC();
+            }
+        }
+    }
+    
+    private void careerModify(){
+        String token = Utils.SelectionModel.getInstance().getToken();
+        String data = "id=" + id + "&name=" + objectName+ "&token=" + token;
+        String endpoint = "/career/update";
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "PUT", data);
+        System.out.println(response);
+        if(response != null){
+            JSONObject jsonResponse = new JSONObject(response);
+            int code = jsonResponse.optInt("code");
+            if (code == 1) {
+                System.out.println("Se actualizo la carrera");
+                Utils.SelectionModel.getInstance().setModifying(false);
+                code1HandlerFDC();
+            }
+        }
+    }
+    
+    private void careerDelete(){
+        String token = Utils.SelectionModel.getInstance().getToken();
+        String data = "id=" + id +"&token=" + token;
+        String endpoint = "/career/delete";
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "DELETE", data);
+        System.out.println(response);
+        if(response != null){
+            JSONObject jsonResponse = new JSONObject(response);
+            int code = jsonResponse.optInt("code");
+            if (code == 1) {
+                System.out.println("Se elimino la carrera");
+                deleted = true;
+            }
+        }
+    }
     //Universidades
     private void universityCRUD(){
         if(Utils.SelectionModel.getInstance().isDeleting()){
@@ -349,6 +558,16 @@ public class CRUD_Thread extends Thread {
         Platform.runLater(() -> {
             try {
                 App.App.changeScene( "TablesCRUD", "Sistema de Gestión");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    
+    private void code1HandlerFDC(){
+        Platform.runLater(() -> {
+            try {
+                App.App.changeScene( "DepartFacultyAdmin", "Administrar Carreras");
             } catch (IOException e) {
                 e.printStackTrace();
             }

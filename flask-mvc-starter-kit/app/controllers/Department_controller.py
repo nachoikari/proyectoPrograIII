@@ -150,7 +150,7 @@ def showPage():
     try:
         page = int(request.args.get('page', 1)) 
         per_page = int(request.args.get('per_page', 10)) 
-        departments_paginated = Department.query.filter_by(id_faculty = id_fac).paginate(page=page, per_page=per_page, error_out=False)
+        departments_paginated = Department.query.filter_by(id_Faculty = id_fac).paginate(page=page, per_page=per_page, error_out=False)
 
         if departments_paginated.items:
             departments = [department.to_dict() for department in departments_paginated.items]

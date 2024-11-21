@@ -35,14 +35,13 @@ public class UniversityAdminController implements Initializable {
         App.App.changeScene("TablesCRUD", "Administrar Estudiantes");
     }
 
-    @FXML
     private void careerAdministration(MouseEvent event) {
         Utils.SelectionModel.getInstance().setOption(7);
     }
 
     @FXML
-    private void departFacultyAdministration(MouseEvent event) {
-        Utils.SelectionModel.getInstance().setOption(5);
+    private void departFacultyAdministration(MouseEvent event) throws IOException {
+        App.App.changeScene("DepartFacultyAdmin", "Facultades y Departamentos");
     }
 
     @FXML

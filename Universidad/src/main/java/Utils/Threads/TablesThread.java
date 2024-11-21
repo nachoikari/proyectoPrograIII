@@ -1,6 +1,9 @@
 package Utils.Threads;
 
 import Models.Administrator;
+import Models.Career;
+import Models.Department;
+import Models.Faculty;
 import Models.Professor;
 import Models.Student;
 import Models.University;
@@ -71,7 +74,16 @@ public class TablesThread extends Thread {
             getStudentsContains();
             return;
         }
-        if(opt == 8){//Universidades TableView
+        if (opt == 5) {
+            getFacultyContains();
+        }
+        if (opt == 6) {
+            getDeparmentContains();
+        }
+        if (opt == 7) {
+            getCareersContains();
+        }
+        if (opt == 8) {//Universidades TableView
             getUniversitiesContains();
         }
     }
@@ -110,7 +122,7 @@ public class TablesThread extends Thread {
     }
 
     //Universidades
-    private void getUniversitiesContains(){
+    private void getUniversitiesContains() {
         String per_page = "10";
         String token = Utils.SelectionModel.getInstance().getToken();
         String endpoint = "/university/showPage?" + "per_page=" + per_page + "&page=" + pageToGet + "&token=" + token;
@@ -146,7 +158,7 @@ public class TablesThread extends Thread {
             objectTable.setItems(objectList);
         });
     }
-    
+
     private void getUniversitiesPanel() {
         String per_page = "10";
         String token = Utils.SelectionModel.getInstance().getToken();
@@ -234,13 +246,13 @@ public class TablesThread extends Thread {
         universityPanel.getChildren().addAll(imageView, textContainer);
         universityPanel.setUserData(university);
         EventHandler<MouseEvent> onClickHandler = event -> {
-                try {
-                    Utils.SelectionModel.getInstance().setUniversity(university);
-                    App.App.changeScene("UniversityAdmin", "Universidad " + name);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    System.out.println("Error intentando cargar el fxml en la acción de un botón en la clase TablesThread, método CreateUniPanel");
-                }
+            try {
+                Utils.SelectionModel.getInstance().setUniversity(university);
+                App.App.changeScene("UniversityAdmin", "Universidad " + name);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                System.out.println("Error intentando cargar el fxml en la acción de un botón en la clase TablesThread, método CreateUniPanel");
+            }
         };
         universityPanel.setOnMouseClicked(onClickHandler);
         return universityPanel;
@@ -257,7 +269,6 @@ public class TablesThread extends Thread {
             return;
         }
         JSONObject jsonObject = new JSONObject(response);
-        JSONArray professorArray = jsonObject.getJSONArray("professors");
 
         ObservableList<Object> objectList = FXCollections.observableArrayList();
         String id;
@@ -266,16 +277,21 @@ public class TablesThread extends Thread {
         int career;
         String phone;
         String password;
-        for (int i = 0; i < professorArray.length(); i++) {
-            JSONObject object = professorArray.getJSONObject(i);
-            id = object.getString("ced");
-            email = object.getString("email");
-            name = object.getString("name");
-            career = object.getInt("career");
-            phone = object.getString("phone_number");
-            password = object.getString("password");
-            Professor professor = new Professor(id, name, email, password, phone, career);
-            objectList.add(professor);
+
+        try {
+            JSONArray professorArray = jsonObject.getJSONArray("professors");
+            for (int i = 0; i < professorArray.length(); i++) {
+                JSONObject object = professorArray.getJSONObject(i);
+                id = object.getString("ced");
+                email = object.getString("email");
+                name = object.getString("name");
+                career = object.getInt("career");
+                phone = object.getString("phone_number");
+                password = object.getString("password");
+                Professor professor = new Professor(id, name, email, password, phone, career);
+                objectList.add(professor);
+            }
+        } catch (Exception e) {
         }
 
         Platform.runLater(() -> {
@@ -294,7 +310,6 @@ public class TablesThread extends Thread {
             return;
         }
         JSONObject jsonObject = new JSONObject(response);
-        JSONArray studentArray = jsonObject.getJSONArray("students");
 
         ObservableList<Object> objectList = FXCollections.observableArrayList();
         String id;
@@ -303,22 +318,28 @@ public class TablesThread extends Thread {
         int career;
         String phone;
         String password;
-        for (int i = 0; i < studentArray.length(); i++) {
-            JSONObject object = studentArray.getJSONObject(i);
-            id = object.getString("ced");
-            email = object.getString("email");
-            name = object.getString("name");
-            career = object.getInt("career");
-            phone = object.getString("phone_number");
-            password = object.getString("password");
-            Student student = new Student(id, name, email, password, career, phone);
-            objectList.add(student);
+
+        try {
+            JSONArray studentArray = jsonObject.getJSONArray("students");
+            for (int i = 0; i < studentArray.length(); i++) {
+                JSONObject object = studentArray.getJSONObject(i);
+                id = object.getString("ced");
+                email = object.getString("email");
+                name = object.getString("name");
+                career = object.getInt("career");
+                phone = object.getString("phone_number");
+                password = object.getString("password");
+                Student student = new Student(id, name, email, password, career, phone);
+                objectList.add(student);
+            }
+        } catch (Exception e) {
         }
 
         Platform.runLater(() -> {
             objectTable.setItems(objectList);
         });
     }
+
     //Variables setteables para funcionamiento del hilo (Obligatorio)
     public void setOption(int _option) {
         opt = _option;
@@ -326,6 +347,97 @@ public class TablesThread extends Thread {
 
     public void setPageToFind(int _page) {
         pageToGet = _page;
+    }
+
+    private void getFacultyContains() {
+        String per_page = "10";
+        String token = Utils.SelectionModel.getInstance().getToken();
+        String university_id = Integer.toString(Utils.SelectionModel.getInstance().getUniversity().getId());
+        String endpoint = "/faculty/showPerUniversity?" + "id_university=" + university_id + "&per_page=" + per_page + "&page=" + pageToGet + "&token=" + token;
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "GET", "");
+        if (response == null) {
+            return;
+        }
+        JSONObject jsonObject = new JSONObject(response);
+
+        ObservableList<Object> objectList = FXCollections.observableArrayList();
+        int id;
+        String name;
+        try {
+            JSONArray facultiesArray = jsonObject.getJSONArray("Faculties");
+            for (int i = 0; i < facultiesArray.length(); i++) {
+                JSONObject object = facultiesArray.getJSONObject(i);
+                id = object.getInt("id");
+                name = object.getString("name");
+                Faculty faculty = new Faculty(id, name);
+                objectList.add(faculty);
+            }
+        } catch (Exception e) {
+        }
+
+        Platform.runLater(() -> {
+            objectTable.setItems(objectList);
+        });
+    }
+
+    private void getDeparmentContains() {
+        String per_page = "50";
+        String token = Utils.SelectionModel.getInstance().getToken();
+        String faculty_id = Integer.toString(Utils.SelectionModel.getInstance().getFaculty().getId());
+        String endpoint = "/department/showPage?" + "faculty_id=" + faculty_id + "&per_page=" + per_page + "&page=" + pageToGet + "&token=" + token;
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "GET", "");
+        if (response == null) {
+            return;
+        }
+        JSONObject jsonObject = new JSONObject(response);
+
+        ObservableList<Object> objectList = FXCollections.observableArrayList();
+        int id;
+        String name;
+        try {
+            JSONArray facultiesArray = jsonObject.getJSONArray("groups");
+            for (int i = 0; i < facultiesArray.length(); i++) {
+                JSONObject object = facultiesArray.getJSONObject(i);
+                id = object.getInt("id");
+                name = object.getString("name");
+                Department department = new Department(id, name);
+                objectList.add(department);
+            }
+        } catch (Exception e) {
+        }
+        Platform.runLater(() -> {
+            objectTable.setItems(objectList);
+        });
+    }
+
+    private void getCareersContains() {
+        String per_page = "10";
+        String token = Utils.SelectionModel.getInstance().getToken();
+        String depa_id = Integer.toString(Utils.SelectionModel.getInstance().getDepartment().getId());
+        String endpoint = "/career/showPage?" + "department_id=" + depa_id + "&per_page=" + per_page + "&page=" + pageToGet + "&token=" + token;
+        String response = RemoteConnection.getInstance().connectToServer(endpoint, "GET", "");
+        if (response == null) {
+            return;
+        }
+        JSONObject jsonObject = new JSONObject(response);
+
+        ObservableList<Object> objectList = FXCollections.observableArrayList();
+        int id;
+        String name;
+        try {
+            JSONArray facultiesArray = jsonObject.getJSONArray("groups");
+            for (int i = 0; i < facultiesArray.length(); i++) {
+                JSONObject object = facultiesArray.getJSONObject(i);
+                id = object.getInt("Id");
+                name = object.getString("Career");
+                Career career = new Career(id, name);
+                objectList.add(career);
+            }
+        } catch (Exception e) {
+        }
+        Platform.runLater(() -> {
+            objectTable.setItems(objectList);
+        });
     }
 
 }
