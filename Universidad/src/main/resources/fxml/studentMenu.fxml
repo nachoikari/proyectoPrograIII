@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="406.0" styleClass="AnchorPane" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.StudentMenuController">
+   <children>
+      <Button fx:id="btnEnroll" layoutX="109.0" layoutY="112.0" mnemonicParsing="false" onAction="#swapEnroll" prefHeight="27.0" prefWidth="184.0" text="Matricular/Desmatricular" />
+      <Button fx:id="btnAssignments" layoutX="109.0" layoutY="181.0" mnemonicParsing="false" onAction="#swapAssingments" prefHeight="27.0" prefWidth="184.0" text="Administrar Asignaciones" />
+      <Button fx:id="btnLogOut" layoutX="109.0" layoutY="258.0" mnemonicParsing="false" onAction="#logOut" prefHeight="24.0" prefWidth="184.0" text="Cerrar sesión" />
+   </children>
+</AnchorPane>

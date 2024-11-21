@@ -52,7 +52,7 @@ class Admin(db.Model):
             print(f"Error al crear admin: {e}")
             return False, None
     @classmethod
-    def update(cls, ced, new_name=None, new_email=None):
+    def update(cls, ced, new_name=None, new_email=None,password=None):
         try:
             # Obtener el administrador existente
             admin = cls.query.get(ced)  # ced es la clave primaria
@@ -65,7 +65,8 @@ class Admin(db.Model):
                 admin.name = new_name
             if new_email is not None:
                 admin.email = new_email
-
+            if password is not None:
+                admin.password = password
             db.session.commit()
             return True, admin
         except Exception as e:

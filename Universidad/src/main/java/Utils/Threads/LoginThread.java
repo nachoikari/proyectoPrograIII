@@ -1,6 +1,7 @@
 package Utils.Threads;
 
 import Models.Professor;
+import Models.Student;
 import Utils.RemoteConnection;
 import java.io.IOException;
 import javafx.application.Platform;
@@ -38,7 +39,7 @@ public class LoginThread extends Thread {
         }
 
         if (loginStudent()) {
-            changeFXML("adminMenu", "CambioEstudiante");
+            changeFXML("studentMenu", "CambioEstudiante");
             return;
         }
 
@@ -93,15 +94,30 @@ public class LoginThread extends Thread {
             JSONObject jsonResponse = new JSONObject(response);
             int code = jsonResponse.optInt("code");
             if (code == 1) {
-                String token = jsonResponse.optString("token");
-                Utils.SelectionModel.getInstance().setToken(token);
-                return true;
-            }
-        }
+                 // Extraer los datos del JSON
+            JSONObject jwt = jsonResponse.optJSONObject("jwt");
+            if (jwt != null) {
+                    String ced = jwt.optString("ced");
+                    String name = jwt.optString("name");
+                    String email = jwt.optString("email");
+                    String token = jwt.optString("token");
+                    String phoneNumber = jwt.optString("phone_number");
+                    int career = jwt.optInt("career");
 
+                    // Crear el objeto Student
+                    Student student = new Student(ced, name, email, null, career, phoneNumber);
+                    Utils.SelectionModel.getInstance().setStudent(student);
+                    // Imprimir el objeto Student para confirmar
+                    System.out.println("Student created: " + student);
+                    // Guardar el token en el modelo de selección
+                    Utils.SelectionModel.getInstance().setToken(token);
+                    return true;
+                }
+            }   
+        }
         return false;
     }
-
+    
     private void changeFXML(String fxml, String tittle) {
         Platform.runLater(() -> {
             try {

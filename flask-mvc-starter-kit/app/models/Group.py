@@ -6,8 +6,8 @@ class Group(db.Model):
 
     nrc = db.Column(db.String(50), primary_key=True)
     group_number = db.Column(db.Integer, nullable=False)
-    ced_professor = db.Column(db.String(50), db.ForeignKey('professor.ced'), nullable=False)
-    code_course = db.Column(db.String(20), db.ForeignKey('course.code'), nullable=False)
+    ced_professor = db.Column(db.String(50), db.ForeignKey('professor.ced',ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    code_course = db.Column(db.String(20), db.ForeignKey('course.code',ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
     
     def __repr__(self):
         return f'<Group {self.id}>' 

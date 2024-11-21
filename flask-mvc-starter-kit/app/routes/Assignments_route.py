@@ -5,3 +5,4 @@ route = Blueprint(prefix, __name__)
 
 route.post('/assignments/create')(Assignments_controller.create)
 route.delete('/assignments/delete')(Assignments_controller.delete)
+route.get('/assignments/showPergroup')(Assignments_controller.showPerGroup)

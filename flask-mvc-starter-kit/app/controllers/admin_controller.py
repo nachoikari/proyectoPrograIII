@@ -78,7 +78,7 @@ def update():
         new_name = request.form.get("name") 
         new_email = request.form.get("email") 
         token = request.form.get("token")
-
+        password = request.form.get("password")
     if not token:
         return jsonify({"Error": -1, "msg": "Necesita un token para realizar el peticion"})
     
@@ -90,7 +90,7 @@ def update():
     if admin_update is None:
         return jsonify({"Error": -1, "msg": "Administrador no encontrado"})
   
-    success, result = Admin.update(ced=ced, new_name=new_name, new_email=new_email)
+    success, result = Admin.update(ced=ced, new_name=new_name, new_email=new_email,password=password)
     if success:
         return jsonify({"code": 1, "msg": "Administrador actualizado exitosamente", "admin": result.ced})
     else:

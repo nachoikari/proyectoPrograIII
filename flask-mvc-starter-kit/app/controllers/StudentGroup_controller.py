@@ -43,7 +43,7 @@ def register_student():
     success, student_added = Studentgroup.registerStudent(ced_student=ced_student, nrc_group=nrc_group, grade=grade)
 
     if success:
-        return jsonify({"Code": 1, "msg": "Student register in the group"})
+        return jsonify({"code": 1, "msg": "Student register in the group"})
     else:
         return jsonify({"Error": -1, "msg": "Error trying to register the student in the group"})
 
@@ -215,9 +215,9 @@ def showStudentGroups():
                     course = Course.query.get(group_info.code_course)  # Cambié nrc_group por code_course
                     groups_data.append({
                         "nrc": group_info.nrc,
-                        "name": course.name if course else "N/A",  # Protege si no se encuentra el curso
-                        "Professor": profe.name if profe else "N/A",  # Protege si no se encuentra el profesor
-                        "Code course": group_info.code_course
+                        "Professor": profe.ced if profe else "N/A",  # Protege si no se encuentra el profesor
+                        "Code course": group_info.code_course,
+                        "group_number":group_info.group_number
                     })
             
             return jsonify({

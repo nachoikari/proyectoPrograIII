@@ -30,7 +30,7 @@ class Student(db.Model):
             "email": self.email,
             "career": self.id_career,
             "phone_number": self.phone_number,
-            "passoword":self.password
+            "password":self.password
         }    
     @classmethod
     def selectID(cls, ced):

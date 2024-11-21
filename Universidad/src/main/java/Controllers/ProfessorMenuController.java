@@ -27,6 +27,8 @@ public class ProfessorMenuController implements Initializable {
     private Button btnCreateAssignments;
     @FXML
     private Button btn_backMenu;
+    @FXML
+    private Button btnCheckAssignments;
     
     /**
      * Initializes the controller class.
@@ -47,12 +49,18 @@ public class ProfessorMenuController implements Initializable {
     }
 
     @FXML
-    private void changeCrudAssignments(ActionEvent event) {
+    private void changeCrudAssignments(ActionEvent event) throws IOException {
+         App.App.changeScene("upAssigmentsProf", "Agregar asignaciones");
     }
 
     @FXML
     private void backToMenu(ActionEvent event) throws IOException {
         App.App.changeScene("login", "Iniciar Sesión");
+    }
+
+    @FXML
+    private void check(ActionEvent event) throws IOException {
+        App.App.changeScene("evaluate", "Agregar asignaciones");
     }
     
 }

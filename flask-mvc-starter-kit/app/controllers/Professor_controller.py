@@ -62,7 +62,7 @@ def create():
     )
     
     if success:
-        return jsonify({"Code": 1, "msg":"Professor created"})
+        return jsonify({"code": 1, "msg":"Professor created"})
     else:
         return jsonify({"Error":-1, "msg":"Error creating professor"})
     
@@ -87,7 +87,7 @@ def delete():
     success, result = Professor.delete(ced=ced)
 
     if success:
-        return jsonify({"Code": 1, "msg":"Professor deleted"})
+        return jsonify({"code": 1, "msg":"Professor deleted"})
     else:
         return jsonify({"Error":-1, "msg":"Error deleting professor"})
 

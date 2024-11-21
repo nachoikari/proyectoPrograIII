@@ -63,3 +63,48 @@
     -fx-text-fill: white; /* Color azul para el título */
     -fx-padding: 10px 0 10px 0; 
 }
+.AnchorPane {
+    -fx-background-color: #005f99; /* Azul oscuro */
+}
+
+/* Estilo para ChoiceBox */
+.choice-box {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 13px;
+    -fx-text-fill: white;
+    -fx-background-color: #8989a9; /* Color de fondo igual al botón */
+    -fx-border-color: white;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.choice-box:hover {
+    -fx-background-color: #005f99; /* Azul más oscuro al pasar el mouse */
+}
+
+.choice-box .arrow {
+    -fx-background-color: white; /* Cambia el color de la flecha */
+}
+
+/* Estilo para TableView */
+.table-view {
+    -fx-background-color: #8989a9; /* Color de fondo similar al botón */
+    -fx-border-color: #005f99; /* Azul oscuro para el borde */
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.table-view .column-header {
+    -fx-background-color: #005f99; /* Azul para el encabezado de las columnas */
+    -fx-font-family: "Roboto";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.table-view .cell {
+    -fx-background-color: #ffffff; /* Fondo blanco para las celdas */
+    -fx-text-fill: #005f99; /* Texto azul oscuro */
+    -fx-font-family: "Roboto";
+    -fx-font-size: 13px;
+}

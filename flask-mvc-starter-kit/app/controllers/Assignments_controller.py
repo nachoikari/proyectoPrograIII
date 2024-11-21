@@ -7,6 +7,7 @@ import os
 from datetime import datetime
 from app.models.Student import Student
 import mimetypes
+import binascii
 def create():
     token = None
     url = None
@@ -30,6 +31,20 @@ def create():
             "Error": -1,
             "msg": "File data, filename and filetype are required"
         })
+    if file_data:
+        # Asegurarse de que la longitud de la cadena sea un múltiplo de 4
+        padding_needed = len(file_data) % 4
+        if padding_needed:
+            file_data += '=' * (4 - padding_needed)
+
+        try:
+            file_bytes = base64.b64decode(file_data)
+        except binascii.Error as e:
+            return jsonify({
+                "Error": -1,
+                "msg": "Error decoding base64: " + str(e)
+            })
+    
     file_bytes =base64.b64decode(file_data)
     extension = mimetypes.guess_extension(file_type)
     if not extension: 
@@ -64,15 +79,15 @@ def create():
             "msg": "Due date is required"
         })
 
-    # Definir el folder de subida
+
     current_directory = os.path.dirname(os.path.abspath(__file__))
     project_directory = os.path.abspath(os.path.join(current_directory, "..", "..",".."))
-    #print(project_directory)
+
     upload_folder = os.path.join(project_directory, 'Upload')
     if not os.path.exists(upload_folder): 
         os.makedirs(upload_folder)
 
-    # Guardar el archivo
+
     file_path = os.path.join(upload_folder, file_name)
 
     with open(file_path, "wb") as file: 
@@ -100,7 +115,7 @@ def create():
     if success:
     
         return jsonify({
-            "Code": 1,
+            "code": 1,
             "msg": "Assignment created and file uploaded successfully"
         })
     else:
@@ -137,7 +152,7 @@ def delete():
     success,asssignment_delete = Assignments.delete(id=id_file)
     if success:
          os.remove(path)
-         return jsonify({"Code": 1, 
+         return jsonify({"code": 1, 
                         "msg":"Assignment deleted"})
     else:
         return jsonify({

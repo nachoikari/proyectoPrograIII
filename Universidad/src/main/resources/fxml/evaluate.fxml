@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="561.0" prefWidth="1011.0" styleClass="AnchorPane" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.EvaluateController">
+   <children>
+      <ChoiceBox fx:id="choiceOptions" layoutX="847.0" layoutY="14.0" prefWidth="150.0" stylesheets="@../css/style.css" />
+      <Button fx:id="btnBack" layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onAction="#back" prefHeight="27.0" prefWidth="127.0" text="Volver" />
+      <TableView fx:id="tableGroup" layoutX="24.0" layoutY="120.0" prefHeight="248.0" prefWidth="255.0" />
+      <TableView fx:id="tableAssignment" layoutX="369.0" layoutY="120.0" prefHeight="248.0" prefWidth="255.0" />
+      <TableView fx:id="tableResponse" layoutX="711.0" layoutY="120.0" prefHeight="248.0" prefWidth="200.0" />
+      <Button fx:id="btnEvaluate" layoutX="711.0" layoutY="377.0" mnemonicParsing="false" onAction="#evaluate" prefHeight="27.0" prefWidth="200.0" text="Calificar manualmente" />
+      <Button fx:id="btnIAEvaluate" layoutX="711.0" layoutY="419.0" mnemonicParsing="false" onAction="#iaEvaluate" prefHeight="27.0" prefWidth="200.0" text="Usar IA para calificar" />
+   </children>
+</AnchorPane>

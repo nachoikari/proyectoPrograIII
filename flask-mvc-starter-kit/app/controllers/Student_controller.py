@@ -63,7 +63,7 @@ def create():
     )
     
     if success:
-        return jsonify({"Code": 1, "msg":"Student created"})
+        return jsonify({"code": 1, "msg":"Student created"})
     else:
         return jsonify({"Error":-1, "msg":"Error creating Student"})
     
@@ -88,7 +88,7 @@ def delete():
     success, result = Student.delete(ced=ced)
 
     if success:
-        return jsonify({"Code": 1, "msg":"Student deleted"})
+        return jsonify({"code": 1, "msg":"Student deleted"})
     else:
         return jsonify({"Error":-1, "msg":"Error deleting Student"})
 
@@ -266,4 +266,4 @@ def login():
     if password != student.password:
         return jsonify({"Error":-1,"msg":"Incorrect password"})
     
-    return jsonify({"code": 1, "msg": "Authorized access", "jwt": student.token})
+    return jsonify({"code": 1, "msg": "Authorized access", "jwt": student.to_dict()})
