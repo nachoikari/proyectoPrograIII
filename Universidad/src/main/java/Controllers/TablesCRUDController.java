@@ -177,6 +177,11 @@ public class TablesCRUDController implements Initializable {
         thrd.setOption(option);
         thrd.setPageToFind(currentPage);
         thrd.start();
+        try {
+            thrd.join();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML
@@ -265,5 +270,19 @@ public class TablesCRUDController implements Initializable {
                 ejectThread();
                 selection = null;
             }
+    }
+
+    @FXML
+    private void prevPag(ActionEvent event) {
+        currentPage--;
+        ejectThread();
+        lbl_numPag.setText(Integer.toString(currentPage));
+    }
+
+    @FXML
+    private void nextPag(ActionEvent event) {
+        currentPage++;
+        ejectThread();
+        lbl_numPag.setText(Integer.toString(currentPage));
     }
 }

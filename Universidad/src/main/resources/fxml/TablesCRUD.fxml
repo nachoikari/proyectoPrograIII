@@ -53,13 +53,13 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
          <children>
-            <Button fx:id="btn_prevPag" mnemonicParsing="false" text="🢀" visible="false" />
+            <Button fx:id="btn_prevPag" mnemonicParsing="false" onAction="#prevPag" text="🢀" />
             <Label fx:id="lbl_numPag" text="1">
                <font>
                   <Font name="Dubai Bold" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="btn_nextPag" mnemonicParsing="false" text="🢂" visible="false" />
+            <Button fx:id="btn_nextPag" mnemonicParsing="false" onAction="#nextPag" text="🢂" />
          </children>
       </HBox>
       <Button fx:id="btn_backMenu" mnemonicParsing="false" onAction="#backToMenu" text="Volver al menu">
